@@ -21,6 +21,7 @@ const optionsMenu = [
 ];
 
 function Header({ user }) {
+  console.log('user', user)
   return (
     <div>
       <Toolbar style={styleToolbar}>
