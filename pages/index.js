@@ -10,7 +10,7 @@ function Index(props) {
     <div style={{ padding: '10px 45px' }}>
       <Head>
         <title>Dashboard</title>
-        <meta name="description" content="description for indexing bots" />
+        <meta name='description' content='description for indexing bots' />
       </Head>
       <p> Dashboard </p>
       <p>Email: {user.email}</p>

@@ -1,22 +1,24 @@
 import Head from 'next/head';
 import Button from '@material-ui/core/Button';
+import Link from 'next/link';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Link from 'next/link';
 
 import withAuth from 'lib/withAuth';
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
 
-const initialFields = {
-  password: '',
-  email: '',
-  isShowPassword: false
-}
 function Login(){
+  const initialFields = {
+    first_name: '',
+    last_name: '',
+    password: '',
+    email: '',
+    isShowPassword: false
+  }
   const [formState, formHandlers] = useForm({ initialFields })
   const {
     onElementChange,
@@ -30,6 +32,25 @@ function Login(){
         <meta name='description' content='Login page for builderbook.org' />
       </Head>
       <form noValidate autoComplete='off'>
+        <TextField
+          id='first_name'
+          label='First Name'
+          type='first_name'
+          margin='normal'
+          variant='outlined'
+          onChange={onElementChange}
+          value={fields.first_name}
+        />
+        <TextField
+          id='last_name'
+          label='Last Name'
+          type='last_name'
+          margin='normal'
+          variant='outlined'
+          onChange={onElementChange}
+          value={fields.last_name}
+        />
+        <br/>
         <TextField
           id='email'
           label='Email'
@@ -68,11 +89,11 @@ function Login(){
           color='primary'
           style={styleLoginButton}
           onClick={() => console.log('login')}
-          children='Login'
+          children='Signup'
         />
-        <span>No Existing Account?</span>
-        <Link href="/signup">
-          <a>Signup Now</a>
+        <span>Already have an account?</span>
+        <Link href="/login">
+          <a>Login Now</a>
         </Link>
       </form>
       {/* <br />

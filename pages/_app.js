@@ -1,56 +1,60 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Router from 'next/router';
-import NProgress from 'nprogress';
+import React from 'react';
+import App, { Container } from 'next/app';
+import Head from 'next/head';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-import getContext from 'lib/context';
-import Header from 'components/Header';
+import JssProvider from 'react-jss/lib/JssProvider';
+import getPageContext from 'lib/context';
+import Router from 'next/router';
+import NProgress from 'nprogress'
 
 Router.onRouteChangeStart = () => NProgress.start();
 Router.onRouteChangeComplete = () => NProgress.done();
 Router.onRouteChangeError = () => NProgress.done();
 
-function App(props) {
-  const { Component } = props
-  const pageContext = props.pageContext || getContext()
-  useEffect(() => {
+
+class MyApp extends App {
+  constructor(props) {
+    super(props);
+    this.pageContext = getPageContext();
+  }
+
+  componentDidMount() {
+    // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
-  })
-
-  return (
-    <MuiThemeProvider
-      theme={pageContext.theme}
-      sheetsManager={pageContext.sheetsManager}
-    >
-      <CssBaseline />
-      <div>
-        <Header {...props} />
-        <Component {...props} />
-      </div>
-    </MuiThemeProvider>
-  )
-}
-App.getInitialProps = async({ Component, ctx }) => {
-  let pageProps = {};
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
   }
-  // this exposes the query to the user
-  pageProps.query = ctx.query;
-  return pageProps
+
+  render() {
+    const { Component, pageProps } = this.props;
+    return (
+      <Container>
+        <Head>
+          <title>My page</title>
+        </Head>
+        {/* Wrap every page in Jss and Theme providers */}
+        <JssProvider
+          registry={this.pageContext.sheetsRegistry}
+          generateClassName={this.pageContext.generateClassName}
+        >
+          {/* MuiThemeProvider makes the theme available down the React
+              tree thanks to React context. */}
+          <MuiThemeProvider
+            theme={this.pageContext.theme}
+            sheetsManager={this.pageContext.sheetsManager}
+          >
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            {/* Pass pageContext to the _document though the renderPage enhancer
+                to render collected styles on server side. */}
+            <Component pageContext={this.pageContext} {...pageProps} />
+          </MuiThemeProvider>
+        </JssProvider>
+      </Container>
+    );
+  }
 }
 
-App.propTypes = {
-  pageContext: PropTypes.object, // eslint-disable-line
-};
-
-App.defaultProps = {
-  pageContext: null,
-};
-
-export default App
+export default MyApp;

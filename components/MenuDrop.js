@@ -32,9 +32,9 @@ class MenuDrop extends React.Component {
     return (
       <div>
         <Avatar
-          role="presentation"
-          aria-owns="simple-menu"
-          aria-haspopup="true"
+          role='presentation'
+          aria-owns='simple-menu'
+          aria-haspopup='true'
           onClick={this.handleClick}
           onKeyPress={this.handleClick}
           src={src}
@@ -42,14 +42,14 @@ class MenuDrop extends React.Component {
           style={{ margin: '0px 20px 0px auto', cursor: 'pointer' }}
         />
         <Menu
-          id="simple-menu"
+          id='simple-menu'
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onClose={this.handleClose}
         >
           <p />
           {options.map(option => (
-            <div id="wrappingLink" key={option.text}>
+            <div id='wrappingLink' key={option.text}>
               <Link prefetch href={option.href} as={option.as || option.href}>
                 <a style={{ padding: '0px 20px' }}>{option.text}</a>
               </Link>
