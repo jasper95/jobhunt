@@ -1,12 +1,8 @@
 const path = require('path')
 
 module.exports = {
-  webpack (config, options) {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      components: path.join(__dirname, 'components'),
-      lib: path.join(__dirname, 'lib')
-    }
+  webpack (config) {
+    config.resolve.modules = [path.join(__dirname, 'src'), ...config.resolve.modules]
     return config
   }
 }

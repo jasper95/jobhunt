@@ -4,10 +4,9 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "start": "node server/app.js",
-    "dev": "nodemon server/app.js --watch server",
-    "now": "now && now alias && now rm builderbook-boilerplate --safe --yes",
-    "lint": "eslint components pages lib server"
+    "start": "node server.js",
+    "dev": "nodemon server.js --watch server.js",
+    "lint": "eslint components pages lib server.js"
   },
   "dependencies": {
     "@material-ui/core": "3.2.2",
@@ -19,15 +18,20 @@
     "express-session": "1.15.6",
     "googleapis": "34.0.0",
     "lodash": "4.17.11",
-    "mongoose": "5.3.4",
     "next": "^8.0.3",
+    "next-redux-saga": "^4.0.1",
+    "next-redux-wrapper": "^3.0.0-alpha.2",
+    "next-routes": "^1.4.2",
     "nprogress": "0.2.0",
     "passport": "0.4.0",
     "passport-google-oauth": "1.0.0",
     "prop-types": "15.6.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-jss": "8.6.1"
+    "react-jss": "8.6.1",
+    "react-redux": "5.0.7",
+    "redux": "^4.0.1",
+    "redux-saga": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "10.0.1",
