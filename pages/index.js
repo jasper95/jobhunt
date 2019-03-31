@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
-
-import withAuth from 'lib/withAuth'
+import { connect } from 'react-redux'
 
 function Index(props) {
-  const { user } = props
+  const { auth } = props
   return (
     <div style={{ padding: '10px 45px' }}>
       <Head>
@@ -13,7 +12,7 @@ function Index(props) {
         <meta name='description' content='description for indexing bots' />
       </Head>
       <p> Dashboard </p>
-      <p>Email: {user.email}</p>
+      <p>Email: {auth.email}</p>
     </div>
   )
 }
@@ -27,4 +26,4 @@ Index.defaultProps = {
   user: null,
 }
 
-export default withAuth(Index);
+export default connect(state => state)(Index)

@@ -6,17 +6,19 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Link from 'next/link';
-
-import withAuth from 'lib/withAuth';
+import { connect } from 'react-redux'
+import { Login as LoginAction } from 'redux/auth/actions'
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
+import api from 'lib/api'
 
 const initialFields = {
   password: '',
   email: '',
   isShowPassword: false
 }
-function Login(){
+function Login(props){
+  const { dispatch } = props
   const [formState, formHandlers] = useForm({ initialFields })
   const {
     onElementChange,
@@ -67,7 +69,9 @@ function Login(){
           variant='contained'
           color='primary'
           style={styleLoginButton}
-          onClick={() => console.log('login')}
+          onClick={() => {
+            dispatch(LoginAction(fields))
+          }}
           children='Login'
         />
         <span>No Existing Account?</span>
@@ -91,4 +95,10 @@ function Login(){
   )
 }
 
-export default withAuth(Login, { logoutRequired: true });
+Login.getInitialProps = async(ctx) => {
+  console.log('process.env')
+  const users = await api({ url: '/user' }, ctx)
+  console.log('users', users)
+  return {}
+}
+export default connect()(Login)

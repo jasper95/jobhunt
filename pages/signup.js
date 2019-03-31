@@ -6,12 +6,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
-import withAuth from 'lib/withAuth';
+import { SignUp } from 'redux/auth/actions'
+import { connect } from 'react-redux'
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
 
-function Login(){
+function Login(props){
+  const { dispatch } = props
   const initialFields = {
     first_name: '',
     last_name: '',
@@ -88,7 +89,9 @@ function Login(){
           variant='contained'
           color='primary'
           style={styleLoginButton}
-          onClick={() => console.log('login')}
+          onClick={() => {
+            dispatch(SignUp(fields))
+          }}
           children='Signup'
         />
         <span>Already have an account?</span>
@@ -112,4 +115,4 @@ function Login(){
   )
 }
 
-export default withAuth(Login, { logoutRequired: true });
+export default connect()(Login)

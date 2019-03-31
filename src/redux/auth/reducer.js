@@ -1,15 +1,12 @@
 import createReducer from 'lib/createReducer'
 
 const initialState = {
-  test: 0
+  user: null,
 }
 
 const reducer = {
-  ERROR(state, { payload }){
-    return state
-  },
-  SUCCESS(state, { payload }){
-    return state
+  SET_USER_AUTH(state, { payload }) {
+    return { ...state, user: payload }
   }
 }
 

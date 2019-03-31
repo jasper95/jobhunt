@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next');
+const proxy = require('http-proxy-middleware')
 
 require('dotenv').config();
 
@@ -14,7 +15,11 @@ const handle = app.getRequestHandler();
 // Nextjs's server prepared
 app.prepare().then(() => {
   const server = express();
-
+  server.use(proxy('/api', {
+    target: process.env.API_URL,
+    pathRewrite: { '^/api': '/' },
+    changeOrigin: true
+  }))
   server.get('*', (req, res) => handle(req, res));
 
   // starting express server
