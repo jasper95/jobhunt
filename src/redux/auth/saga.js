@@ -17,11 +17,12 @@ function* LoginUser({ payload }) {
   }
   cookie.set('token', response.token, { expires: 1 })
   yield put(SetUserAuth(omit(response, 'token')))
+  Router.push('/')
 }
 
 function* SignUp({ payload }) {
   // create user
-  const user = yield call(api, {
+  yield call(api, {
     url: '/user',
     method: 'POST',
     data: payload
