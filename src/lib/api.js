@@ -44,6 +44,8 @@ export default function api(config, ctx = {}) {
     .catch((response) => {
       const error = { type: 'ERROR' }
       if (response.status === 401) {
+        cookie.remove('token')
+        error.type = 'UNAUTHORIZED'
         Router.push('/login')
       } else if (response.status === 400) {
         error.message = response.data.message
@@ -52,6 +54,7 @@ export default function api(config, ctx = {}) {
       }
       if (store) {
         store.dispatch(error)
+        return
       } else {
         error.error = true
         return error

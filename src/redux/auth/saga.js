@@ -2,6 +2,7 @@ import Router from 'next/router';
 import { call, takeLatest, put } from 'redux-saga/effects'
 import cookie from 'js-cookie'
 import { SetUserAuth } from './actions'
+import omit from 'lodash/omit'
 import api from 'lib/api'
 
 function* LoginUser({ payload }) {
@@ -15,7 +16,7 @@ function* LoginUser({ payload }) {
     return
   }
   cookie.set('token', response.token, { expires: 1 })
-  yield put(SetUserAuth(response))
+  yield put(SetUserAuth(omit(response, 'token')))
 }
 
 function* SignUp({ payload }) {

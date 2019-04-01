@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import withAuth from 'lib/auth'
 
 function Index(props) {
   const { auth } = props
@@ -26,4 +28,7 @@ Index.defaultProps = {
   user: null,
 }
 
-export default connect(state => state)(Index)
+export default compose(
+  withAuth,
+  connect(state => state)
+)(Index)

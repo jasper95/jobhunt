@@ -7,6 +7,9 @@ const initialState = {
 const reducer = {
   SET_USER_AUTH(state, { payload }) {
     return { ...state, user: payload }
+  },
+  UNAUTHORIZED(state) {
+    return {...state, user: null }
   }
 }
 
