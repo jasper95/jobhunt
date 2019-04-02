@@ -3,7 +3,6 @@ import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
 
-
 const axiosInstance = axios
   .create({
     auth: {
@@ -16,6 +15,7 @@ const axiosInstance = axios
   })
 
 export function redirectToPath({ res, isServer }, path) {
+  console.log('redirect to path', path, isServer)
   if (isServer) {
     res.writeHead(302, { Location: path })
     res.end()
@@ -66,10 +66,8 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
       }
       if (store) {
         store.dispatch(error)
-        return
       } else {
-        error.error = true
-        return error
+        throw error
       }
     })
 }

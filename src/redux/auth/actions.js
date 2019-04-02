@@ -5,10 +5,9 @@ export function SetUserAuth(payload) {
   }
 }
 
-export function Logout(payload) {
+export function Logout() {
   return {
-    type: 'LOGOUT',
-    payload
+    type: 'LOGOUT_REQUESTED',
   }
 }
 
