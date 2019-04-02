@@ -14,7 +14,7 @@ function Index(props) {
         <meta name='description' content='description for indexing bots' />
       </Head>
       <p> Dashboard </p>
-      <p>Email: {auth.email}</p>
+      <p>Email: {auth.user.email}</p>
     </div>
   )
 }
@@ -29,6 +29,6 @@ Index.defaultProps = {
 }
 
 export default compose(
-  withAuth,
+  withAuth(),
   connect(state => state)
 )(Index)

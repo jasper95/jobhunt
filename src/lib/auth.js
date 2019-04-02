@@ -1,14 +1,13 @@
 import React from 'react'
-import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import { SetUserAuth } from 'redux/auth/actions'
-import api from 'lib/api'
+import api, { redirectToPath } from 'lib/api'
 
 // Gets the display name of a JSX component for dev tools
 const getDisplayName = Component =>
   Component.displayName || Component.name || 'Component'
 
-const withAuth = WrappedComponent => {
+const withAuth = (requireAuth = true) => WrappedComponent => {
   function Authentication(props) {
     return (
       <WrappedComponent {...props} />
@@ -16,7 +15,7 @@ const withAuth = WrappedComponent => {
   }
   Authentication.displayName = `withAuth(${getDisplayName(WrappedComponent)})`
   Authentication.getInitialProps = async(ctx) => {
-    await auth(ctx)
+    await auth(ctx, requireAuth)
     let componentProps = {}
     if (WrappedComponent.getInitialProps) {
       componentProps = await WrappedComponent.getInitialProps(ctx)
@@ -25,35 +24,32 @@ const withAuth = WrappedComponent => {
   }
   return Authentication
 }
-
 export default withAuth
 
-export const auth = async(ctx) => {
+export const auth = async(ctx, requireAuth) => {
+  const { store } = ctx
   const { token } = nextCookie(ctx)
+  let { user } = store.getState().auth
 
-  /*
-   * This happens on server only, ctx.req is available means it's being
-   * rendered on server. If we are on server and token is not available,
-   * means user is not logged in.
-   */
-  if (ctx.isServer && !token) {
-    ctx.res.writeHead(302, { Location: '/login' })
-    ctx.res.end()
+  if (!token) {
+    if (requireAuth) {
+      redirectToPath(ctx, '/login')
+    }
     return
   }
 
-  const { store } = ctx
-  let { user } = store.getState().auth
-
-  // check if token is present but user data is not
   if (token && !user) {
     user = await api({
       url: '/user/session'
-    }, ctx)
+    }, ctx, false)
     if (user) {
       store.dispatch(SetUserAuth(user))
     }
-  } else if (!token) {
-    Router.push('/login')
+  }
+
+  if (user && !requireAuth) {
+    redirectToPath(ctx, '/')
+  } else if (!user && requireAuth) {
+    redirectToPath(ctx, '/login')
   }
 }

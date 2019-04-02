@@ -3,6 +3,7 @@ import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
 
+
 const axiosInstance = axios
   .create({
     auth: {
@@ -14,15 +15,24 @@ const axiosInstance = axios
     }
   })
 
-export default function api(config, ctx = {}) {
-  const { req, store } = ctx
+export function redirectToPath({ res, isServer }, path) {
+  if (isServer) {
+    res.writeHead(302, { Location: path })
+    res.end()
+  } else {
+    Router.push(path)
+  }
+}
+
+export default function api(config, ctx = {}, redirectUnauthorized = true) {
+  const { store, isServer } = ctx
   // if from server request, no need to use proxy
-  const url = req ? `${process.env.API_URL}${config.url}` : `/api${config.url}`
+  const url = isServer ? `${process.env.API_URL}${config.url}` : `/api${config.url}`
   config = {
     ...config,
     url
   }
-  if (Object.keys(ctx).length) {
+  if (isServer) {
     const { token } = nextCookie(ctx)
     config = {
       ...config,
@@ -41,12 +51,14 @@ export default function api(config, ctx = {}) {
   }
   return axiosInstance(config)
     .then(({ data }) => data)
-    .catch((response) => {
+    .catch(({ response }) => {
       const error = { type: 'ERROR' }
       if (response.status === 401) {
         cookie.remove('token')
         error.type = 'UNAUTHORIZED'
-        Router.push('/login')
+        if (redirectUnauthorized) {
+          redirectToPath(ctx, '/login')
+        }
       } else if (response.status === 400) {
         error.message = response.data.message
       } else {

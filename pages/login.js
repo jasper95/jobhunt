@@ -7,17 +7,18 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Link from 'next/link';
 import { connect } from 'react-redux'
-import { Login as LoginAction } from 'redux/auth/actions'
+import { compose } from 'redux'
+import { Login } from 'redux/auth/actions'
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
-import api from 'lib/api'
+import withAuth from 'lib/auth';
 
 const initialFields = {
   password: '',
   email: '',
   isShowPassword: false
 }
-function Login(props){
+function LoginPage(props){
   const { dispatch } = props
   const [formState, formHandlers] = useForm({ initialFields })
   const {
@@ -70,7 +71,7 @@ function Login(props){
           color='primary'
           style={styleLoginButton}
           onClick={() => {
-            dispatch(LoginAction(fields))
+            dispatch(Login(fields))
           }}
           children='Login'
         />
@@ -79,26 +80,11 @@ function Login(props){
           <a>Signup Now</a>
         </Link>
       </form>
-      {/* <br />
-      <p style={{ margin: '45px auto', fontSize: '44px', fontWeight: '400' }}>Log in</p>
-      <p>You’ll be logged in for 14 days unless you log out manually.</p>
-      <br /> */}
-      {/* <Button variant='contained' style={styleLoginButton} href='/auth/google'>
-        <img
-          src='https://storage.googleapis.com/builderbook/G.svg'
-          alt='Log in with Google'
-          style={{ marginRight: '10px' }}
-        />
-        Log in with Google
-      </Button> */}
     </div>
   )
 }
 
-Login.getInitialProps = async(ctx) => {
-  console.log('process.env')
-  const users = await api({ url: '/user' }, ctx)
-  console.log('users', users)
-  return {}
-}
-export default connect()(Login)
+export default compose(
+  withAuth(false),
+  connect()
+)(LoginPage)
