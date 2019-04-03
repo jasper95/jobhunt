@@ -1,77 +1,55 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Grid from '@material-ui/core/Grid';
-import Hidden from '@material-ui/core/Hidden';
+import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import MenuDrop from './MenuDrop';
-import { styleToolbar } from 'lib/SharedStyles';
 
-const optionsMenu = [
-  {
-    text: 'Got question?',
-    href: 'https://github.com/builderbook/builderbook/issues',
-  },
-  {
-    text: 'Log out',
-    href: '/logout',
-  },
-];
+import { makeStyles } from '@material-ui/core/styles';
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createSelector } from 'reselect'
 
-function Header({ user }) {
+// const useStyles = makeStyles({
+//   bigAvatar: {
+//     margin: 10,
+//     width: 60,
+//     height: 60,
+//   },
+//   appBar: {
+//     position: 'relative',
+//   },
+//   toolbarTitle: {
+//     flex: 1,
+//   }
+// });
+
+function Header(props) {
+  // const classes = useStyles();
+  const { isAuthenticated } = props
   return (
-    <div>
-      <Toolbar style={styleToolbar}>
-        <Grid container direction='row' justify='space-around' alignItems='center'>
-          <Grid item sm={10} xs={9} style={{ textAlign: 'left' }}>
-            {user ? (
-              <div>
-                <Hidden smDown>
-                  <Link prefetch href='/'>
-                    <a style={{ marginRight: '20px' }}>Settings</a>
-                  </Link>
-                </Hidden>
-              </div>
-            ) : (
-              <Link prefetch href='/'>
-                <a>
-                  <Avatar
-                    src='https://storage.googleapis.com/builderbook/logo.svg'
-                    alt='Builder Book logo'
-                    style={{ margin: '0px auto 0px 20px' }}
-                  />
-                </a>
-              </Link>
-            )}
-          </Grid>
-          <Grid item sm={1} xs={3} style={{ textAlign: 'right' }}>
-            {user ? (
-              <div style={{ whiteSpace: ' nowrap' }}>
-                {user.avatarUrl ? (
-                  <MenuDrop options={optionsMenu} src={user.avatarUrl} alt='Builder Book' />
-                ) : null}
-              </div>
-            ) : (
-              <Link prefetch href='/login'>
-                <a style={{ margin: '0px 20px 0px auto' }}>Log in</a>
-              </Link>
-            )}
-          </Grid>
-        </Grid>
+    <AppBar position="static" color="default">
+      <Toolbar>
+        <Typography variant="h6" color="inherit" noWrap>
+          Company name
+        </Typography>
+        <Button>Home</Button>
+        <Button>Search</Button>
+        {isAuthenticated && (
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+        )}
       </Toolbar>
-    </div>
+    </AppBar>
   );
 }
 
-Header.propTypes = {
-  user: PropTypes.shape({
-    avatarUrl: PropTypes.string,
-    email: PropTypes.string.isRequired,
-  }),
-};
+const selector = createSelector(
+  state => state.auth,
+  (auth) => ({
+    isAuthenticated: !!auth.user,
+    user: auth.user
+  })
+)
 
-Header.defaultProps = {
-  user: null,
-};
-
-export default Header;
+export default connect(selector)(Header)

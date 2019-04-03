@@ -45,6 +45,7 @@ const styleGrid = {
   lineHeight: '1.5em',
 };
 
+
 module.exports = {
   styleBigAvatar,
   styleRaisedButton,

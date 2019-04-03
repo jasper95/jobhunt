@@ -40,7 +40,7 @@ export const auth = async(ctx, requireAuth) => {
 
   if (token && !user) {
     user = await api({
-      url: '/user/session'
+      url: '/session'
     }, ctx, false)
     if (user) {
       store.dispatch(SetUserAuth(user))

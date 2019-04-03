@@ -8,13 +8,13 @@ import api from 'lib/api'
 function* LoginUser({ payload }) {
   try {
     const response = yield call(api, {
-      url: '/user/login',
+      url: '/login',
       data: payload,
       method: 'POST'
     })
     cookie.set('token', response.token, { expires: 360000 })
     yield put(SetUserAuth(omit(response, 'token')))
-    Router.push('/login')
+    Router.push('/')
   } catch(err) {
     yield put(err)
   }
@@ -23,13 +23,11 @@ function* LoginUser({ payload }) {
 function* Logout() {
   try {
     yield call(api, {
-      url: '/user/logout',
-      // data: payload,
+      url: '/logout',
       method: 'POST'
     })
     cookie.remove('token', { path: '' })
     Router.push('/login')
-    console.log('go to logout')
     yield put(SetUserAuth(null))
   } catch(err) {
     yield put(err)
@@ -38,11 +36,14 @@ function* Logout() {
 
 function* Signup({ payload }) {
   try {
-    yield call(api, {
-      url: '/user',
+    const response = yield call(api, {
+      url: '/signup',
       method: 'POST',
       data: payload
     })
+    cookie.set('token', response.token, { expires: 360000 })
+    yield put(SetUserAuth(omit(response, 'token')))
+    Router.push('/')
   } catch(err) {
     yield put(err)
   }

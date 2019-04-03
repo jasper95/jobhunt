@@ -2,6 +2,7 @@ import axios from 'axios'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
+import omit from 'lodash/omit'
 
 const axiosInstance = axios
   .create({
@@ -25,7 +26,7 @@ export function redirectToPath({ res, isServer }, path) {
 }
 
 export default function api(config, ctx = {}, redirectUnauthorized = true) {
-  const { store, isServer } = ctx
+  const { store, isServer, req } = ctx
   // if from server request, no need to use proxy
   const url = isServer ? `${process.env.API_URL}${config.url}` : `/api${config.url}`
   config = {
@@ -37,7 +38,8 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
     config = {
       ...config,
       headers: {
-        token
+        token,
+       ...omit(req.headers, 'cookie')
       }
     }
   } else {
