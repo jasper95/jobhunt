@@ -27,7 +27,7 @@ import { createSelector } from 'reselect'
 
 function Header(props) {
   // const classes = useStyles();
-  const { isAuthenticated } = props
+  const { isAuthenticated, dispatch } = props
   return (
     <AppBar position="static" color="default">
       <Toolbar>
@@ -37,7 +37,17 @@ function Header(props) {
         <Button>Home</Button>
         <Button>Search</Button>
         {isAuthenticated && (
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+          <>
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                dispatch(Logout())
+              }}
+              children='Logout'
+            />
+          </>
         )}
       </Toolbar>
     </AppBar>
