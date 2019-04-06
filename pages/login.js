@@ -40,6 +40,7 @@ function LoginPage(props){
           margin='normal'
           variant='outlined'
           onChange={onElementChange}
+          helperText={errors.email}
           value={fields.email}
         />
         <br/>
