@@ -17,20 +17,31 @@ function Experience(props) {
   const rows = [
     {
       id: 1,
-      skill: 'Instructor at Bohol Island State University',
-      dates: '2017-present',
-    }
+      name: 'Programming',
+      level: 10,
+    },
+    {
+      id: 2,
+      name: 'Writing',
+      level: 10,
+    },
+    {
+      id: 3,
+      name: 'Self-learning',
+      level: 10
+    },
   ]
   const columns = [
     {
-      accessor: 'skill',
-      title: 'Skill at company'
+      accessor: 'name',
+      title: 'Skill or Expertise'
     },
     {
-      accessor: 'dates',
-      title: 'Dates'
+      accessor: 'level',
+      title: 'Level'
     },
     {
+      title: 'Actions',
       type: 'actions',
       actions: [
         {
@@ -50,7 +61,7 @@ function Experience(props) {
     <Profile>
       <Paper>
         <div>
-          <Icon children='work'/> <span>Experience</span>
+          <Icon children='account_box'/> <span>Skills</span>
         </div>
         <DataTable
           rows={rows}
@@ -61,14 +72,17 @@ function Experience(props) {
           color='primary'
           onClick={() => {
             dispatch(ShowDialog({
-              path: 'Experience',
+              path: 'Skill',
               props: {
-                initialFields: {},
-                title: 'New Experience'
+                initialFields: {
+                  level: 0,
+                  name: ''
+                },
+                title: 'New Skill'
               }
             }))
           }}
-          children='New Experience'
+          children='New Skill'
         />
       </Paper>
     </Profile>
@@ -77,5 +91,5 @@ function Experience(props) {
 
 export default compose(
   withAuth(),
-  connect()
+  connect(state => state)
 )(Experience)

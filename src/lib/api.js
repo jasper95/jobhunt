@@ -16,7 +16,6 @@ const axiosInstance = axios
   })
 
 export function redirectToPath({ res, isServer }, path) {
-  console.log('redirect to path', path, isServer)
   if (isServer) {
     res.writeHead(302, { Location: path })
     res.end()

@@ -10,7 +10,7 @@ import { SignUp } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { styleLoginButton } from 'lib/SharedStyles';
-import withAuth from 'lib/auth';
+import withAuth from 'lib/hocs/auth';
 import useForm from 'lib/hooks/useForm'
 
 function SignupPage(props){

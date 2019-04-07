@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Router from 'next/router'
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,9 +17,11 @@ const styles = theme => ({
 });
 
 function MenuItem(props) {
-  const { icon, label } = props
+  const { icon, label, link } = props
   return (
-    <ListItem button>
+    <ListItem button onClick={() => {
+      Router.push(link)
+    }}>
       <ListItemIcon>
         <Icon children={icon}/>
       </ListItemIcon>
@@ -32,10 +35,10 @@ function ProfileNavigation(props) {
   return (
     <div className={classes.root}>
       <List component="nav">
-        <MenuItem icon='work' label='Work Experience' />
-        <MenuItem icon='school' label='Education' />
-        <MenuItem icon='account_box' label='Skills' />
-        <MenuItem icon='account_box' label='About Me' />
+        <MenuItem icon='work' label='Work Experience' link='/profile/experience' />
+        <MenuItem icon='school' label='Education' link='/profile/education' />
+        <MenuItem icon='account_box' label='Skills' link='/profile/skill' />
+        <MenuItem icon='account_box' label='About Me' link='/profile/about-me' />
       </List>
     </div>
   );

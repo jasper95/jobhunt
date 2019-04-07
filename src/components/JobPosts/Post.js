@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const styles = {
@@ -31,19 +29,11 @@ function Post(props) {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {post.title}
-        </Typography>
-        <Typography variant="h5" component="h2">
-          {post.company}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {post.address}
-        </Typography>
-        <Typography component="p">
-          <span>Job Description:</span>
-          {post.description}
-        </Typography>
+        <Typography className={classes.title} color="textSecondary" gutterBottom children={post.title} />
+        <Typography variant="h5" component="h2" children={post.company} />
+        <Typography className={classes.pos} color="textSecondary" children={post.address} />
+        <Typography variant="h5" component="h2" children='Job Description' />
+        <Typography component="p" children={post.description} noWrap/>
       </CardContent>
     </Card>
   );

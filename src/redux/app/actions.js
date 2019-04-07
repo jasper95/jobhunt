@@ -11,3 +11,16 @@ export function ShowSuccess(payload) {
     payload
   }
 }
+
+export function ShowDialog(payload) {
+  return {
+    type: 'SHOW_DIALOG',
+    payload
+  }
+}
+
+export function HideDialog(payload) {
+  return {
+    type: 'HIDE_DIALOG'
+  }
+}

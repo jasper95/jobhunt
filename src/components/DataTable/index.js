@@ -37,8 +37,8 @@ function SimpleTable(props) {
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.id}>
-              {columns.map((column) => (
-                <Row {...column} row={row}/>
+              {columns.map((column, idx) => (
+                <Row key={column.title} {...column} row={row}/>
               ))
               }
             </TableRow>

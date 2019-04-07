@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import withAuth from 'lib/auth'
+import withAuth from 'lib/hocs/auth'
 import Page from 'components/Layout/Page'
 import JobPosts from 'components/JobPosts'
 

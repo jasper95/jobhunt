@@ -11,7 +11,7 @@ import { compose } from 'redux'
 import { Login } from 'redux/auth/actions'
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
-import withAuth from 'lib/auth';
+import withAuth from 'lib/hocs/auth';
 
 const initialFields = {
   password: '',

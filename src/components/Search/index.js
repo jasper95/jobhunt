@@ -3,7 +3,6 @@ import Card from '@material-ui/core/Card';
 import useForm from 'lib/hooks/useForm'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 
 const initialFields = {
