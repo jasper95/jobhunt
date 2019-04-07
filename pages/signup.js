@@ -20,7 +20,9 @@ function SignupPage(props){
     last_name: '',
     password: '',
     email: '',
-    isShowPassword: false
+    isShowPassword: false,
+    role: 'USER',
+    company_name: ''
   }
   const [formState, formHandlers] = useForm({ initialFields })
   const {
@@ -30,29 +32,43 @@ function SignupPage(props){
   const { fields, errors } = formState
   return (
     <div style={{ textAlign: 'center', margin: '0 20px' }}>
-      <Head>
-        <title>Log in to Builder Book</title>
-        <meta name='description' content='Login page for builderbook.org' />
-      </Head>
+      <Button onClick={() => onChange('role', 'USER')} children='Candidate' />
+      <Button onClick={() => onChange('role', 'ADMIN')} children='Employer' />
       <form noValidate autoComplete='off'>
-        <TextField
-          id='first_name'
-          label='First Name'
-          type='first_name'
-          margin='normal'
-          variant='outlined'
-          onChange={onElementChange}
-          value={fields.first_name}
-        />
-        <TextField
-          id='last_name'
-          label='Last Name'
-          type='last_name'
-          margin='normal'
-          variant='outlined'
-          onChange={onElementChange}
-          value={fields.last_name}
-        />
+        {fields.role === 'ADMIN' ? (
+          <>
+            <TextField
+              id='company_name'
+              label='Company Name'
+              type='company_name'
+              margin='normal'
+              variant='outlined'
+              onChange={onElementChange}
+              value={fields.company_name}
+            />
+          </>
+        ) : (
+          <>
+            <TextField
+              id='first_name'
+              label='First Name'
+              type='first_name'
+              margin='normal'
+              variant='outlined'
+              onChange={onElementChange}
+              value={fields.first_name}
+            />
+            <TextField
+              id='last_name'
+              label='Last Name'
+              type='last_name'
+              margin='normal'
+              variant='outlined'
+              onChange={onElementChange}
+              value={fields.last_name}
+            />
+          </>
+        )}
         <br/>
         <TextField
           id='email'
