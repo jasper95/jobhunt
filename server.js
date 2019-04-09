@@ -20,6 +20,20 @@ app.prepare().then(() => {
     pathRewrite: { '^/api': '/' },
     changeOrigin: true
   }))
+
+  server.get('/profile/:id', (req, res) => {
+    const { id } = req.params
+    if (['about-me', 'education', 'experience'].includes('id')) {
+      return app.render(req, res, `/profile/${id}`)
+    }
+    return app.render(req, res, '/profile', { id })
+  });
+
+  server.get('/jobs/:id', (req, res) => {
+    const { id } = req.params
+    return app.render(req, res, '/jobs', { id })
+  });
+
   server.get('*', (req, res) => handle(req, res));
 
   // starting express server

@@ -15,11 +15,11 @@ const dialogSelector = createSelector(
     isProcessing
   })
 )
+const dialogProps = ['dialogActionsRenderer', 'dialogTitleRenderer', 'title', 'fullWidth', 'maxWidth']
+const formProps =  ['initialFields', 'validator', 'customChangeHandler', 'onValid']
 const withFormDialog = () => (WrappedComponent) => {
   function Dialog(props) {
     const { dispatch } = props
-    const dialogProps = ['dialogActionsRenderer', 'dialogTitleRenderer', 'title']
-    const formProps =  ['initialFields', 'validator', 'customChangeHandler', 'onValid']
     const [formState, formHandlers] = useForm(pick(props, formProps))
     return (
       <DialogLayout

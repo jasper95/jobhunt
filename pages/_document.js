@@ -22,6 +22,7 @@ class MyDocument extends Document {
           />
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
           <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+          <link rel="stylesheet" type="text/css" href="/static/react-draft-wysiwyg.css" />
           <link rel="stylesheet" type="text/css" href="/static/rangeslider.css" />
         </Head>
         <body>

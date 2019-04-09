@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "node server.js",
     "dev": "nodemon server.js --watch server.js",
-    "lint": "eslint components pages lib server.js"
+    "lint": "eslint src pages server.js"
   },
   "dependencies": {
     "@material-ui/core": "3.2.2",
@@ -15,6 +15,7 @@
     "connect-mongo": "2.0.1",
     "dotenv": "6.1.0",
     "dotenv-webpack": "^1.7.0",
+    "draft-js": "^0.10.5",
     "express": "4.16.4",
     "express-session": "1.15.6",
     "googleapis": "34.0.0",
@@ -33,6 +34,7 @@
     "react": "^16.8.4",
     "react-datepicker": "^2.3.0",
     "react-dom": "^16.8.4",
+    "react-draft-wysiwyg": "^1.13.2",
     "react-jss": "8.6.1",
     "react-rangeslider": "^2.2.0",
     "react-redux": "5.0.7",

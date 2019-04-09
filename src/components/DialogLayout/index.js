@@ -42,10 +42,13 @@ function DialogLayout(props) {
     dialogActionsRenderer: DialogActions,
     dialogId
   } = props
+	console.log("TCL: DialogLayout -> props", props)
+
   return(
     <Dialog
       aria-labelledby={dialogId}
       open
+      {...pick(props, ['maxWidth', 'fullWidth'])}
     >
       <DialogTitle id={dialogId} {...pick(props, ['onCancel', 'title'])}/>
       <DialogContent>

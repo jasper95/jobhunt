@@ -21,7 +21,7 @@ const styles = theme => ({
   },
 });
 
-function SimpleTable(props) {
+function DataTable(props) {
   const { classes, rows, columns } = props;
 
   return (
@@ -29,8 +29,8 @@ function SimpleTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            {columns.map(({ title, headProps = {}}) => (
-              <TableCell {...headProps}>{title}</TableCell>
+            {columns.map(({ title, headProps = {}}, idx) => (
+              <TableCell key={idx} {...headProps}>{title}</TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -38,7 +38,7 @@ function SimpleTable(props) {
           {rows.map(row => (
             <TableRow key={row.id}>
               {columns.map((column, idx) => (
-                <Row key={column.title} {...column} row={row}/>
+                <Row key={idx} {...column} row={row}/>
               ))
               }
             </TableRow>
@@ -54,7 +54,7 @@ function Row(props) {
   let children
   if (type === 'actions') {
     children = actions.map(({ label, className, icon, onClick }) => (
-      <IconButton aria-label={label} className={className} onClick={onClick}>
+      <IconButton aria-label={label} key={icon} className={className} onClick={onClick}>
         <Icon children={icon} />
       </IconButton>
     ))
@@ -66,8 +66,8 @@ function Row(props) {
   )
 }
 
-SimpleTable.propTypes = {
+DataTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleTable);
+export default withStyles(styles)(DataTable);
