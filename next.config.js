@@ -16,6 +16,12 @@ module.exports = {
         path: path.join(__dirname, '.env'),
       })
     ]
+    config.node = {
+      ...config.node || {},
+      net: 'empty',
+      tls: 'empty',
+      dns: 'empty'
+    }
     return config
   }
 }

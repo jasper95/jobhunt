@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +11,8 @@ import { compose } from 'redux'
 import { styleLoginButton } from 'lib/SharedStyles';
 import withAuth from 'lib/hocs/auth';
 import useForm from 'lib/hooks/useForm'
+import { getValidationResult } from 'lib/tools'
+import joi from 'joi'
 
 function SignupPage(props){
   const { dispatch } = props
@@ -24,10 +25,11 @@ function SignupPage(props){
     role: 'USER',
     company_name: ''
   }
-  const [formState, formHandlers] = useForm({ initialFields })
+  const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
-    onChange
+    onChange,
+    onValidate
   } = formHandlers
   const { fields, errors } = formState
   return (
@@ -107,9 +109,7 @@ function SignupPage(props){
           variant='contained'
           color='primary'
           style={styleLoginButton}
-          onClick={() => {
-            dispatch(SignUp(fields))
-          }}
+          onClick={onValidate}
           children='Signup'
         />
         <span>Already have an account?</span>
@@ -119,6 +119,27 @@ function SignupPage(props){
       </form>
     </div>
   )
+
+  function onValid(data) {
+    dispatch(SignUp(data))
+  }
+}
+
+function validator(data) {
+  const schema = joi.object().keys({
+    company_name: joi
+      .alternatives()
+      .when('role', { is: 'ADMIN', then: joi.string().required()}).error(() => 'Company Name is required'),
+    first_name: joi
+      .alternatives()
+      .when('role', { is: 'USER', then: joi.string().required()}).error(() => 'First Name is required') ,
+    last_name: joi
+      .alternatives()
+      .when('role', { is: 'USER', then: joi.string().required()}).error(() => 'Last Name is required'),
+    email: joi.string().email().required().error(() => 'Invalid Email'),
+    password: joi.string().required().error(() => 'Password is required')
+  })
+  return getValidationResult(data, schema)
 }
 
 export default compose(

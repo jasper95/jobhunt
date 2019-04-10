@@ -11,6 +11,7 @@
   "dependencies": {
     "@material-ui/core": "3.2.2",
     "@material-ui/icons": "^3.0.2",
+    "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "connect-mongo": "2.0.1",
     "dotenv": "6.1.0",
@@ -20,6 +21,7 @@
     "express-session": "1.15.6",
     "googleapis": "34.0.0",
     "http-proxy-middleware": "^0.19.1",
+    "joi": "^14.3.1",
     "js-cookie": "^2.2.0",
     "lodash": "4.17.11",
     "next": "^8.0.3",

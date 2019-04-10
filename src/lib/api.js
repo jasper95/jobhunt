@@ -11,7 +11,8 @@ const axiosInstance = axios
       password: process.env.API_PASSWORD
     },
     validateStatus(status) {
-      return status <= 400
+      console.log('status: ', status);
+      return status === 200
     }
   })
 

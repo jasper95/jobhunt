@@ -12,18 +12,22 @@ import { Login } from 'redux/auth/actions'
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
 import withAuth from 'lib/hocs/auth';
+import { getValidationResult } from 'lib/tools'
+import joi from 'joi'
 
 const initialFields = {
   password: '',
   email: '',
   isShowPassword: false
 }
+
 function LoginPage(props){
   const { dispatch } = props
-  const [formState, formHandlers] = useForm({ initialFields })
+  const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
-    onChange
+    onChange,
+    onValidate
   } = formHandlers
   const { fields, errors } = formState
   return (
@@ -41,6 +45,7 @@ function LoginPage(props){
           variant='outlined'
           onChange={onElementChange}
           helperText={errors.email}
+          error={errors.email}
           value={fields.email}
         />
         <br/>
@@ -71,9 +76,7 @@ function LoginPage(props){
           variant='contained'
           color='primary'
           style={styleLoginButton}
-          onClick={() => {
-            dispatch(Login(fields))
-          }}
+          onClick={onValidate}
           children='Login'
         />
         <span>No Existing Account?</span>
@@ -83,6 +86,18 @@ function LoginPage(props){
       </form>
     </div>
   )
+
+  function onValid(data) {
+    dispatch(Login(data))
+  }
+}
+
+function validator(data) {
+  const schema = joi.object().keys({
+    email: joi.string().email().required().error(() => 'Invalid Email'),
+    password: joi.string().required().error(() => 'Password is required')
+  })
+  return getValidationResult(data, schema)
 }
 
 export default compose(

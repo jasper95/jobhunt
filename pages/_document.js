@@ -21,9 +21,9 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-          <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
-          <link rel="stylesheet" type="text/css" href="/static/react-draft-wysiwyg.css" />
-          <link rel="stylesheet" type="text/css" href="/static/rangeslider.css" />
+          <link rel="stylesheet" type="text/css" href="/static/css/nprogress.css" />
+          <link rel="stylesheet" type="text/css" href="/static/css/react-draft-wysiwyg.css" />
+          <link rel="stylesheet" type="text/css" href="/static/css/rangeslider.css" />
         </Head>
         <body>
           <Main />
