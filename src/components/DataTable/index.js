@@ -50,7 +50,9 @@ function DataTable(props) {
 }
 
 function Row(props) {
-  const { type, row, accessor, bodyProps = {}, actions = [] } = props
+  const {
+    type, row, accessor, bodyProps = {}, actions = [],
+    component: Cell} = props
   let children
   if (type === 'actions') {
     children = actions.map(({ label, className, icon, onClick }) => (
@@ -58,6 +60,10 @@ function Row(props) {
         <Icon children={icon} />
       </IconButton>
     ))
+  } else if (type === 'component') {
+    children = (
+      <Cell row={row} />
+    )
   } else {
     children = row[accessor]
   }

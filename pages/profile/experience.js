@@ -6,29 +6,36 @@ import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
 import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
+import api from 'lib/api'
 import Button from '@material-ui/core/Button';
 import {
-  ShowDialog
+  ShowDialog,
+  Create
 } from 'redux/app/actions'
+import queryString from 'query-string'
+import day from 'dayjs'
 
+function DateCell({ row }) {
+  const { start_date, end_date } = row
+  const format = 'MMM YYYY'
+  return (
+    <>
+      {day(start_date).format(format)} - {end_date ? day(end_date).format(format) : 'Present' }
+    </>
+  )
+}
 
 function Experience(props) {
-  const { dispatch } = props
-  const rows = [
-    {
-      id: 1,
-      skill: 'Instructor at Bohol Island State University',
-      dates: '2017-present',
-    }
-  ]
+  const { dispatch, experiences } = props
   const columns = [
     {
-      accessor: 'skill',
+      accessor: 'position',
       title: 'Skill at company'
     },
     {
-      accessor: 'dates',
-      title: 'Dates'
+      type: 'component',
+      title: 'Dates',
+      component: DateCell
     },
     {
       type: 'actions',
@@ -53,7 +60,7 @@ function Experience(props) {
           <Icon children='work'/> <span>Experience</span>
         </div>
         <DataTable
-          rows={rows}
+          rows={experiences}
           columns={columns}
         />
         <Button
@@ -63,7 +70,12 @@ function Experience(props) {
             dispatch(ShowDialog({
               path: 'Experience',
               props: {
-                title: 'New Experience'
+                title: 'New Experience',
+                onValid: (data) => dispatch(Create({
+                  data,
+                  node: 'experience',
+                  isOwnedByUser: true
+                }))
               }
             }))
           }}
@@ -72,6 +84,21 @@ function Experience(props) {
       </Paper>
     </Profile>
   )
+}
+
+Experience.getInitialProps = async(ctx) => {
+  const { user } = ctx.store.getState().auth
+  let experiences = []
+  if (user) {
+    experiences = await api({
+      url: `/experience?${queryString.stringify({ user_id: user.id, fields: ['id', 'position', 'start_date', 'end_date']})}`
+    }, ctx)
+    console.log('experiences: ', experiences);
+  }
+  // await api({
+  //   '/experience'
+  // })
+  return { experiences }
 }
 
 export default compose(

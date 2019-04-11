@@ -64,7 +64,7 @@ function validator(data) {
     position: joi.string().required().error(() => 'Position is required'),
     company: joi.string().required().error(() => 'Company is required'),
     start_date: joi.date().required().error(() => 'Start Date is required'),
-    end_date: joi.date().required().error(() => 'End Date is required')
+    // end_date: joi.date().required().error(() => 'End Date is required')
   })
   return getValidationResult(data, schema)
 }

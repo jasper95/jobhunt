@@ -2,6 +2,8 @@ import createReducer from 'lib/createReducer'
 
 const initialState = {
   dialog: null,
+  error: null,
+  success: null,
   dialogProcessing: false
 }
 
@@ -20,10 +22,18 @@ const reducer = {
     return state
   },
   ERROR(state, { payload }){
-    return state
+    return {
+      ...state,
+      error: payload,
+      dialogProcessing: false
+    }
   },
   SUCCESS(state, { payload }){
-    return state
+    return {
+      ...state,
+      dialogProcessing: false,
+      success: payload
+    }
   }
 }
 

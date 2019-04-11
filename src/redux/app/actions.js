@@ -1,3 +1,10 @@
+export function Create(payload) {
+  return {
+    type: 'CREATE_NODE_REQUESTED',
+    payload
+  }
+}
+
 export function ShowError(payload) {
   return {
     type: 'ERROR',
@@ -15,6 +22,13 @@ export function ShowSuccess(payload) {
 export function ShowDialog(payload) {
   return {
     type: 'SHOW_DIALOG',
+    payload
+  }
+}
+
+export function DialogProcessing(payload) {
+  return {
+    type: 'DIALOG_PROCESSING',
     payload
   }
 }
