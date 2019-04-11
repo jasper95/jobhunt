@@ -63,7 +63,6 @@ function Experience(props) {
             dispatch(ShowDialog({
               path: 'Experience',
               props: {
-                initialFields: {},
                 title: 'New Experience'
               }
             }))

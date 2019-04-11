@@ -23,7 +23,7 @@ app.prepare().then(() => {
 
   server.get('/profile/:id', (req, res) => {
     const { id } = req.params
-    if (['about-me', 'education', 'experience'].includes('id')) {
+    if (['about-me', 'education', 'experience'].includes(id)) {
       return app.render(req, res, `/profile/${id}`)
     }
     return app.render(req, res, '/profile', { id })

@@ -42,7 +42,6 @@ function DialogLayout(props) {
     dialogActionsRenderer: DialogActions,
     dialogId
   } = props
-	console.log("TCL: DialogLayout -> props", props)
 
   return(
     <Dialog

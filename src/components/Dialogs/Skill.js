@@ -1,9 +1,10 @@
 import React from 'react'
-// import 'react-rangeslider/lib/index.css'
 import { compose } from 'redux'
 import Slider from 'react-rangeslider'
 import TextField from '@material-ui/core/TextField';
 import { withFormDialog } from 'lib/hocs/dialog'
+import { getValidationResult } from 'lib/tools'
+import joi from 'joi'
 
 function SkillDialog(props) {
   const { formState, formHandlers } = props
@@ -17,6 +18,7 @@ function SkillDialog(props) {
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
+        error={!!errors.name}
         helperText={errors.name}
         value={fields.name}
       />
@@ -30,6 +32,20 @@ function SkillDialog(props) {
   )
 }
 
-export default compose(
+function validator(data) {
+  const schema = joi.object().keys({
+    name: joi.string().required().error(() => 'Skill Heading is required'),
+    level: joi.number().required().error(() => 'Level is required'),
+  })
+  return getValidationResult(data, schema)
+}
+
+const Dialog = compose(
   withFormDialog()
 )(SkillDialog)
+
+Dialog.defaultProps = {
+  validator
+}
+
+export default Dialog

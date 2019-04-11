@@ -14,17 +14,17 @@ import useForm from 'lib/hooks/useForm'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
 
+const initialFields = {
+  first_name: '',
+  last_name: '',
+  password: '',
+  email: '',
+  isShowPassword: false,
+  role: 'USER',
+  company_name: ''
+}
 function SignupPage(props){
   const { dispatch } = props
-  const initialFields = {
-    first_name: '',
-    last_name: '',
-    password: '',
-    email: '',
-    isShowPassword: false,
-    role: 'USER',
-    company_name: ''
-  }
   const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
@@ -47,6 +47,8 @@ function SignupPage(props){
               variant='outlined'
               onChange={onElementChange}
               value={fields.company_name}
+              error={!!errors.company_name}
+              helperText={errors.company_name}
             />
           </>
         ) : (
@@ -59,6 +61,8 @@ function SignupPage(props){
               variant='outlined'
               onChange={onElementChange}
               value={fields.first_name}
+              error={!!errors.first_name}
+              helperText={errors.first_name}
             />
             <TextField
               id='last_name'
@@ -68,6 +72,8 @@ function SignupPage(props){
               variant='outlined'
               onChange={onElementChange}
               value={fields.last_name}
+              error={!!errors.last_name}
+              helperText={errors.last_name}
             />
           </>
         )}
@@ -80,6 +86,8 @@ function SignupPage(props){
           variant='outlined'
           onChange={onElementChange}
           value={fields.email}
+          error={!!errors.email}
+          helperText={errors.email}
         />
         <br/>
         <TextField
@@ -88,7 +96,7 @@ function SignupPage(props){
           type={fields.isShowPassword ? 'text': 'password' }
           label='Password'
           value={fields.password}
-          error={errors.password}
+          error={!!errors.password}
           helperText={errors.password}
           onChange={onElementChange}
           InputProps={{
@@ -129,15 +137,20 @@ function validator(data) {
   const schema = joi.object().keys({
     company_name: joi
       .alternatives()
-      .when('role', { is: 'ADMIN', then: joi.string().required()}).error(() => 'Company Name is required'),
+      .when('role', { is: 'ADMIN', then: joi.string().required(), otherwise: joi.optional() })
+      .error(() => 'Company Name is required'),
     first_name: joi
       .alternatives()
-      .when('role', { is: 'USER', then: joi.string().required()}).error(() => 'First Name is required') ,
+      .when('role', { is: 'USER', then: joi.string().required(), otherwise: joi.optional() })
+      .error(() => 'First Name is required') ,
     last_name: joi
       .alternatives()
-      .when('role', { is: 'USER', then: joi.string().required()}).error(() => 'Last Name is required'),
-    email: joi.string().email().required().error(() => 'Invalid Email'),
-    password: joi.string().required().error(() => 'Password is required')
+      .when('role', { is: 'USER', then: joi.string().required(), otherwise: joi.optional() })
+      .error(() => 'Last Name is required'),
+    email: joi.string().email().required()
+      .error(() => 'Invalid Email'),
+    password: joi.string().required()
+      .error(() => 'Password is required')
   })
   return getValidationResult(data, schema)
 }

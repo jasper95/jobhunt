@@ -2,6 +2,8 @@ import React from 'react'
 import { compose } from 'redux'
 import TextField from '@material-ui/core/TextField';
 import { withFormDialog } from 'lib/hocs/dialog'
+import { getValidationResult } from 'lib/tools'
+import joi from 'joi'
 
 function ExperienceDialog(props) {
   const { formState, formHandlers } = props
@@ -13,7 +15,8 @@ function ExperienceDialog(props) {
         label='Position title'
         id='position'
         helperText={errors.position}
-        value={fields.position}
+        value={fields.position || ''}
+        error={!!errors.position}
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
@@ -24,15 +27,18 @@ function ExperienceDialog(props) {
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
+        error={!!errors.company}
         helperText={errors.company}
-        value={fields.company}
+        value={fields.company || ''}
       />
       <TextField
         id="start_date"
         label="Joined Date"
         type="date"
-        value={fields.start_date}
-        defaultValue="2017-05-24"
+        value={fields.start_date || ''}
+        onChange={onElementChange}
+        error={!!errors.start_date}
+        helperText={errors.start_date}
         InputLabelProps={{
           shrink: true,
         }}
@@ -41,8 +47,10 @@ function ExperienceDialog(props) {
         id="end_date"
         label="To"
         type="date"
-        value={fields.end_date}
-        defaultValue="2017-05-24"
+        value={fields.end_date || ''}
+        onChange={onElementChange}
+        error={!!errors.end_date}
+        helperText={errors.end_date}
         InputLabelProps={{
           shrink: true,
         }}
@@ -51,6 +59,22 @@ function ExperienceDialog(props) {
   )
 }
 
-export default compose(
+function validator(data) {
+  const schema = joi.object().keys({
+    position: joi.string().required().error(() => 'Position is required'),
+    company: joi.string().required().error(() => 'Company is required'),
+    start_date: joi.date().required().error(() => 'Start Date is required'),
+    end_date: joi.date().required().error(() => 'End Date is required')
+  })
+  return getValidationResult(data, schema)
+}
+
+const Dialog = compose(
   withFormDialog()
 )(ExperienceDialog)
+
+Dialog.defaultProps = {
+  validator
+}
+
+export default Dialog

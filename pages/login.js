@@ -32,10 +32,6 @@ function LoginPage(props){
   const { fields, errors } = formState
   return (
     <div style={{ textAlign: 'center', margin: '0 20px' }}>
-      <Head>
-        <title>Log in to Builder Book</title>
-        <meta name='description' content='Login page for builderbook.org' />
-      </Head>
       <form noValidate autoComplete='off'>
         <TextField
           id='email'
@@ -45,8 +41,8 @@ function LoginPage(props){
           variant='outlined'
           onChange={onElementChange}
           helperText={errors.email}
-          error={errors.email}
-          value={fields.email}
+          error={!!errors.email}
+          value={fields.email || ''}
         />
         <br/>
         <TextField
@@ -54,8 +50,8 @@ function LoginPage(props){
           variant='outlined'
           type={fields.isShowPassword ? 'text': 'password' }
           label='Password'
-          value={fields.password}
-          error={errors.password}
+          value={fields.password || ''}
+          error={!!errors.password}
           helperText={errors.password}
           onChange={onElementChange}
           InputProps={{

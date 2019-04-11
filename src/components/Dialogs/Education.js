@@ -2,6 +2,8 @@ import React from 'react'
 import { compose } from 'redux'
 import TextField from '@material-ui/core/TextField';
 import { withFormDialog } from 'lib/hocs/dialog'
+import { getValidationResult } from 'lib/tools'
+import joi from 'joi'
 
 function ExperienceDialog(props) {
   const { formState, formHandlers } = props
@@ -16,7 +18,8 @@ function ExperienceDialog(props) {
         variant='outlined'
         onChange={onElementChange}
         helperText={errors.field}
-        value={fields.field}
+        error={!!errors.field}
+        value={fields.field || ''}
       />
       <TextField
         id='qualification'
@@ -24,22 +27,50 @@ function ExperienceDialog(props) {
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
+        error={!!errors.qualification}
         helperText={errors.qualification}
-        value={fields.qualification}
+        value={fields.qualification || ''}
       />
       <TextField
-        id='qualification'
-        label='Qualification'
+        id='school'
+        label='University/Institute'
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
-        helperText={errors.qualification}
-        value={fields.qualification}
+        error={!!errors.school}
+        helperText={errors.school}
+        value={fields.school || ''}
+      />
+      <TextField
+        id='grade'
+        label='Grade'
+        margin='normal'
+        variant='outlined'
+        onChange={onElementChange}
+        error={!!errors.grade}
+        helperText={errors.grade}
+        value={fields.grade || ''}
       />
     </>
   )
 }
 
-export default compose(
+function validator(data) {
+  const schema = joi.object().keys({
+    field: joi.string().required().error(() => 'Field of Study is required'),
+    qualification: joi.string().required().error(() => 'Qualification is required'),
+    school: joi.string().required().error(() => 'University/Institute is required'),
+    grade: joi.number().required().error(() => 'Grade is required')
+  })
+  return getValidationResult(data, schema)
+}
+
+const Dialog = compose(
   withFormDialog()
 )(ExperienceDialog)
+
+Dialog.defaultProps = {
+  validator
+}
+
+export default Dialog
