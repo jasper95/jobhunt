@@ -56,7 +56,7 @@ function Row(props) {
   let children
   if (type === 'actions') {
     children = actions.map(({ label, className, icon, onClick }) => (
-      <IconButton aria-label={label} key={icon} className={className} onClick={onClick}>
+      <IconButton aria-label={label} key={icon} className={className} onClick={() => onClick(row)}>
         <Icon children={icon} />
       </IconButton>
     ))

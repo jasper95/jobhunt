@@ -5,6 +5,14 @@ export function Create(payload) {
   }
 }
 
+export function Update(payload) {
+  return {
+    type: 'UPDATE_NODE_REQUESTED',
+    payload
+  }
+}
+
+
 export function ShowError(payload) {
   return {
     type: 'ERROR',

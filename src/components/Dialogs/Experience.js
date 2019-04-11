@@ -47,7 +47,6 @@ function ExperienceDialog(props) {
         id="end_date"
         label="To"
         type="date"
-        value={fields.end_date || ''}
         onChange={onElementChange}
         error={!!errors.end_date}
         helperText={errors.end_date}

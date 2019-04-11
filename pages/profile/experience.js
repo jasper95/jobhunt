@@ -10,7 +10,8 @@ import api from 'lib/api'
 import Button from '@material-ui/core/Button';
 import {
   ShowDialog,
-  Create
+  Create,
+  Update
 } from 'redux/app/actions'
 import queryString from 'query-string'
 import day from 'dayjs'
@@ -30,7 +31,11 @@ function Experience(props) {
   const columns = [
     {
       accessor: 'position',
-      title: 'Skill at company'
+      title: 'Position'
+    },
+    {
+      accessor: 'company',
+      title: 'Company'
     },
     {
       type: 'component',
@@ -43,7 +48,21 @@ function Experience(props) {
         {
           icon: 'edit',
           label: 'Edit',
-          onClick: () => console.log('Edit')
+          onClick: (row) => dispatch(ShowDialog({
+            path: 'Experience',
+            props: {
+              title: 'Edit Experience',
+              initialFields: {
+                ...row,
+                start_date: row.start_date ? day(row.start_date).format('YYYY-MM-DD') : '',
+                end_date: row.end_date ? day(row.end_date).format('YYYY-MM-DD') : ''
+              },
+              onValid: data => dispatch(Update({
+                data,
+                node: 'experience'
+              }))
+            }
+          }))
         },
         {
           icon: 'delete',
@@ -91,13 +110,9 @@ Experience.getInitialProps = async(ctx) => {
   let experiences = []
   if (user) {
     experiences = await api({
-      url: `/experience?${queryString.stringify({ user_id: user.id, fields: ['id', 'position', 'start_date', 'end_date']})}`
+      url: `/experience?${queryString.stringify({ user_id: user.id, fields: ['id', 'position', 'start_date', 'end_date', 'company']})}`
     }, ctx)
-    console.log('experiences: ', experiences);
   }
-  // await api({
-  //   '/experience'
-  // })
   return { experiences }
 }
 
