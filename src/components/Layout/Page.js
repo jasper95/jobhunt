@@ -1,13 +1,20 @@
 import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
-import dynamic from 'next/dynamic'
 import { createSelector } from 'reselect'
 import { connect } from 'react-redux'
 import Dialogs from 'components/Dialogs'
+import Snackbar from 'components/Snackbar'
+import {
+  HideNotification
+} from 'redux/app/actions'
 
 
-function Page({ children, dialog }) {
+function Page(props) {
+  const {
+    children, dialog,
+    notification, dispatch
+  } = props
   let Dialog
   if (dialog && dialog.path) {
     Dialog = Dialogs[dialog.path]
@@ -15,6 +22,13 @@ function Page({ children, dialog }) {
   return (
     <>
       <Header />
+      {notification && (
+        <Snackbar
+          onClose={() => dispatch(HideNotification())}
+          open={!!notification}
+          {...notification}
+        />
+      )}
       {Dialog && (
         <Dialog {...dialog.props} />
       )}
@@ -26,8 +40,10 @@ function Page({ children, dialog }) {
 
 const pageSelector = createSelector(
   state => state.app.dialog,
-  (dialog) => ({
-    dialog
+  state => state.app.notification,
+  (dialog, notification) => ({
+    dialog,
+    notification
   })
 )
 

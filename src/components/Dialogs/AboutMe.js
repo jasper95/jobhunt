@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import TextField from '@material-ui/core/TextField';
-import { withFormDialog } from 'lib/hocs/dialog'
+import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
 
@@ -94,7 +94,7 @@ function validator(data) {
 }
 
 const Dialog = compose(
-  withFormDialog()
+  withDialog()
 )(AboutMe)
 
 Dialog.defaultProps = {

@@ -28,7 +28,7 @@ function DefaultDialogActions(props) {
   const { onContinue } = props
   return (
     <MuiDialogActions>
-      <Button onClick={onContinue} color="primary">
+      <Button onClick={onContinue} variant='contained' color="primary">
         Save changes
       </Button>
     </MuiDialogActions>

@@ -1,5 +1,5 @@
 import React from 'react'
-import DialogLayout from 'components/DialogLayout'
+import DialogLayout from 'components/Layout/Dialog'
 import pick from 'lodash/pick'
 import {
   HideDialog
@@ -17,7 +17,7 @@ const dialogSelector = createSelector(
 )
 const dialogProps = ['dialogActionsRenderer', 'dialogTitleRenderer', 'title', 'fullWidth', 'maxWidth']
 const formProps =  ['initialFields', 'validator', 'customChangeHandler', 'onValid']
-const withFormDialog = () => (WrappedComponent) => {
+export default () => (WrappedComponent) => {
   function Dialog(props) {
     const { dispatch } = props
     const [formState, formHandlers] = useForm(pick(props, formProps))
@@ -42,4 +42,3 @@ const withFormDialog = () => (WrappedComponent) => {
       'Component'})`
   return connect(dialogSelector)(Dialog)
 }
-export { withFormDialog }

@@ -3,7 +3,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
 import { compose } from 'redux'
 import TextField from '@material-ui/core/TextField';
-import { withFormDialog } from 'lib/hocs/dialog'
+import withDialog from 'lib/hocs/dialog'
 
 function AboutMe(props) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -32,5 +32,5 @@ function AboutMe(props) {
 }
 
 export default compose(
-  withFormDialog()
+  withDialog()
 )(AboutMe)

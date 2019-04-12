@@ -1,23 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import CloseIcon from '@material-ui/icons/Close';
+import Icon from '@material-ui/core/Icon';
 import green from '@material-ui/core/colors/green';
 import amber from '@material-ui/core/colors/amber';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
-
-const variantIcon = {
-  success: CheckCircleIcon,
-  warning: WarningIcon,
-  error: ErrorIcon,
-  info: InfoIcon,
-};
 
 const styles1 = theme => ({
   success: {
@@ -47,25 +37,28 @@ const styles1 = theme => ({
 
 function MySnackbarContent(props) {
   const {
-    classes, className, message, onClose, variant, open,
+    classes, className, message, onClose, type
   } = props;
-  const Icon = variantIcon[variant];
+  const icon = {
+    error: 'error',
+    success: 'check_circle'
+  }[type]
   return (
     <Snackbar
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center',
       }}
-      open={open}
+      open
       autoHideDuration={6000}
       onClose={onClose}
     >
       <SnackbarContent
-        className={classNames(classes[variant], className)}
+        className={classNames(classes[type], className)}
         aria-describedby="client-snackbar"
         message={
           <span id="client-snackbar" className={classes.message}>
-            <Icon className={classNames(classes.icon, classes.iconVariant)} />
+            <Icon children={icon} className={classNames(classes.icon, classes.iconVariant)} />
             {message}
           </span>
         }
@@ -77,7 +70,7 @@ function MySnackbarContent(props) {
             className={classes.close}
             onClick={onClose}
           >
-            <CloseIcon className={classes.icon} />
+            <Icon children='close' className={classes.icon} />
           </IconButton>,
         ]}
       />
@@ -90,7 +83,7 @@ MySnackbarContent.propTypes = {
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,
-  variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
+  type: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
 export default withStyles(styles1)(MySnackbarContent);

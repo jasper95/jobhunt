@@ -1,17 +1,75 @@
+import capitalize from 'lodash/capitalize'
+
 export function Create(payload) {
+  const {
+    data,
+    node,
+    successMessage = `${capitalize(node)} sucessfullly created`,
+    ...restPayload
+  } = payload
   return {
-    type: 'CREATE_NODE_REQUESTED',
-    payload
+    type: 'NODE_REQUESTED',
+    payload: {
+      successMessage,
+      requestConfig: {
+        method: 'POST',
+        data,
+        url: `/${node}`
+      },
+      ...restPayload
+    }
   }
 }
 
 export function Update(payload) {
+  const {
+    data,
+    node,
+    successMessage = `${capitalize(node)} sucessfullly updated`,
+    ...restPayload
+  } = payload
   return {
-    type: 'UPDATE_NODE_REQUESTED',
-    payload
+    type: 'NODE_REQUESTED',
+    payload: {
+      successMessage,
+      requestConfig: {
+        method: 'PUT',
+        data,
+        url: `/${node}/${data.id}`
+      },
+      data,
+      ...restPayload
+    }
   }
 }
 
+export function Delete(payload) {
+  const {
+    data,
+    node,
+    successMessage = `${capitalize(node)} sucessfullly deleted`,
+    ...restPayload
+  } = payload
+  return {
+    type: 'NODE_REQUESTED',
+    payload: {
+      successMessage,
+      requestConfig: {
+        method: 'DELETE',
+        data,
+        url: `/${node}/${data.id}`
+      },
+      data,
+      ...restPayload
+    }
+  }
+}
+
+export function HideNotification() {
+  return {
+    type: 'HIDE_NOTIFICATION'
+  }
+}
 
 export function ShowError(payload) {
   return {
@@ -41,7 +99,7 @@ export function DialogProcessing(payload) {
   }
 }
 
-export function HideDialog(payload) {
+export function HideDialog() {
   return {
     type: 'HIDE_DIALOG'
   }

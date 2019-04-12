@@ -11,7 +11,8 @@ import Button from '@material-ui/core/Button';
 import {
   ShowDialog,
   Create,
-  Update
+  Update,
+  Delete
 } from 'redux/app/actions'
 import queryString from 'query-string'
 import day from 'dayjs'
@@ -48,26 +49,12 @@ function Experience(props) {
         {
           icon: 'edit',
           label: 'Edit',
-          onClick: (row) => dispatch(ShowDialog({
-            path: 'Experience',
-            props: {
-              title: 'Edit Experience',
-              initialFields: {
-                ...row,
-                start_date: row.start_date ? day(row.start_date).format('YYYY-MM-DD') : '',
-                end_date: row.end_date ? day(row.end_date).format('YYYY-MM-DD') : ''
-              },
-              onValid: data => dispatch(Update({
-                data,
-                node: 'experience'
-              }))
-            }
-          }))
+          onClick: handleEdit
         },
         {
           icon: 'delete',
           label: 'Delete',
-          onClick: () => console.log('delete')
+          onClick: handleDelete
         }
       ]
     }
@@ -103,6 +90,38 @@ function Experience(props) {
       </Paper>
     </Profile>
   )
+
+  function handleEdit(row) {
+    dispatch(ShowDialog({
+      path: 'Experience',
+      props: {
+        title: 'Edit Experience',
+        initialFields: {
+          ...row,
+          start_date: row.start_date ? day(row.start_date).format('YYYY-MM-DD') : '',
+          end_date: row.end_date ? day(row.end_date).format('YYYY-MM-DD') : ''
+        },
+        onValid: data => dispatch(Update({
+          data,
+          node: 'experience'
+        }))
+      }
+    }))
+  }
+
+  function handleDelete(data) {
+    dispatch(ShowDialog({
+      path: 'Confirm',
+      props: {
+        title: 'Confirm Delete',
+        message: 'Do you want to delete this item?',
+        onValid: () => dispatch(Delete({
+          data,
+          node: 'experience'
+        }))
+      }
+    }))
+  }
 }
 
 Experience.getInitialProps = async(ctx) => {

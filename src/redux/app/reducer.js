@@ -2,8 +2,7 @@ import createReducer from 'lib/createReducer'
 
 const initialState = {
   dialog: null,
-  error: null,
-  success: null,
+  notification: null,
   dialogProcessing: false
 }
 
@@ -21,10 +20,16 @@ const reducer = {
     }
     return state
   },
+  HIDE_NOTIFICATION(state) {
+    return { ...state, notification: null }
+  },
   ERROR(state, { payload }){
     return {
       ...state,
-      error: payload,
+      notification: {
+        type: 'error',
+        ...payload
+      },
       dialogProcessing: false
     }
   },
@@ -32,7 +37,10 @@ const reducer = {
     return {
       ...state,
       dialogProcessing: false,
-      success: payload
+      notification: {
+        type: 'success',
+        ...payload
+      }
     }
   }
 }
