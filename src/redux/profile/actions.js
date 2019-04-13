@@ -12,7 +12,7 @@ export function GetProfileData(payload) {
       type: 'QUERY_REQUESTED',
       payload: {
         requestConfig: {
-          url: `/${url}?${queryString.stringify(data)}`
+          url: `${url}?${queryString.stringify(data)}`
         },
         reducer: 'SET_PROFILE_QUERY_RESULT',
         ...restPayload
