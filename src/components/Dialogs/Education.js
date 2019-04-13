@@ -5,21 +5,21 @@ import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
 
-function ExperienceDialog(props) {
+function EducationDialog(props) {
   const { formState, formHandlers } = props
   const { fields, errors } = formState
   const { onElementChange } =  formHandlers
   return (
     <>
       <TextField
-        id='field'
+        id='name'
         label='Field of Study'
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
-        helperText={errors.field}
-        error={!!errors.field}
-        value={fields.field || ''}
+        helperText={errors.name}
+        error={!!errors.name}
+        value={fields.name || ''}
       />
       <TextField
         id='qualification'
@@ -42,14 +42,28 @@ function ExperienceDialog(props) {
         value={fields.school || ''}
       />
       <TextField
-        id='grade'
-        label='Grade'
-        margin='normal'
-        variant='outlined'
+        id="start_date"
+        label="Admission Date"
+        type="month"
+        value={fields.admission_date || ''}
         onChange={onElementChange}
-        error={!!errors.grade}
-        helperText={errors.grade}
-        value={fields.grade || ''}
+        error={!!errors.admission_date}
+        helperText={errors.admission_date}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+      <TextField
+        id="end_date"
+        label="Graduation Date"
+        type="month"
+        value={fields.end_date || ''}
+        onChange={onElementChange}
+        error={!!errors.end_date}
+        helperText={errors.end_date}
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
     </>
   )
@@ -59,15 +73,14 @@ function validator(data) {
   const schema = joi.object().keys({
     field: joi.string().required().error(() => 'Field of Study is required'),
     qualification: joi.string().required().error(() => 'Qualification is required'),
-    school: joi.string().required().error(() => 'University/Institute is required'),
-    grade: joi.number().required().error(() => 'Grade is required')
+    school: joi.string().required().error(() => 'University/Institute is required')
   })
   return getValidationResult(data, schema)
 }
 
 const Dialog = compose(
   withDialog()
-)(ExperienceDialog)
+)(EducationDialog)
 
 Dialog.defaultProps = {
   validator

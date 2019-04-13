@@ -53,7 +53,8 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
   }
   return axiosInstance(config)
     .then(({ data }) => data)
-    .catch(({ response }) => {
+    .catch((err) => {
+      const { response } = err
       const error = { type: 'ERROR' }
       if (response.status === 401) {
         cookie.remove('token')

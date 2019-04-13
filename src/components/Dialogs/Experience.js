@@ -34,7 +34,7 @@ function ExperienceDialog(props) {
       <TextField
         id="start_date"
         label="Joined Date"
-        type="date"
+        type="month"
         value={fields.start_date || ''}
         onChange={onElementChange}
         error={!!errors.start_date}
@@ -46,7 +46,7 @@ function ExperienceDialog(props) {
       <TextField
         id="end_date"
         label="To"
-        type="date"
+        type="month"
         onChange={onElementChange}
         error={!!errors.end_date}
         helperText={errors.end_date}

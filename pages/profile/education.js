@@ -1,84 +1,88 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import Icon from '@material-ui/core/Icon';
-import Profile from 'components/Profile'
-import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
-import Button from '@material-ui/core/Button';
+import DateCell from 'components/DateCell'
+import ProfilePage from 'components/Profile/ProfilePage'
 import {
-  ShowDialog
-} from 'redux/app/actions'
+  GetProfileData
+} from 'redux/profile/actions'
+import { createSelector } from 'reselect'
+import withBasePage from 'lib/hocs/basePage'
+import pick from 'lodash/pick'
+// import day from 'dayjs'
+// import { formatDateRange } from 'lib/tools'
 
-
-function Experience(props) {
-  const { dispatch } = props
-  const rows = [
-    {
-      id: 1,
-      qualification: 'Bachelor of Science in Computer Science',
-      dates: '2010-2014',
-    }
-  ]
-  const columns = [
-    {
-      accessor: 'qualification',
-      title: 'Qualifications'
-    },
-    {
-      accessor: 'dates',
-      title: 'Dates'
-    },
-    {
-      type: 'actions',
-      actions: [
-        {
-          icon: 'edit',
-          label: 'Edit',
-          onClick: () => console.log('Edit')
-        },
-        {
-          icon: 'delete',
-          label: 'Delete',
-          onClick: () => console.log('delete')
-        }
-      ]
-    }
-  ]
+function Education(props) {
+  const { educations, onDelete, onEdit } = props
   return (
-    <Profile>
-      <Paper>
-        <div>
-          <Icon children='school'/> <span>Education</span>
-        </div>
-        <DataTable
-          rows={rows}
-          columns={columns}
-        />
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => {
-            dispatch(ShowDialog({
-              path: 'Education',
-              props: {
-                initialFields: {
-                  level: 0,
-                  name: ''
-                },
-                title: 'New Education'
-              }
-            }))
-          }}
-          children='New Education'
-        />
-      </Paper>
-    </Profile>
+    <ProfilePage
+      columns={getColumns()}
+      rows={educations}
+      {...pick(props, ['pageName', 'pageIcon', 'onNew'])}
+    />
   )
+
+  function getColumns() {
+    return [
+      {
+        accessor: 'name',
+        title: 'Field of Study'
+      },
+      {
+        accessor: 'qualification',
+        title: 'Qualifications'
+      },
+      {
+        type: 'component',
+        title: 'Dates',
+        component: DateCell
+      },
+      {
+        type: 'actions',
+        actions: [
+          {
+            icon: 'edit',
+            label: 'Edit',
+            onClick: onEdit
+          },
+          {
+            icon: 'delete',
+            label: 'Delete',
+            onClick: onDelete
+          }
+        ]
+      }
+    ]
+  }
+}
+
+function listRequestData(user) {
+  return { user_id: user.id, fields: ['id', 'name', 'start_date', 'end_date', 'qualification']}
+}
+
+function dataFormatter(data, action) {
+  return data
+}
+
+const basePageProps = {
+  listRequestData,
+  node: 'education',
+  pageName: 'Education',
+  pageIcon: 'school',
+  listRequestAction: GetProfileData,
+  dataFormatter 
 }
 
 export default compose(
   withAuth(),
-  connect(state => state)
-)(Experience)
+  withBasePage(basePageProps),
+  connect(createSelector(
+    state => state.profile.educations,
+    state => state.auth.user,
+    (educations, user) => ({
+      educations,
+      user
+    })
+  )),
+)(Education)

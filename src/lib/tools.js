@@ -1,4 +1,5 @@
 import joi from 'joi'
+import day from 'dayjs'
 
 export function getValidationResult(data, schema) {
   const validationResult = joi.validate(data, schema, { abortEarly: false, allowUnknown: true })
@@ -16,5 +17,13 @@ export function getValidationResult(data, schema) {
   return {
     isValid: validationResult.error === null,
     errors
+  }
+}
+
+export function formatDateRange(data) {
+  return {
+    ...data,
+    start_date: data.start_date ? day(data.start_date).date(30).toISOString() : '',
+    end_date: data.end_date ? day(data.end_date).date(30).toISOString() : '',
   }
 }
