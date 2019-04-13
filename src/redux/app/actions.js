@@ -8,7 +8,7 @@ export function Create(payload) {
     ...restPayload
   } = payload
   return {
-    type: 'NODE_REQUESTED',
+    type: 'MUTATION_REQUESTED',
     payload: {
       successMessage,
       requestConfig: {
@@ -29,7 +29,7 @@ export function Update(payload) {
     ...restPayload
   } = payload
   return {
-    type: 'NODE_REQUESTED',
+    type: 'MUTATION_REQUESTED',
     payload: {
       successMessage,
       requestConfig: {
@@ -51,7 +51,7 @@ export function Delete(payload) {
     ...restPayload
   } = payload
   return {
-    type: 'NODE_REQUESTED',
+    type: 'MUTATION_REQUESTED',
     payload: {
       successMessage,
       requestConfig: {

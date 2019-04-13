@@ -1,12 +1,13 @@
 import createReducer from 'lib/createReducer'
 
 const initialState = {
-  test: 0
+  experiences: []
 }
 
 const reducer = {
-  SAMPLE(state){
-    return state
+  SET_PROFILE_QUERY_RESULT(state, { payload }) {
+    const { data, key } = payload
+    return { ...state, [key]: data }
   }
 }
 
