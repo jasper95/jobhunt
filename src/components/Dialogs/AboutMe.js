@@ -5,6 +5,7 @@ import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
 
+
 function AboutMe(props) {
   const { formState, formHandlers } = props
   const { fields, errors } = formState

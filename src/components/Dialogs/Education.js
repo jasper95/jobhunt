@@ -4,23 +4,26 @@ import TextField from '@material-ui/core/TextField';
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
+import jobCategory from 'lib/constants/jobCategory'
+import Select from 'react-select'
 
 function EducationDialog(props) {
   const { formState, formHandlers } = props
   const { fields, errors } = formState
-  const { onElementChange } =  formHandlers
+  const { onElementChange, onChange } =  formHandlers
+  console.log('fields', fields)
   return (
     <>
-      <TextField
-        id='name'
-        label='Field of Study'
-        margin='normal'
-        variant='outlined'
-        onChange={onElementChange}
-        helperText={errors.name}
-        error={!!errors.name}
-        value={fields.name || ''}
+
+      <Select
+        isSearchable
+        getOptionLabel={(e) => e.label}
+        onChange={({value}) => onChange('name', value)}
+        options={jobCategory.map(e => ({ label: e, value: e}))}
+        value={{ value: fields.name, label: fields.name }}
       />
+
+
       <TextField
         id='qualification'
         label='Qualification'
