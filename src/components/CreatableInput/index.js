@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import CreatableSelect from 'react-select/lib/Creatable';
+
 const components = {
   DropdownIndicator: null,
 };
@@ -18,9 +19,10 @@ function CreatableInput(props) {
     switch (event.key) {
       case 'Enter':
       case 'Tab':
-        if ()
-        setValue([...value, createOption(inputValue)])
-        setInputValue('')
+        if (!value.map(e => e.value).includes(inputValue)) {
+          setValue([...value, createOption(inputValue)])
+          setInputValue('')
+        }
         event.preventDefault();
     }
   }
