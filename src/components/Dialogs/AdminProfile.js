@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
+import Select from 'react-select';
 
 function AboutMe(props) {
   const { formState, formHandlers } = props
