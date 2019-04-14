@@ -8,15 +8,27 @@ import joi from 'joi'
 function AboutMe(props) {
   const { formState, formHandlers } = props
   const { fields, errors } = formState
+  console.log('errors: ', errors);
+  console.log('fields: ', fields);
   const { onElementChange } =  formHandlers
   return (
     <>
       <TextField
-        label='Name'
-        id='name'
-        error={!!errors.name}
-        helperText={errors.name}
-        value={fields.name || ''}
+        label='Firstname'
+        id='first_name'
+        error={!!errors.first_name}
+        helperText={errors.first_name}
+        value={fields.first_name || ''}
+        margin='normal'
+        variant='outlined'
+        onChange={onElementChange}
+      />
+      <TextField
+        label='Lastname'
+        id='last_name'
+        error={!!errors.last_name}
+        helperText={errors.last_name}
+        value={fields.last_name || ''}
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
@@ -44,11 +56,12 @@ function AboutMe(props) {
       />
       <TextField
         id="birth_date"
-        label="Joined Date"
+        label="Date of Birth"
         type="date"
+        value={fields.birth_date || ''}
+        onChange={onElementChange}
         error={!!errors.birth_date}
         helperText={errors.birth_date}
-        value={fields.birth_date || ''}
         InputLabelProps={{
           shrink: true,
         }}
@@ -79,16 +92,17 @@ function AboutMe(props) {
 
 function validator(data) {
   const schema = joi.object().keys({
-    name: joi.string().required().error(() => 'Position is required'),
+    first_name: joi.string().required().error(() => 'Firstname is required'),
+    last_name: joi.string().required().error(() => 'Lastname is required'),
     email: joi.string().email().required().error(() => 'Email is required'),
-    address: joi.string().required().error(() => 'Address is required'),
-    nationality: joi.string().required().error(() => 'Nationality is required'),
-    contact_number: joi
-      .string()
-      .regex(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
-      .required()
-      .error(() => 'Invalid Phone Number'),
-    birth_date: joi.date().required().error(() => 'Birth Date is required')
+    // address: joi.string().required().error(() => 'Address is required'),
+    // nationality: joi.string().required().error(() => 'Nationality is required'),
+    // contact_number: joi
+    //   .string()
+    //   .regex(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
+    //   // .required()
+    //   .error(() => 'Invalid Phone Number'),
+    // birth_date: joi.date().required().error(() => 'Birth Date is required')
   })
   return getValidationResult(data, schema)
 }

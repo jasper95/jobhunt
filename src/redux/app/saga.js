@@ -9,12 +9,12 @@ function* Mutation({ payload }) {
       hideDialog = true, requestConfig,
       successMessage, callback = () => {}
     } = payload
-    yield call(api, requestConfig)
+    const response = yield call(api, requestConfig)
     yield put(ShowSuccess({ message: successMessage }))
     if (hideDialog) {
       yield put(HideDialog())
     }
-    callback()
+    callback(response)
   } catch(err) {
     yield put(err)
   }

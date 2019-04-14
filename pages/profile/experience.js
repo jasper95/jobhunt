@@ -6,7 +6,7 @@ import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 import {
   GetProfileData
 } from 'redux/profile/actions'
-import { formatMonthYearToISO, formatISOToMonthYear } from 'lib/tools'
+import { formatMonthYearToISO, formatISOToDate } from 'lib/tools'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
 
@@ -60,7 +60,7 @@ function getListRequestData(user) {
 function dataFormatter(data, action) {
   switch(action) {
     case 'EDIT':
-      return formatISOToMonthYear(data)
+      return formatISOToDate(data)
     case 'SAVE_EDIT':
     case 'SAVE_CREATE':
       return formatMonthYearToISO(data)

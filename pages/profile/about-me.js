@@ -4,13 +4,19 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
-import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {
-  ShowDialog
+  ShowDialog,
+  Update
 } from 'redux/app/actions'
+import {
+  SetUserAuth
+} from 'redux/auth/actions'
+import day from 'dayjs'
+import { createSelector } from 'reselect'
+import { formatDateToISO, formatISOToDate } from 'lib/tools'
 
 function Info({ label, value }) {
   return (
@@ -22,15 +28,7 @@ function Info({ label, value }) {
 }
 
 function AboutMe(props) {
-  const { dispatch } = props
-  const user = {
-    name: 'Alma Mae Bernales',
-    contact_number: '09773321183',
-    email: 'maebernales@gmail.com',
-    address: 'Candijay, Bohol',
-    birth_date: '1993-06-03',
-    nationality: 'Filipino'
-  }
+  const { dispatch, user } = props
   return (
     <Profile>
       <Paper>
@@ -38,35 +36,51 @@ function AboutMe(props) {
           <Icon children='account_box'/> <span>About Me</span>
         </div>
         <div>
-          <Info label='Name' value={user.name} />
+          <Info label='Name' value={`${user.first_name} ${user.last_name}`} />
           <Info label='Contact Number' value={user.contact_number} />
           <Info label='Email' value={user.email} />
-          <Info label='Date of Birth' value={user.birth_date} />
+          <Info label='Address' value={user.address} />
+          <Info label='Date of Birth' value={user.birth_date ? day(user.birth_date).format('YYYY-MM-DD') : '' } />
           <Info label='Nationality' value={user.nationality} />
         </div>
         <Button
           variant='contained'
           color='primary'
-          onClick={() => {
-            dispatch(ShowDialog({
-              path: 'AboutMe',
-              props: {
-                initialFields: {
-                  level: 0,
-                  name: ''
-                },
-                title: 'Edit About Me'
-              }
-            }))
-          }}
+          onClick={handleUpdate}
           children='Edit'
         />
       </Paper>
     </Profile>
   )
+
+  function handleUpdate() {
+    dispatch(ShowDialog({
+      path: 'AboutMe',
+      props: {
+        initialFields: formatISOToDate(user, ['birth_date'], 'YYYY-MM-DD'),
+        title: 'Edit About Me',
+        onValid: (data) => {
+          dispatch(Update({
+            data: formatDateToISO(data, ['birth_date'], 'YYYY-MM-DD'),
+            node: 'user',
+            sucessMessage: 'Account Details successfull updated',
+            callback: handleUpdateCallback
+          }))
+        }
+      }
+    }))
+  }
+
+  function handleUpdateCallback(data) {
+    dispatch(SetUserAuth(data))
+  }
 }
 
+const selector = createSelector(
+  state => state.auth.user,
+  user => ({ user })
+)
 export default compose(
   withAuth(),
-  connect(state => state)
+  connect(selector)
 )(AboutMe)

@@ -27,10 +27,18 @@ export function formatMonthYearToISO(data, keys = ['start_date', 'end_date']) {
   }, {...data})
 }
 
-export function formatISOToMonthYear(data, keys = ['start_date', 'end_date']) {
+export function formatISOToDate(data, keys = ['start_date', 'end_date'], format = 'YYYY-MM') {
   return keys.reduce((acc, key) => {
     const value = acc[key]
-    acc[key] = value ? day(value).format('YYYY-MM') : ''
+    acc[key] = value ? day(value).format(format) : ''
+    return acc
+  }, {...data})
+}
+
+export function formatDateToISO(data, keys = ['start_date', 'end_date'], format = 'YYYY-MM') {
+  return keys.reduce((acc, key) => {
+    const value = acc[key]
+    acc[key] = value ? day(value, format).toISOString() : ''
     return acc
   }, {...data})
 }
