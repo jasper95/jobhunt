@@ -3,22 +3,24 @@ import nextCookie from 'next-cookies'
 import { SetUserAuth } from 'redux/auth/actions'
 import api, { redirectToPath } from 'lib/api'
 
-// Gets the display name of a JSX component for dev tools
-const getDisplayName = Component =>
-  Component.displayName || Component.name || 'Component'
-
 const withAuth = (requireAuth = true) => WrappedComponent => {
   function Authentication(props) {
     return (
       <WrappedComponent {...props} />
     )
   }
-  Authentication.displayName = `withAuth(${getDisplayName(WrappedComponent)})`
+  Authentication.displayName = `withAuth(${WrappedComponent.displayName ||
+    WrappedComponent.name ||
+    'Component'})`
   Authentication.getInitialProps = async(ctx) => {
-    await auth(ctx, requireAuth)
-    let componentProps = {}
+    const user = await auth(ctx, requireAuth)
+    let componentProps = { user }
     if (WrappedComponent.getInitialProps) {
-      componentProps = await WrappedComponent.getInitialProps(ctx)
+      const childProps = await WrappedComponent.getInitialProps(ctx)
+      componentProps = {
+        ...childProps,
+        ...componentProps
+      }
     }
     return componentProps
   }
@@ -35,7 +37,7 @@ export const auth = async(ctx, requireAuth) => {
     if (requireAuth) {
       redirectToPath(ctx, '/login')
     }
-    return
+    return null
   }
 
   if (token && !user) {
@@ -52,4 +54,5 @@ export const auth = async(ctx, requireAuth) => {
   } else if (!user && requireAuth) {
     redirectToPath(ctx, '/login')
   }
+  return user
 }

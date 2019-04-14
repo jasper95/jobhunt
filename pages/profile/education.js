@@ -1,25 +1,21 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
 import DateCell from 'components/DateCell'
-import ProfilePage from 'components/Profile/ProfilePage'
+import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 import {
   GetProfileData
 } from 'redux/profile/actions'
-import { createSelector } from 'reselect'
+import { formatMonthYearToISO, formatISOToMonthYear } from 'lib/tools'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
-// import day from 'dayjs'
-// import { formatDateRange } from 'lib/tools'
 
 function Education(props) {
-  const { educations, onDelete, onEdit } = props
+  const { onDelete, onEdit } = props
   return (
     <ProfilePage
       columns={getColumns()}
-      rows={educations}
-      {...pick(props, ['pageName', 'pageIcon', 'onNew'])}
+      {...pick(props, profilePropsKeys)}
     />
   )
 
@@ -57,32 +53,33 @@ function Education(props) {
   }
 }
 
-function listRequestData(user) {
-  return { user_id: user.id, fields: ['id', 'name', 'start_date', 'end_date', 'qualification']}
+function getListRequestData(user) {
+  return { user_id: user.id, fields: ['id', 'name', 'start_date', 'end_date', 'qualification', 'school']}
 }
 
 function dataFormatter(data, action) {
-  return data
+  switch(action) {
+    case 'EDIT':
+      return formatISOToMonthYear(data)
+    case 'SAVE_EDIT':
+    case 'SAVE_CREATE':
+      return formatMonthYearToISO(data)
+    default:
+      return data
+  }
 }
 
 const basePageProps = {
-  listRequestData,
+  getListRequestData,
   node: 'education',
   pageName: 'Education',
   pageIcon: 'school',
-  listRequestAction: GetProfileData,
-  dataFormatter 
+  getListRequestAction: GetProfileData,
+  dataPropKey: 'educations',
+  dataFormatter
 }
 
 export default compose(
   withAuth(),
-  withBasePage(basePageProps),
-  connect(createSelector(
-    state => state.profile.educations,
-    state => state.auth.user,
-    (educations, user) => ({
-      educations,
-      user
-    })
-  )),
+  withBasePage(basePageProps)
 )(Education)

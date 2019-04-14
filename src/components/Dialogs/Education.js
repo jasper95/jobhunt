@@ -45,10 +45,10 @@ function EducationDialog(props) {
         id="start_date"
         label="Admission Date"
         type="month"
-        value={fields.admission_date || ''}
+        value={fields.start_date || ''}
         onChange={onElementChange}
-        error={!!errors.admission_date}
-        helperText={errors.admission_date}
+        error={!!errors.start_date}
+        helperText={errors.start_date}
         InputLabelProps={{
           shrink: true,
         }}
@@ -71,7 +71,7 @@ function EducationDialog(props) {
 
 function validator(data) {
   const schema = joi.object().keys({
-    field: joi.string().required().error(() => 'Field of Study is required'),
+    name: joi.string().required().error(() => 'Field of Study is required'),
     qualification: joi.string().required().error(() => 'Qualification is required'),
     school: joi.string().required().error(() => 'University/Institute is required')
   })

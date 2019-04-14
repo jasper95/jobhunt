@@ -11,7 +11,6 @@ const axiosInstance = axios
       password: process.env.API_PASSWORD
     },
     validateStatus(status) {
-      console.log('status: ', status);
       return status === 200
     }
   })
@@ -55,7 +54,7 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
     .then(({ data }) => data)
     .catch((err) => {
       const { response } = err
-      const error = { type: 'ERROR' }
+      const error = { type: 'ERROR', payload: { message: '' } }
       if (response.status === 401) {
         cookie.remove('token')
         error.type = 'UNAUTHORIZED'
@@ -63,9 +62,9 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
           redirectToPath(ctx, '/login')
         }
       } else if (response.status === 400) {
-        error.message = response.data.message
+        error.payload.message = response.data.message
       } else {
-        error.message = 'Network Error'
+        error.payload.message = 'Network Error'
       }
       if (store) {
         store.dispatch(error)

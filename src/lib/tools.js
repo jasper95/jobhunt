@@ -12,7 +12,6 @@ export function getValidationResult(data, schema) {
         acc[key] = message
         return acc
       }, errors)
-    console.log('errors', errors)
   }
   return {
     isValid: validationResult.error === null,
@@ -20,10 +19,18 @@ export function getValidationResult(data, schema) {
   }
 }
 
-export function formatDateRange(data) {
-  return {
-    ...data,
-    start_date: data.start_date ? day(data.start_date).date(30).toISOString() : '',
-    end_date: data.end_date ? day(data.end_date).date(30).toISOString() : '',
-  }
+export function formatMonthYearToISO(data, keys = ['start_date', 'end_date']) {
+  return keys.reduce((acc, key) => {
+    const value = acc[key]
+    acc[key] = value ? day(value).date(30).toISOString() : ''
+    return acc
+  }, {...data})
+}
+
+export function formatISOToMonthYear(data, keys = ['start_date', 'end_date']) {
+  return keys.reduce((acc, key) => {
+    const value = acc[key]
+    acc[key] = value ? day(value).format('YYYY-MM') : ''
+    return acc
+  }, {...data})
 }

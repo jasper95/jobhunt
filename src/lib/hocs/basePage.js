@@ -8,8 +8,17 @@ import {
   Update,
   Delete
 } from 'redux/app/actions'
+import pick from 'lodash/pick'
 
-const withBasePage = ({ node, listRequestData, dataFormatter, pageName, listRequestAction }) => WrappedComponent => {
+const withBasePage = (params) => WrappedComponent => {
+  const {
+    node,
+    getListRequestData,
+    dataFormatter = (e) => e,
+    pageName,
+    getListRequestAction,
+    dataPropKey
+  } = params
   function BasePage(props) {
     const { dispatch } = props
     return (
@@ -18,8 +27,7 @@ const withBasePage = ({ node, listRequestData, dataFormatter, pageName, listRequ
         onGetList={getList}
         onNew={handleNew}
         onEdit={handleEdit}
-        pageName={pageName}
-        node={node}
+        {...pick(params, ['pageName', 'node', 'dataPropKey'])}
         {...props}
       />
     )
@@ -31,7 +39,7 @@ const withBasePage = ({ node, listRequestData, dataFormatter, pageName, listRequ
           title: `New ${pageName}`,
           onValid: (data) => dispatch(Create({
             data: dataFormatter(data, 'SAVE_CREATE'),
-            node: 'education',
+            node,
             callback: getList
           }))
         }
@@ -69,8 +77,9 @@ const withBasePage = ({ node, listRequestData, dataFormatter, pageName, listRequ
     }
   
     function getList() {
-      dispatch(listRequestAction({
-        data: listRequestData(user), key: `${node}s`, url: `/${node}`
+      const { user } = props
+      dispatch(getListRequestAction({
+        data: getListRequestData(user), key: dataPropKey, url: `/${node}`
       }))
     }
   }
@@ -83,9 +92,9 @@ const withBasePage = ({ node, listRequestData, dataFormatter, pageName, listRequ
     const { user } = store.getState().auth
     if (user) {
       const data = await api({
-        url: `/${node}?${queryString.stringify(listRequestData(user))}`
+        url: `/${node}?${queryString.stringify(getListRequestData(user))}`
       }, ctx)
-      store.dispatch(listRequestAction({ data, key: `${node}s`, request: false }))
+      store.dispatch(getListRequestAction({ data, key: dataPropKey, request: false }))
     }
     if (WrappedComponent.getInitialProps) {
       componentProps = await WrappedComponent.getInitialProps(ctx)
