@@ -19,14 +19,18 @@ function Job(props) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
   const { formState, formHandlers } = props
   const { fields, errors } = formState
+  const {
+    province: provinceField = {},
+    municipality: municipalityField = {}
+  } = fields
   const { onElementChange, onChange } =  formHandlers
   return (
     <>
       <TextField
         label='Job Title'
-        id='title'
-        helperText={errors.title}
-        value={fields.title}
+        id='name'
+        helperText={errors.name}
+        value={fields.name || ''}
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
@@ -39,44 +43,39 @@ function Job(props) {
       />
       <Select
         isSearchable
-        value={fields.province || ''}
         getOptionLabel={(e) => e.provDesc}
+        value={fields.province}
         onChange={value => onChange('province', value)}
         options={provinceOptions}
       />
       <Select
         isSearchable
-        value={fields.municipality || ''}
         getOptionLabel={(e) => e.citymunDesc}
-        getOptionValue={(e) => e.id}
+        value={fields.municipality}
         onChange={value => onChange('municipality', value)}
-        options={municaplityOptions.filter(e => Number(e.provCode) === fields.province)}
+        options={municaplityOptions.filter(e => e.provCode === provinceField.provCode)}
       />
       <Select
         isSearchable
-        value={fields.barangay || ''}
-        getOptionLabel={(e) => e.citymunDesc}
-        getOptionValue={(e) => e.id}
+        getOptionLabel={(e) => e.brgyDesc}
         onChange={value => onChange('barangay', value)}
-        options={barangayOptions.filter(e => Number(e.citymunCode) === fields.municipality)}
+        options={barangayOptions.filter(e => e.citymunCode === municipalityField.citymunCode)}
+        value={fields.barangay}
+      />
+      <TextField
+        label='Floor/Bdlg/Street'
+        id='address'
+        helperText={errors.address}
+        value={fields.address || ''}
+        error={!!errors.address}
+        margin='normal'
+        variant='outlined'
+        onChange={onElementChange}
       />
     </>
   )
 }
 
-const customChangeHandler = {
-  province(value) {
-    console.log(value)
-    return null
-  }
-}
-
-const Dialog = compose(
+export default compose(
   withDialog()
 )(Job)
-
-Dialog.defaultProps = {
-  customChangeHandler
-}
-
-export default Dialog
