@@ -3,6 +3,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
 import { compose } from 'redux'
 import TextField from '@material-ui/core/TextField';
+import CreatableInput from 'components/CreatableInput'
 import withDialog from 'lib/hocs/dialog'
 import Select from 'react-select'
 import barangay from 'lib/constants/address/barangay'
@@ -40,6 +41,10 @@ function Job(props) {
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"
         onEditorStateChange={editorState => setEditorState(editorState)}
+      />
+      <CreatableInput
+        value={fields.skills}
+        onChange={value => onChange('skills', value)}
       />
       <Select
         isSearchable
