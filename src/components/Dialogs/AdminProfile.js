@@ -12,24 +12,15 @@ function AboutMe(props) {
   return (
     <>
       <TextField
-        label='Firstname'
-        id='first_name'
-        error={!!errors.first_name}
-        helperText={errors.first_name}
-        value={fields.first_name || ''}
+        id='name'
+        label='Company Name'
+        type='name'
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
-      />
-      <TextField
-        label='Lastname'
-        id='last_name'
-        error={!!errors.last_name}
-        helperText={errors.last_name}
-        value={fields.last_name || ''}
-        margin='normal'
-        variant='outlined'
-        onChange={onElementChange}
+        error={!!errors.name}
+        helperText={errors.name}
+        value={fields.name || ''}
       />
       <TextField
         id='email'
@@ -53,36 +44,16 @@ function AboutMe(props) {
         value={fields.contact_number || ''}
       />
       <TextField
-        id="birth_date"
-        label="Date of Birth"
-        type="date"
-        value={fields.birth_date || ''}
-        onChange={onElementChange}
-        error={!!errors.birth_date}
-        helperText={errors.birth_date}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        id='address'
-        label='Address'
+        id='description'
+        label='Company Description'
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
-        error={!!errors.address}
-        helperText={errors.address}
-        value={fields.address || ''}
-      />
-      <TextField
-        id='nationality'
-        label='Nationality'
-        margin='normal'
-        variant='outlined'
-        onChange={onElementChange}
-        error={!!errors.nationality}
-        helperText={errors.nationality}
-        value={fields.nationality || ''}
+        error={!!errors.description}
+        helperText={errors.description}
+        value={fields.description || ''}
+        rows={4}
+        multiline
       />
     </>
   )
@@ -90,8 +61,8 @@ function AboutMe(props) {
 
 function validator(data) {
   const schema = joi.object().keys({
-    first_name: joi.string().required().error(() => 'Firstname is required'),
-    last_name: joi.string().required().error(() => 'Lastname is required'),
+    name: joi.string().required().error(() => 'Firstname is required'),
+    description: joi.string().required().error(() => 'Description is required'),
     email: joi.string().email().required().error(() => 'Email is required'),
     // address: joi.string().required().error(() => 'Address is required'),
     // nationality: joi.string().required().error(() => 'Nationality is required'),

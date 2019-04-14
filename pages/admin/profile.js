@@ -4,40 +4,36 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
-import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
-import useForm from 'lib/hooks/useForm'
+import authSelector from 'redux/auth/selector'
 import Button from '@material-ui/core/Button';
 import {
-  ShowDialog
+  ShowDialog,
+  Update
 } from 'redux/app/actions'
+import {
+  SetUserAuth
+} from 'redux/auth/actions'
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
-
-
 function AdminProfile(props) {
-  const [editMode, setEditMode] = useState(false)
-  const profile = {
-    name: 'Interlink',
-    description: 'aaasdfadf',
-    contact_number: '0912345553',
-    email: 'test@test.com'
+  const { user, dispatch } = props
+  if (!user) {
+    return null
   }
-  const [formState, formHandlers] = useForm({ initialFields: profile })
-  const { fields } = formState
-
+  const { company = {} } = user
   return (
     <Profile>
       <Paper>
         <div>
           Company Profile
         </div>
-        <Button children='Edit Profile' />
+        <Button children='Edit Profile' onClick={handleUpdate} />
         <TextField
           id="input-with-icon-textfield"
-          value={fields.email}
+          value={company.email}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -48,7 +44,7 @@ function AdminProfile(props) {
         />
         <TextField
           id='contact_number'
-          value={fields.contact_number}
+          value={company.contact_number}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -57,14 +53,39 @@ function AdminProfile(props) {
             ),
           }}
         />
-        <Typography variant="h5" component="h2" children={`About ${fields.name}`} />
-        <Typography component="p" children={fields.description} />
+        <Typography variant="h5" component="h2" children={`About ${company.name}`} />
+        <Typography component="p" children={company.description} />
       </Paper>
     </Profile>
   )
+
+  function handleUpdate() {
+    dispatch(ShowDialog({
+      path: 'AdminProfile',
+      props: {
+        initialFields: company,
+        title: 'Edit Company Profile',
+        onValid: (data) => {
+          dispatch(Update({
+            data,
+            node: 'company',
+            sucessMessage: 'Company Profile successfull updated',
+            callback: handleUpdateCallback
+          }))
+        }
+      }
+    }))
+  }
+
+  function handleUpdateCallback(company) {
+    dispatch(SetUserAuth({
+      ...user,
+      company
+    }))
+  }
 }
 
 export default compose(
   withAuth(),
-  connect()
+  connect(authSelector)
 )(AdminProfile)

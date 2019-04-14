@@ -29,6 +29,9 @@ function Info({ label, value }) {
 
 function AboutMe(props) {
   const { dispatch, user } = props
+  if (!user) {
+    return null
+  }
   return (
     <Profile>
       <Paper>
@@ -63,7 +66,7 @@ function AboutMe(props) {
           dispatch(Update({
             data: formatDateToISO(data, ['birth_date'], 'YYYY-MM-DD'),
             node: 'user',
-            sucessMessage: 'Account Details successfull updated',
+            sucessMessage: 'Personal Details successfull updated',
             callback: handleUpdateCallback
           }))
         }
