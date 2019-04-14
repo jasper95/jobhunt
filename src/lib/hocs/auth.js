@@ -13,14 +13,10 @@ const withAuth = (requireAuth = true) => WrappedComponent => {
     WrappedComponent.name ||
     'Component'})`
   Authentication.getInitialProps = async(ctx) => {
-    const user = await auth(ctx, requireAuth)
-    let componentProps = { user }
+    await auth(ctx, requireAuth)
+    let componentProps = { }
     if (WrappedComponent.getInitialProps) {
-      const childProps = await WrappedComponent.getInitialProps(ctx)
-      componentProps = {
-        ...childProps,
-        ...componentProps
-      }
+      componentProps = await WrappedComponent.getInitialProps(ctx)
     }
     return componentProps
   }

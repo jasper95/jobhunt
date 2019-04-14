@@ -9,6 +9,7 @@ import {
   Delete
 } from 'redux/app/actions'
 import pick from 'lodash/pick'
+import authSelector from 'redux/auth/selector'
 
 const withBasePage = (params) => WrappedComponent => {
   const {
@@ -101,7 +102,7 @@ const withBasePage = (params) => WrappedComponent => {
     }
     return componentProps
   }
-  return connect()(BasePage)
+  return connect(authSelector)(BasePage)
 }
 
 export default withBasePage

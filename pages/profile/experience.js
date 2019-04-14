@@ -12,6 +12,7 @@ import pick from 'lodash/pick'
 
 function Experience(props) {
   const { onDelete, onEdit } = props
+  console.log('props: ', props);
   return (
     <ProfilePage
       columns={getColumns()}

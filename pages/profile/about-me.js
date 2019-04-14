@@ -15,8 +15,8 @@ import {
   SetUserAuth
 } from 'redux/auth/actions'
 import day from 'dayjs'
-import { createSelector } from 'reselect'
 import { formatDateToISO, formatISOToDate } from 'lib/tools'
+import authSelector from 'redux/auth/selector'
 
 function Info({ label, value }) {
   return (
@@ -76,11 +76,7 @@ function AboutMe(props) {
   }
 }
 
-const selector = createSelector(
-  state => state.auth.user,
-  user => ({ user })
-)
 export default compose(
   withAuth(),
-  connect(selector)
+  connect(authSelector)
 )(AboutMe)
