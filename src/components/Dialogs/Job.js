@@ -9,22 +9,25 @@ import Select from 'react-select'
 import barangay from 'lib/constants/address/barangay'
 import municipality from 'lib/constants/address/municipality'
 import province from 'lib/constants/address/province'
-import region from 'lib/constants/address/region'
+import { connect } from 'react-redux'
+import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
 
 const barangayOptions = barangay.RECORDS
 const municaplityOptions = municipality.RECORDS
 const provinceOptions = province.RECORDS
-const regionOptions = region.RECORDS
 
 function Job(props) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  const { formState, formHandlers } = props
+  const { formState, formHandlers, options, dispatch } = props
   const { fields, errors } = formState
   const {
     province: provinceField = {},
     municipality: municipalityField = {}
   } = fields
   const { onElementChange, onChange } =  formHandlers
+  
+  useFormOptions({ dispatch, options, optionKeys: [{ key: 'jobCategories' }] })
+
   return (
     <>
       <TextField
@@ -40,11 +43,20 @@ function Job(props) {
         editorState={editorState}
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"
-        onEditorStateChange={editorState => setEditorState(editorState)}
+        onEditorStateChange={newState => {
+          setEditorState(newState)
+          onChange('description', convertToRaw(newState.getCurrentContent()))
+        }}
       />
       <CreatableInput
         value={fields.skills}
         onChange={value => onChange('skills', value)}
+      />
+      <Select
+        getOptionLabel={(e) => e.name}
+        getOptionValue={(e) => e.id}
+        onChange={value => onChange('job_category_id', value.id)}
+        options={options.jobCategories || []}
       />
       <Select
         isSearchable
@@ -82,5 +94,6 @@ function Job(props) {
 }
 
 export default compose(
-  withDialog()
+  withDialog(),
+  connect(formOptionsSelector)
 )(Job)

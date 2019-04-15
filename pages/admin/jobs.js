@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-// import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
 import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
-// import useForm from 'lib/hooks/useForm'
 import Button from '@material-ui/core/Button';
 import {
   ShowDialog
 } from 'redux/app/actions'
-// import { EditorState, convertToRaw } from 'draft-js';
-// import { Editor } from 'react-draft-wysiwyg'
 
 
 
@@ -87,7 +83,8 @@ function Jobs(props) {
                 initialFields: {},
                 title: 'New Job',
                 fullWidth: true,
-                maxWidth: 'lg'
+                maxWidth: 'xl',
+                onValid: data => console.log('data', data)
               }
             }))
           }}

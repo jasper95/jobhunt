@@ -4,26 +4,24 @@ import TextField from '@material-ui/core/TextField';
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
-import jobCategory from 'lib/constants/jobCategory'
 import Select from 'react-select'
+import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
+import { connect } from 'react-redux'
 
 function EducationDialog(props) {
-  const { formState, formHandlers } = props
+  const { formState, formHandlers, options } = props
   const { fields, errors } = formState
   const { onElementChange, onChange } =  formHandlers
-  console.log('fields', fields)
+  useFormOptions({ dispatch, options, optionKeys: [{ key: 'jobCategories' }] })
   return (
     <>
-
       <Select
         isSearchable
-        getOptionLabel={(e) => e.label}
-        onChange={({value}) => onChange('name', value)}
-        options={jobCategory.map(e => ({ label: e, value: e}))}
-        value={{ value: fields.name, label: fields.name }}
+        getOptionLabel={(e) => e.name}
+        getOptionValue={(e) => e.id}
+        onChange={value => onChange('job_category_id', value.id)}
+        options={options.jobCategories || []}
       />
-
-
       <TextField
         id='qualification'
         label='Qualification'
@@ -82,7 +80,8 @@ function validator(data) {
 }
 
 const Dialog = compose(
-  withDialog()
+  withDialog(),
+  connect(formOptionsSelector)
 )(EducationDialog)
 
 Dialog.defaultProps = {
