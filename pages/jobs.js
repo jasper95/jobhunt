@@ -68,7 +68,8 @@ function JobDetail(props) {
       data: {
         ...data,
         user_id: user.id,
-        job_id: job.id
+        job_id: job.id,
+        company_id: job.company_id
       },
       node: 'application',
       sucessMessage: 'Application successfully submitted',

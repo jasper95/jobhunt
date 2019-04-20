@@ -55,11 +55,18 @@ function Row(props) {
     component: Cell} = props
   let children
   if (type === 'actions') {
-    children = actions.map(({ label, className, icon, onClick }) => (
-      <IconButton aria-label={label} key={icon} className={className} onClick={() => onClick(row)}>
-        <Icon children={icon} />
-      </IconButton>
-    ))
+    children = actions.map(({ label, className, icon, onClick, type, component: Action }) => {
+      if (type === 'component') {
+        return (
+          <Action key={icon} row={row} label={label} icon={icon} onClick={onClick} />
+        )
+      }
+      return (
+        <IconButton aria-label={label} key={icon} className={className} onClick={() => onClick(row)}>
+          <Icon children={icon} />
+        </IconButton>
+      )
+    })
   } else if (type === 'component') {
     children = (
       <Cell row={row} />
