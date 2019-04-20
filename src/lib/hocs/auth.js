@@ -47,8 +47,7 @@ export const auth = async(ctx, requireAuth) => {
 
   if (user && !requireAuth) {
     redirectToPath(ctx, '/')
-  } else if (!user && requireAuth) {
+  } else if (!user && requireAuth === true) {
     redirectToPath(ctx, '/login')
   }
-  return user
 }

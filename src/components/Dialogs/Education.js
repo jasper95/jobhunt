@@ -72,7 +72,7 @@ function EducationDialog(props) {
 
 function validator(data) {
   const schema = joi.object().keys({
-    name: joi.string().required().error(() => 'Field of Study is required'),
+    job_category_id: joi.string().required().error(() => 'Field of Study is required'),
     qualification: joi.string().required().error(() => 'Qualification is required'),
     school: joi.string().required().error(() => 'University/Institute is required')
   })

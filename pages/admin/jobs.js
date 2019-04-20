@@ -9,6 +9,9 @@ import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
 import Router from 'next/router'
+import {
+  barangayOptions, municipalityOptions, provinceOptions
+} from 'components/Dialogs/Job'
 
 function Jobs(props) {
   return (
@@ -67,7 +70,7 @@ function getListRequestData({ company_id }) {
   return { company_id, fields: ['id', 'name', 'end_date', 'status', 'description', 'skills', 'slug']}
 }
 
-function dataFormatter(data, action, { user }) {
+function dataFormatter(data, action, { user = {} }) {
   switch(action) {
     case 'EDIT':
       data = {
@@ -76,31 +79,45 @@ function dataFormatter(data, action, { user }) {
       }
       return data
     case 'SAVE_CREATE':
+      data = {
+        ...data,
+        ...pick(user, 'company_id')
+      }
     case 'SAVE_EDIT':
-        data = {
-          ...data,
-          company_id: user.company_id,
-          skills: data.skills.map(e => e.value)
+        return {
+          ...formatMonthYearToISO(data),
+          skills: data.skills.map(e => e.value),
+          address_description: getAddressDescription(data)
         }
-      return formatMonthYearToISO(data)
     default:
       return data
+  }
+}
+
+function getAddressDescription({ province, barangay, municipality }) {
+  return {
+    barangay: barangayOptions.find(e => e.brgyCode === barangay).brgyDesc,
+    municipality: municipalityOptions.find(e => e.citymunCode === municipality).citymunDesc,
+    province: provinceOptions.find(e => e.provCode === province).provDesc,
   }
 }
 
 const basePageProps = {
   getListRequestData,
   node: 'job',
+  reducer: 'profile',
   getListRequestAction: GetProfileData,
   dataPropKey: 'jobs',
   dialogPath: 'Job',
   dialogProps: {
     fullWidth: true,
-    maxWidth: 'xl'
+    maxWidth: 'lg'
   },
   pageName: 'Job',
   dataFormatter
 }
+
+export { dataFormatter }
 
 export default compose(
   withAuth(),

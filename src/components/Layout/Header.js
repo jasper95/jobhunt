@@ -34,7 +34,9 @@ function Header(props) {
         <Typography variant="h6" color="inherit" noWrap>
           Company name
         </Typography>
-        <Button>Home</Button>
+        <Link href='/'>
+          <Button>Home</Button>
+        </Link>
         <Button>Search</Button>
         {isAuthenticated && (
           <>

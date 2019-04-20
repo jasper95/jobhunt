@@ -1,27 +1,34 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Page from 'components/Layout/Page'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import api from 'lib/api'
 import { formatISOToDate } from 'lib/tools'
 import draftToHtml from 'draftjs-to-html';
-// import {Editor, convertFromRaw, EditorState, convertToRaw} from 'draft-js';
-
+import { compose } from 'redux';
+import withAuth from 'lib/hocs/auth';
+import withDetailsPage from 'lib/hocs/detailsPage';
+import { connect } from 'react-redux'
+import authSelector from 'redux/auth/selector'
+import {
+  GetJobData
+} from 'redux/job/actions'
+import {
+  ShowDialog,
+  Create
+} from 'redux/app/actions'
+import { dataFormatter } from './admin/jobs'
 
 function JobDetail(props) {
-  const { job } = props
-  console.log('job: ', job);
-  // const job = {
-  //   id: '1',
-  //   name: 'Software Developer',
-  //   address: 'Mandaue City, Cebu',
-  //   expiry_date: 'December 31, 2019',
-  //   details: 'Lorem ipsum',
-  //   company: 'InternLink',
-  //   company_img_url: '/static/img/default-company.png'
-  // }
+  let { details: job, onEdit, dispatch } = props
+  job = useMemo(() => ({
+    ...formatISOToDate(job, ['end_date'], 'MMMM DD, YYYY'),
+    description: draftToHtml(job.description),
+  }), [job])
+  const { user } = props
+  const isAdminView = user && job.company_id === user.company_id
+  const isApplied = !isAdminView && job.applicants.includes(user.id)
   return (
     <Page>
       <Paper>
@@ -34,23 +41,57 @@ function JobDetail(props) {
         <span>Details</span>
         <hr />
         <div dangerouslySetInnerHTML={{__html: job.description }} />
-        <Button children='Apply' />
+        {isAdminView && (
+          <Button onClick={onEdit} children='Edit' />
+        )}
+        {isApplied ? (
+          <Typography variant='p' children='Application submitted'/>
+        ) : (
+          <Button onClick={handleApply} children='Apply' />
+        )}
       </Paper>
     </Page>
   )
-}
 
-JobDetail.getInitialProps = async(ctx) => {
-  let job = await api({
-    url: `/job/${ctx.query.id}`
-  }, ctx, false)
-  // console.log('job', job)
-  job = {
-    ...formatISOToDate(job, ['end_date'], 'MMMM DD, YYYY'),
-    description: draftToHtml(job.description)
+  function handleApply() {
+    dispatch(ShowDialog({
+      path: 'Application',
+      props: {
+        title: 'Make your pitch',
+        onValid: createApplication
+      }
+    }))
   }
-  return { job: formatISOToDate(job, ['end_date'], 'MMMM DD, YYYY') }
+
+  function createApplication(data) {
+    dispatch(Create({
+      data: {
+        ...data,
+        user_id: user.id,
+        job_id: job.id
+      },
+      node: 'application',
+      sucessMessage: 'Application successfully submitted',
+    }))
+  }
 }
 
+const basePageProps = {
+  node: 'job',
+  reducer: 'job',
+  detailsRequestAction: GetJobData,
+  dataPropKey: 'details',
+  dialogPath: 'Job',
+  dialogProps: {
+    fullWidth: true,
+    maxWidth: 'lg'
+  },
+  pageName: 'Job',
+  dataFormatter
+}
 
-export default JobDetail
+export default compose(
+  withAuth('optional'),
+  withDetailsPage(basePageProps),
+  connect(authSelector)
+)(JobDetail)

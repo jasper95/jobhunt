@@ -26,7 +26,7 @@ function* Logout() {
       url: '/logout',
       method: 'POST'
     })
-    cookie.remove('token', { path: '' })
+    cookie.remove('token')
     Router.push('/login')
     yield put(SetUserAuth(null))
   } catch(err) {

@@ -5,6 +5,7 @@ import AboutMe from './AboutMe'
 import Job from './Job'
 import Confirm from './Confirm'
 import AdminProfile from './AdminProfile'
+import Application from './Application'
 
 export default {
   Education,
@@ -13,5 +14,6 @@ export default {
   AboutMe,
   Job,
   Confirm,
-  AdminProfile
+  AdminProfile,
+  Application
 }

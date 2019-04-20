@@ -9,17 +9,19 @@ import {
   Delete
 } from 'redux/app/actions'
 import pick from 'lodash/pick'
-import authSelector from 'redux/auth/selector'
+import { createSelector } from 'reselect'
+// import authSelector from 'redux/auth/selector'
 
 const withBasePage = (params) => WrappedComponent => {
   const {
     node,
-    getListRequestData,
+    getListRequestData = () => ({}),
     dataFormatter = (e) => e,
     pageName,
     dialogPath,
     getListRequestAction,
     dataPropKey,
+    reducer,
     dialogProps = {}
   } = params
   function BasePage(props) {
@@ -91,9 +93,11 @@ const withBasePage = (params) => WrappedComponent => {
       }))
     }
   }
+
   BasePage.displayName = `withBasePage(${WrappedComponent.displayName ||
     WrappedComponent.name ||
     'Component'})`
+
   BasePage.getInitialProps = async(ctx) => {
     let componentProps = {}
     const { store } = ctx
@@ -109,7 +113,14 @@ const withBasePage = (params) => WrappedComponent => {
     }
     return componentProps
   }
-  return connect(authSelector)(BasePage)
+
+  const basePageSelector = createSelector(
+    state => state[reducer][dataPropKey],
+    state => state.auth.user,
+    (rows, user) => ({ rows, user })
+  )
+
+  return connect(basePageSelector)(BasePage)
 }
 
 export default withBasePage

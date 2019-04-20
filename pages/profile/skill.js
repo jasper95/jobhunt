@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
-import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
+import ProfilePage, { profilePropsKeys, dataFormatter } from 'components/Profile/ProfilePage'
 import {
   GetProfileData
 } from 'redux/profile/actions'
@@ -53,16 +53,6 @@ function getListRequestData(user) {
   return { user_id: user.id, fields: ['id', 'name', 'level']}
 }
 
-function dataFormatter(data, action, { user }) {
-  switch(action) {
-    case 'SAVE_CREATE':
-      data.user_id = user.id
-      return data
-    default:
-      return data
-  }
-}
-
 const basePageProps = {
   getListRequestData,
   dataFormatter,
@@ -70,7 +60,8 @@ const basePageProps = {
   dialogPath: 'Skill',
   pageName: 'Skill',
   getListRequestAction: GetProfileData,
-  dataPropKey: 'skills'
+  dataPropKey: 'skills',
+  reducer: 'profile'
 }
 
 export default compose(

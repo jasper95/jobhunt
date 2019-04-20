@@ -115,9 +115,6 @@ function Job(props) {
   }
 
   function getValue(field) {
-    if(field === 'skills') {
-      return useMemo(() => fields.job_category_id ? jobCategories.find(e => e.id === fields.job_category_id) : '', [options, fields[field]])
-    }
     if (field === 'job_category_id') {
       const { jobCategories = [] } = options
       return useMemo(() => fields.job_category_id ? jobCategories.find(e => e.id === fields.job_category_id) : '', [options, fields[field]])
@@ -157,5 +154,7 @@ Dialog.defaultProps = {
     }
   }
 }
+
+export { provinceOptions, barangayOptions, municipalityOptions }
 
 export default Dialog
