@@ -18,6 +18,7 @@
     "dotenv": "6.1.0",
     "dotenv-webpack": "^1.7.0",
     "draft-js": "^0.10.5",
+    "draftjs-to-html": "^0.8.4",
     "express": "4.16.4",
     "express-session": "1.15.6",
     "googleapis": "34.0.0",

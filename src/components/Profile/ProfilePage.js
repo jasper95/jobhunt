@@ -30,7 +30,7 @@ function ProfilePage(props) {
   )
 }
 
-const profilePropsKeys = ['pageName', 'pageIcon', 'onNew', 'rows', 'dataPropKey']
+const profilePropsKeys = ['onNew', 'rows', 'dataPropKey']
 
 const selector = createSelector(
   (state, { dataPropKey }) => state.profile[dataPropKey],

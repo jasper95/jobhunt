@@ -12,10 +12,11 @@ import pick from 'lodash/pick'
 
 function Experience(props) {
   const { onDelete, onEdit } = props
-  console.log('props: ', props);
   return (
     <ProfilePage
       columns={getColumns()}
+      pageIcon='work'
+      pageName='Experience'
       {...pick(props, profilePropsKeys)}
     />
   )
@@ -58,12 +59,14 @@ function getListRequestData(user) {
   return { user_id: user.id, fields: ['id', 'position', 'start_date', 'end_date', 'company']}
 }
 
-function dataFormatter(data, action) {
+function dataFormatter(data, action, { user }) {
   switch(action) {
     case 'EDIT':
       return formatISOToDate(data)
     case 'SAVE_EDIT':
+      return formatMonthYearToISO(data)
     case 'SAVE_CREATE':
+      data.user_id = user.id
       return formatMonthYearToISO(data)
     default:
       return data
@@ -74,8 +77,8 @@ const basePageProps = {
   getListRequestData,
   node: 'experience',
   dataPropKey: 'experiences',
+  dialogPath: 'Experience',
   pageName: 'Experience',
-  pageIcon: 'work',
   getListRequestAction: GetProfileData,
   dataFormatter 
 }

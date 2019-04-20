@@ -35,7 +35,7 @@ export function Update(payload) {
       requestConfig: {
         method: 'PUT',
         data,
-        url: `/${node}/${data.id}`
+        url: `/${node}`
       },
       data,
       ...restPayload
@@ -57,7 +57,7 @@ export function Delete(payload) {
       requestConfig: {
         method: 'DELETE',
         data,
-        url: `/${node}/${data.id}`
+        url: `/${node}`
       },
       data,
       ...restPayload

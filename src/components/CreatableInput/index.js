@@ -20,7 +20,9 @@ function CreatableInput(props) {
       case 'Enter':
       case 'Tab':
         if (!value.map(e => e.value).includes(inputValue)) {
-          setValue([...value, createOption(inputValue)])
+          const newValue = [...value, createOption(inputValue)]
+          setValue(newValue)
+          onChange(newValue)
           setInputValue('')
         }
         event.preventDefault();

@@ -3,7 +3,8 @@ import createReducer from 'lib/createReducer'
 const initialState = {
   experiences: [],
   skills: [],
-  educations: []
+  educations: [],
+  jobs: []
 }
 
 const reducer = {

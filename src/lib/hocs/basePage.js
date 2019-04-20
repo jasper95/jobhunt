@@ -17,8 +17,10 @@ const withBasePage = (params) => WrappedComponent => {
     getListRequestData,
     dataFormatter = (e) => e,
     pageName,
+    dialogPath,
     getListRequestAction,
-    dataPropKey
+    dataPropKey,
+    dialogProps = {}
   } = params
   function BasePage(props) {
     const { dispatch } = props
@@ -35,11 +37,12 @@ const withBasePage = (params) => WrappedComponent => {
 
     function handleNew() {
       dispatch(ShowDialog({
-        path: pageName,
+        path: dialogPath,
         props: {
+          ...dialogProps,
           title: `New ${pageName}`,
           onValid: (data) => dispatch(Create({
-            data: dataFormatter(data, 'SAVE_CREATE'),
+            data: dataFormatter(data, 'SAVE_CREATE', props),
             node,
             callback: getList
           }))
@@ -47,17 +50,21 @@ const withBasePage = (params) => WrappedComponent => {
       }))
     }
 
-    function handleEdit(row) {
+    async function handleEdit(row) {
+      const data = await api({
+        url: `/${node}/${row.id}`
+      })
       dispatch(ShowDialog({
-        path: pageName,
+        path: dialogPath,
         props: {
+          ...dialogProps,
           title: `Edit ${pageName}`,
-          initialFields: dataFormatter(row, 'EDIT'),
+          initialFields: dataFormatter(data, 'EDIT', props),
           onValid: data => dispatch(Update({
-            data: dataFormatter(data, 'SAVE_EDIT'),
+            data: dataFormatter(data, 'SAVE_EDIT', props),
             node,
             callback: getList
-          }))
+          })),
         }
       }))
     }

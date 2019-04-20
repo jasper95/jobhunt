@@ -9,7 +9,7 @@ import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
 import { connect } from 'react-redux'
 
 function EducationDialog(props) {
-  const { formState, formHandlers, options } = props
+  const { formState, formHandlers, options, dispatch } = props
   const { fields, errors } = formState
   const { onElementChange, onChange } =  formHandlers
   useFormOptions({ dispatch, options, optionKeys: [{ key: 'jobCategories' }] })

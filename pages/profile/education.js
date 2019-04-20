@@ -15,6 +15,8 @@ function Education(props) {
   return (
     <ProfilePage
       columns={getColumns()}
+      pageIcon='school'
+      pageName='Education'
       {...pick(props, profilePropsKeys)}
     />
   )
@@ -57,12 +59,14 @@ function getListRequestData(user) {
   return { user_id: user.id, fields: ['id', 'name', 'start_date', 'end_date', 'qualification', 'school']}
 }
 
-function dataFormatter(data, action) {
+function dataFormatter(data, action, { user }) {
   switch(action) {
     case 'EDIT':
       return formatISOToDate(data)
-    case 'SAVE_EDIT':
+      case 'SAVE_EDIT':
+      return formatMonthYearToISO(data)
     case 'SAVE_CREATE':
+      data.user_id = user.id
       return formatMonthYearToISO(data)
     default:
       return data
@@ -73,7 +77,7 @@ const basePageProps = {
   getListRequestData,
   node: 'education',
   pageName: 'Education',
-  pageIcon: 'school',
+  dialogPath: 'Education',
   getListRequestAction: GetProfileData,
   dataPropKey: 'educations',
   dataFormatter
