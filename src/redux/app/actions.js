@@ -1,4 +1,5 @@
 import capitalize from 'lodash/capitalize'
+import { getFileLink } from 'lib/tools'
 
 export function Create(payload) {
   const {
@@ -40,6 +41,35 @@ export function Update(payload) {
       data,
       ...restPayload
     }
+  }
+}
+
+export function Upload(payload) {
+  const {
+    data,
+    node,
+    successMessage = 'File sucessfully uploaded',
+    ...restPayload
+  } = payload
+  return {
+    type: 'MUTATION_REQUESTED',
+    payload: {
+      successMessage,
+      requestConfig: {
+        method: 'POST',
+        data,
+        url: '/file/upload'
+      },
+      data,
+      ...restPayload
+    }
+  }
+}
+
+export function Download(payload) {
+  return {
+    type: 'DOWNLOAD_REQUESTED',
+    payload
   }
 }
 

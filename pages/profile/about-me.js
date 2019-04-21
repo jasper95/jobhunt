@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {
   ShowDialog,
-  Update
+  Update,
+  Upload
 } from 'redux/app/actions'
 import {
   SetUserAuth
@@ -39,6 +40,10 @@ function AboutMe(props) {
           <Icon children='account_box'/> <span>About Me</span>
         </div>
         <div>
+          <Button
+            onClick={handleUploadResume}
+            children='Upload Resume'
+          />
           <Info label='Name' value={`${user.first_name} ${user.last_name}`} />
           <Info label='Contact Number' value={user.contact_number} />
           <Info label='Email' value={user.email} />
@@ -68,6 +73,25 @@ function AboutMe(props) {
             node: 'user',
             sucessMessage: 'Personal Details successfull updated',
             callback: handleUpdateCallback
+          }))
+        }
+      }
+    }))
+  }
+
+  function handleUploadResume() {
+    dispatch(ShowDialog({
+      path: 'Upload',
+      props: {
+        title: 'Upload Resume',
+        onValid: (data) => {
+          dispatch(Upload({
+            data: {
+              ...data,
+              node: 'user',
+              id: user.id,
+              type: 'resume'
+            }
           }))
         }
       }

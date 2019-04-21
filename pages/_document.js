@@ -26,6 +26,7 @@ class MyDocument extends Document {
           <link rel="stylesheet" type="text/css" href="/static/css/rangeslider.css" />
         </Head>
         <body>
+          <a id='invisible-link'></a>
           <Main />
           <NextScript />
         </body>

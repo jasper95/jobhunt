@@ -4,7 +4,8 @@ import {
 } from 'redux/profile/actions'
 import {
   Update,
-  ShowDialog
+  ShowDialog,
+  Download
 } from 'redux/app/actions'
 import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
@@ -13,8 +14,10 @@ import pick from 'lodash/pick'
 import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon'
+import { getFileLink } from 'lib/tools'
 
 function Jobs(props) {
+  const { dispatch } = props
   return (
     <ProfilePage
       columns={getColumns()}
@@ -48,7 +51,7 @@ function Jobs(props) {
           {
             icon: 'cloud_download',
             label: 'Download Resume',
-            onClick: () => console.log('Edit')
+            onClick: (row) => dispatch(Download({ id: row.user_id, type: 'resume', node: 'user', attachment: true }))
           },
           {
             icon: 'check_circle',
@@ -86,11 +89,10 @@ function Jobs(props) {
         }))
       }
     }))
-    // dispatch(Update({
-    //   data,
-    //   node: 'application',
-    //   callback: onGetList
-    // }))
+  }
+
+  function handleDownloadResume() {
+
   }
 }
 

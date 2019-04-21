@@ -1,5 +1,6 @@
 import joi from 'joi'
 import day from 'dayjs'
+import queryString from 'query-string'
 
 export function getValidationResult(data, schema) {
   const validationResult = joi.validate(data, schema, { abortEarly: false, allowUnknown: true })
@@ -41,4 +42,15 @@ export function formatDateToISO(data, keys = ['start_date', 'end_date'], format 
     acc[key] = value ? day(value, format).toISOString() : ''
     return acc
   }, {...data})
+}
+
+export function getFileLink(data) {
+  return `${process.env.API_URL}/file/download?${queryString.stringify(data)}`
+}
+
+export function getDownloadFilename(headers = {}) {
+  const { 'content-disposition' : disposition = '' } = headers
+  const keyValue = disposition.split(';').find(e => e.includes('filename')) || ''
+  const [,filename] = keyValue.split('=')
+  return filename
 }

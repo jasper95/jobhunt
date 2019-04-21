@@ -44,9 +44,10 @@ function JobDetail(props) {
         {isAdminView && (
           <Button onClick={onEdit} children='Edit' />
         )}
-        {isApplied ? (
+        {isApplied && (
           <Typography variant='p' children='Application submitted'/>
-        ) : (
+        )}
+        {!isAdminView && !isApplied && (
           <Button onClick={handleApply} children='Apply' />
         )}
       </Paper>

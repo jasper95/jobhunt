@@ -4,7 +4,7 @@ import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
 import omit from 'lodash/omit'
 
-const axiosInstance = axios
+export const axiosInstance = axios
   .create({
     auth: {
       username: process.env.API_USERNAME,
@@ -55,22 +55,31 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
     .then(({ data }) => data)
     .catch((err) => {
       const { response } = err
-      const error = { type: 'ERROR', payload: { message: '' } }
       if (response.status === 401) {
         cookie.remove('token')
-        error.type = 'UNAUTHORIZED'
         if (redirectUnauthorized) {
           redirectToPath(ctx, '/login')
         }
-      } else if (response.status === 400) {
-        error.payload.message = response.data.message
-      } else {
-        error.payload.message = 'Network Error'
       }
+      const error = formatError(response)
       if (store) {
         store.dispatch(error)
       } else {
         throw error
       }
     })
+}
+
+export function formatError(response) {
+  const error = { type: 'ERROR', payload: { message: '' } }
+  if (response.status === 401) {
+    error.type = 'UNAUTHORIZED'
+  } else if (response.status === 500) {
+    error.payload.message = 'Network Error'
+  } else if (response.status === 404) {
+    error.payload.message = 'Resource Not Found'
+  } else {
+    error.payload.message = response.data.message
+  } 
+  return error
 }
