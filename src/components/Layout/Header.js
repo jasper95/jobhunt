@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Logout } from 'redux/auth/actions'
@@ -14,8 +13,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Router from 'next/router'
 
 const profileLink = {
-  ADMIN: '/profile/experience',
-  USER: '/admin/profile'
+  USER: '/profile/experience',
+  ADMIN: '/admin/profile'
 }
 
 function Header(props) {
@@ -26,13 +25,9 @@ function Header(props) {
   return (
     <AppBar position="static" color="default">
       <Toolbar>
-        <Typography variant="h6" color="inherit" noWrap>
-          Company name
-        </Typography>
         <Link href='/'>
           <Button>Home</Button>
         </Link>
-        <Button>Search</Button>
         {isAuthenticated && (
           <>
             <IconButton
