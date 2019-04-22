@@ -1,5 +1,6 @@
 import Router from 'next/router';
 import { takeLatest, put, call } from 'redux-saga/effects'
+import { ShowSuccess } from 'redux/app/actions'
 import cookie from 'js-cookie'
 import { SetUserAuth } from './actions'
 import omit from 'lodash/omit'
@@ -36,14 +37,12 @@ function* Logout() {
 
 function* Signup({ payload }) {
   try {
-    const response = yield call(api, {
+    yield call(api, {
       url: '/signup',
       method: 'POST',
       data: payload
     })
-    cookie.set('token', response.token, { expires: 360000 })
-    yield put(SetUserAuth(omit(response, 'token')))
-    Router.push('/')
+    yield put(ShowSuccess({ message: 'Account successfully registered. Please verify your email to login' }))
   } catch(err) {
     yield put(err)
   }

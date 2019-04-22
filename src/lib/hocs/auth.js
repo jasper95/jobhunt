@@ -25,6 +25,7 @@ const withAuth = (requireAuth = true) => WrappedComponent => {
 export default withAuth
 
 export const auth = async(ctx, requireAuth) => {
+  console.log('wew')
   const { store } = ctx
   const { token } = nextCookie(ctx)
   let { user } = store.getState().auth
@@ -44,7 +45,8 @@ export const auth = async(ctx, requireAuth) => {
       store.dispatch(SetUserAuth(user))
     }
   }
-
+  console.log('requireAuth: ', requireAuth);
+  console.log('user: ', user);
   if (user && !requireAuth) {
     redirectToPath(ctx, '/')
   } else if (!user && requireAuth === true) {

@@ -11,7 +11,9 @@ import { Login } from 'redux/auth/actions'
 import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
 import withAuth from 'lib/hocs/auth';
+import api, { redirectToPath } from 'lib/api'
 import { getValidationResult } from 'lib/tools'
+import Page from 'components/Layout/Page'
 import joi from 'joi'
 
 const initialFields = {
@@ -21,7 +23,7 @@ const initialFields = {
 }
 
 function LoginPage(props){
-  const { dispatch } = props
+  const { dispatch, verified } = props
   const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
@@ -30,61 +32,88 @@ function LoginPage(props){
   } = formHandlers
   const { fields, errors } = formState
   return (
-    <div style={{ textAlign: 'center', margin: '0 20px' }}>
-      <form noValidate autoComplete='off'>
-        <TextField
-          id='email'
-          label='Email'
-          type='email'
-          margin='normal'
-          variant='outlined'
-          onChange={onElementChange}
-          helperText={errors.email}
-          error={!!errors.email}
-          value={fields.email || ''}
-        />
-        <br/>
-        <TextField
-          id='password'
-          variant='outlined'
-          type={fields.isShowPassword ? 'text': 'password' }
-          label='Password'
-          value={fields.password || ''}
-          error={!!errors.password}
-          helperText={errors.password}
-          onChange={onElementChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position='end'>
-                <IconButton
-                  aria-label='Toggle password visibility'
-                  onClick={() => onChange('isShowPassword', !fields.isShowPassword)}
-                >
-                  {fields.isShowPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <br/>
-        <Button
-          variant='contained'
-          color='primary'
-          style={styleLoginButton}
-          onClick={onValidate}
-          children='Login'
-        />
-        <span>No Existing Account?</span>
-        <Link href="/signup">
-          <a>Signup Now</a>
-        </Link>
-      </form>
-    </div>
+    <Page>
+      {verified && (
+        <div>
+          <span>Account successfully verified</span>
+        </div>
+      )}
+      <div style={{ textAlign: 'center', margin: '0 20px' }}>
+        <form noValidate autoComplete='off'>
+          <TextField
+            id='email'
+            label='Email'
+            type='email'
+            margin='normal'
+            variant='outlined'
+            onChange={onElementChange}
+            helperText={errors.email}
+            error={!!errors.email}
+            value={fields.email || ''}
+          />
+          <br/>
+          <TextField
+            id='password'
+            variant='outlined'
+            type={fields.isShowPassword ? 'text': 'password' }
+            label='Password'
+            value={fields.password || ''}
+            error={!!errors.password}
+            helperText={errors.password}
+            onChange={onElementChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label='Toggle password visibility'
+                    onClick={() => onChange('isShowPassword', !fields.isShowPassword)}
+                  >
+                    {fields.isShowPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <br/>
+          <Button
+            variant='contained'
+            color='primary'
+            style={styleLoginButton}
+            onClick={onValidate}
+            children='Login'
+          />
+          <span>No Existing Account?</span>
+          <Link href="/signup">
+            <a>Signup Now</a>
+          </Link>
+        </form>
+      </div>
+    </Page>
   )
 
   function onValid(data) {
     dispatch(Login(data))
   }
+}
+
+LoginPage.getInitialProps = async(ctx) => {
+  const { query, isServer } = ctx
+  const props = {}
+  if (query.user_id && isServer) {
+    const { user_id } = query
+    await api({
+      url: '/user',
+      method: 'PUT',
+      data: {
+        id: user_id,
+        verified: true
+      }
+    }, ctx)
+    redirectToPath(ctx, '/login?verified=true')
+  } else if(query.verified) {
+    props.verified = true
+  }
+  return props
 }
 
 function validator(data) {

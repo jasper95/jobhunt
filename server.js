@@ -34,6 +34,11 @@ app.prepare().then(() => {
     return app.render(req, res, '/jobs', { id })
   });
 
+  server.get('/confirm', (req, res) => {
+    const { user_id } = req.query
+    return app.render(req, res, '/login', { user_id })
+  })
+
   server.get('*', (req, res) => handle(req, res));
 
   // starting express server

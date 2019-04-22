@@ -35,19 +35,23 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
   }
   if (isServer) {
     const { token } = nextCookie(ctx)
-    config = {
-      ...config,
-      headers: {
-        token,
-       ...omit(req.headers, 'cookie')
+    if (token) {
+      config = {
+        ...config,
+        headers: {
+          token,
+         ...omit(req.headers, 'cookie')
+        }
       }
     }
   } else {
     const token = cookie.get('token')
-    config = {
-      ...config,
-      headers: {
-        token
+    if (token) {
+      config = {
+        ...config,
+        headers: {
+          token
+        }
       }
     }
   }

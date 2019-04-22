@@ -1,33 +1,28 @@
-import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react'
 import Link from 'next/link';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
 import { Logout } from 'redux/auth/actions'
-import { makeStyles } from '@material-ui/core/styles';
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Router from 'next/router'
 
-// const useStyles = makeStyles({
-//   bigAvatar: {
-//     margin: 10,
-//     width: 60,
-//     height: 60,
-//   },
-//   appBar: {
-//     position: 'relative',
-//   },
-//   toolbarTitle: {
-//     flex: 1,
-//   }
-// });
+const profileLink = {
+  ADMIN: '/profile/experience',
+  USER: '/admin/profile'
+}
 
 function Header(props) {
-  // const classes = useStyles();
-  const { isAuthenticated, dispatch } = props
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const { isAuthenticated, dispatch, user } = props
   return (
     <AppBar position="static" color="default">
       <Toolbar>
@@ -40,20 +35,62 @@ function Header(props) {
         <Button>Search</Button>
         {isAuthenticated && (
           <>
-            <Avatar alt="Remy Sharp" src="/static/img/default-avatar.png"/>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => {
-                dispatch(Logout())
+            <IconButton
+              aria-owns={isMenuOpen ? 'profile-menus' : undefined}
+              aria-haspopup="true"
+              onClick={(event) => {
+                setIsMenuOpen(true)
+                setAnchorEl(event.target)
               }}
-              children='Logout'
-            />
+              color="inherit"
+            >
+              <Avatar alt="Remy Sharp" src="/static/img/default-avatar.png"/>
+            </IconButton>
+            {renderMenus()}
           </>
         )}
       </Toolbar>
     </AppBar>
   );
+
+  function renderMenus() {
+    const menus = [
+      {
+        label: 'Profile',
+        onClick: () => {
+          setAnchorEl(null)
+          setIsMenuOpen(false)
+          Router.push(profileLink[user.role])
+        }
+      },
+      {
+        label: 'Logout',
+        onClick: () => {
+          setAnchorEl(null)
+          setIsMenuOpen(false)
+          dispatch(Logout())
+        }
+      }
+    ]
+    return (
+      <Menu
+        id='profile-menus'
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      >
+        {menus.map(({ label, onClick }) => (
+          <MenuItem
+            onClick={onClick}
+          >
+            {label}
+          </MenuItem>
+        ))}
+      </Menu>
+    )
+  }
 }
 
 const selector = createSelector(
