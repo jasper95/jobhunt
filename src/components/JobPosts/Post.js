@@ -26,7 +26,6 @@ const styles = {
 
 function Post(props) {
   const { classes, post } = props;
-  console.log('post: ', post);
   return (
     <Card className={classes.card}>
       <CardContent>
