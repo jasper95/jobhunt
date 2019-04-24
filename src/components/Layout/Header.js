@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import Link from 'next/link';
 import Paper from 'react-md/lib/Papers/Paper'
 import Toolbar from 'react-md/lib/Toolbars/Toolbar'
-import DropdownMenu from 'react-md/lib/Menus/DropdownMenu'
+import MenuButton from 'react-md/lib/Menus/MenuButton'
 import AccessibleFakeButton from 'react-md/lib/Helpers/AccessibleFakeButton'
 import Avatar from 'react-md/lib/Avatars/Avatar'
 import Button from 'react-md/lib/Buttons/Button'
@@ -20,28 +20,24 @@ const profileLink = {
 function Header(props) {
   const { isAuthenticated, dispatch, user } = props
   return (
-    <Paper position="static" color="default">
+    <Paper>
       <Toolbar>
         <Link href='/'>
           <Button flat>Home</Button>
         </Link>
         {isAuthenticated && (
-          <DropdownMenu
+          <MenuButton
+            floating
             id='dropdown'
             menuItems={renderMenus()}
             anchor={{
-              x: DropdownMenu.HorizontalAnchors.CENTER,
-              y: DropdownMenu.VerticalAnchors.OVERLAP,
+              x: MenuButton.HorizontalAnchors.CENTER,
+              y: MenuButton.VerticalAnchors.OVERLAP,
             }}
-            position={DropdownMenu.Positions.TOP_LEFT}
+            position={MenuButton.Positions.TOP_LEFT}
           >
-            <AccessibleFakeButton
-              // component={IconSeparator}
-              iconBefore
-            >
               <Avatar src="/static/img/default-avatar.png" />
-            </AccessibleFakeButton>
-          </DropdownMenu>
+          </MenuButton>
         )}
       </Toolbar>
     </Paper>
