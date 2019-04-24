@@ -10,18 +10,27 @@ import {
 } from 'redux/app/actions'
 
 
+import 'sass/common.scss'
+
 function Page(props) {
   const {
     children, dialog,
-    notification, dispatch
+    notification, dispatch,
+    hasNavigation, hasFooter,
+    pageId
   } = props
   let Dialog
+ 
   if (dialog && dialog.path) {
     Dialog = Dialogs[dialog.path]
   }
+ 
   return (
     <>
-      <Header />
+      {hasNavigation && (
+        <Header />
+      )}
+
       {notification && (
         <Snackbar
           onClose={() => dispatch(HideNotification())}
@@ -29,11 +38,19 @@ function Page(props) {
           {...notification}
         />
       )}
+
       {Dialog && (
         <Dialog {...dialog.props} />
       )}
-      {children}
-      <Footer/>
+
+      <main className={`page page-${pageId}`}>
+        {children}
+      </main>
+
+
+      {hasFooter && (
+        <Footer/>
+      )}
     </>
   )
 }
@@ -47,4 +64,12 @@ const pageSelector = createSelector(
   })
 )
 
-export default connect(pageSelector)(Page)
+const EnhancedPage = connect(pageSelector)(Page)
+
+EnhancedPage.defaultProps = {
+  hasNavigation: true,
+  hasFooter: true,
+  pageId: ''
+}
+
+export default EnhancedPage

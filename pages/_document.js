@@ -8,7 +8,7 @@ class MyDocument extends Document {
     const { pageContext } = this.props;
 
     return (
-      <html lang="en" dir="ltr">
+      <html lang="en" dir="ltr" className="interlink">
         <Head>
           <meta charSet="utf-8" />
           <meta

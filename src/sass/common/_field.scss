@@ -1,0 +1,64 @@
+$fieldBorder: 2px solid $gray-200;
+
+.iField {
+	background-color: #fff;
+	border: $gray-200;
+	padding: .8em;
+	font-size: 1rem;
+	font-family: $font-family;
+	width: 100%;
+	margin-top: 0;
+	margin-bottom: 0em;
+	border: $fieldBorder;
+
+	label {
+		position: relative;
+		top: 0;
+		left: 0;
+		font-size: .8em;
+		font-family: inherit;
+		transform: none !important;
+		color: $gray-300;
+	}
+
+	input {
+		padding: .5em 0;
+		font-size: 1em;
+		color: $black;
+		font-family: $font-family;
+	}
+
+	fieldset {
+		display: none !important;
+	}
+
+	// is compact
+	> div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: nowrap;
+	}
+
+	p:last-child {
+		margin: 0 !important;
+	}
+}
+
+.iField + .iField {
+	border-top: none;
+}
+
+
+
+
+.iFieldRow {
+	.iField + .iField {
+		border-top: $fieldBorder;
+		border-left: none;
+	}
+
+	& + .iField {
+		border-top: none;
+	}
+}

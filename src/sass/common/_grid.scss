@@ -1,0 +1,101 @@
+$margin: .5em;
+
+
+.col {
+	@for $i from $grid-columns through 1 {
+		&-#{$i} {
+			max-width: percentage( $i / $grid-columns);
+			&-guttered {
+				margin: $margin;
+				max-width: calc( #{ percentage( $i / $grid-columns) } - #{ ( $margin * 2) });
+			}
+		}
+
+		&-offset-#{$i} {
+			margin-left: percentage( $i / $grid-columns);
+		}
+	}
+}
+
+@each $screen , $value in $grid-screens {
+	@media only screen and (min-width: #{($value+ 1px)} ) {
+		.col-#{$screen} {
+			@for $i from $grid-columns through 1 {
+				&-#{$i} {
+					max-width: percentage( $i / $grid-columns);
+					&-guttered {
+						margin: $margin;
+						max-width: calc( #{ percentage( $i / $grid-columns) } - #{ ( $margin * 2) });
+					}
+				}
+
+				&-offset-#{$i} {
+					margin-left: percentage( $i / $grid-columns);
+				}
+			}
+		}
+	}
+}
+
+
+.container {
+	width: 100%;
+	max-width: $container-width;
+	margin: 0 auto;
+	padding-right: 1em;
+	padding-left: 1em;
+
+	// .container-sm
+	&-sm {
+		max-width: 900px;
+	}
+
+	@media (max-width: 1025px) {
+		max-width: $container-width-1025;
+	}
+
+	@media (max-width: 769px) {
+		max-width: $container-width-769;
+	}
+}
+
+[class*='col-'] {
+	flex-grow: 1;
+	flex-shrink: 1;
+	width: 100%;
+}
+
+.row {
+	width: 100%;
+}
+
+// positions
+.col ,
+.row {
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	// .col-center
+	// .row-center
+	&-center {
+		justify-content: center;
+		text-align: center;
+	}
+
+	// .col-left
+	// .row-left
+	&-left {
+		justify-content: flex-start;
+		text-align: left;
+	}
+	// .col-right
+	// .row-right
+	&-right {
+		text-align: right;
+		justify-content: flex-end;
+	}
+
+	&-middle {
+		align-items: center;
+	}
+}

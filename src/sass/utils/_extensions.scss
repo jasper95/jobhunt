@@ -1,0 +1,46 @@
+%absoluteFill {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+%fixedFill {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+%bgVerticalPrimaryGradient {
+	background-image: linear-gradient(
+		to top,
+		$primary-color ,
+		$primary-color-darker
+	);
+}
+
+%bgPrimaryGradient {
+	background-image: linear-gradient(
+		90deg,
+		$primary-color ,
+		$primary-color-darker
+	);
+}
+
+%bgBannerGradient {
+	background-image: linear-gradient(
+		135deg,
+		#1836b3 10%,
+		$primary-color 35%,
+		$highlight-color 100%,
+	);
+}
+
+%accentPrimaryGradient {
+	@extend %bgPrimaryGradient;
+	height: .15em;
+	border-radius: 1em;
+}

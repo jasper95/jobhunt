@@ -1,0 +1,96 @@
+.authContainer {
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	align-items: stretch;
+	justify-content: flex-start;
+
+	// .authContainer_content
+	&_content {
+		width: 50%;
+		background-color: $gray-100;
+		padding: 1em 5em;
+
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		flex-direction: column;
+
+		overflow-y: auto;
+
+		// .authContainer_contentHeader
+		&Header {
+			width: 100%;
+
+			// .authContainer_contentHeader_logo
+			&_logo {
+				width: 20em;
+				height: auto;
+				margin-bottom: 5em;
+				cursor: pointer;
+			}
+
+			// .authContainer_contentHeader_title
+			&_title {
+				font-size: 2em;
+				margin-top: 0;
+				margin-bottom: .5em;
+			}
+
+			&_msg {
+				font-size: 1.25em;
+				line-height: 1.25;
+				margin-top: 0;
+				margin-bottom: 2em;
+				color: $gray-400;
+			}
+		}
+	}
+
+	// .authContainer_bg
+	&_bg {
+		width: 50%;
+		background-image: url('/static/img/auth_bg.png');
+		background-position: 50% 50%;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+
+
+	// .authContainer_form
+	&_form {
+		width: 100%;
+
+		// .authContainer_form_action
+		&_action {
+			margin-top: 2em;
+			.iBttn:not(:last-child) {
+				margin-right: 1em;
+			}
+		}
+
+		// .authContainer_form_msg
+		&_msg {
+			width: 100%;
+			padding: 1em;
+			font-size: 1em;
+			text-align: center;
+			margin-bottom: 1em;
+
+			p {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+
+			// .authContainer_form_msg-success
+			&-success {
+				background-color: $success;
+				color: $white;
+				font-weight: 600;
+			}
+
+		}
+	}
+}

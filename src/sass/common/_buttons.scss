@@ -1,0 +1,132 @@
+.iBttn {
+	span + i {
+		margin-right: 0;
+		margin-left: 1em;
+	}
+
+	&:hover {
+		background-color: $primary-color-100;
+	}
+}
+
+// ========================
+// BUTTON COLORS
+// ========================
+$btn-colors: (
+	'red': $red,
+	'orange': $orange,
+	'yellow': $yellow,
+	'green': $green,
+	'jade': $jade,
+	'teal': $teal,
+	'blue': $blue,
+	'indigo': $indigo,
+	'purple': $purple,
+	'violet': $violet,
+	'white': $white,
+	'primary': $primary-color,
+	'primary-100': $primary-color-100,
+	'secondary': $secondary-color,
+	'secondary-2': $secondary-color-2,
+	'secondary-3': $secondary-color-3,
+	'secondary-4': $secondary-color-4,
+	'tertiary': $tertiary-color,
+	'tertiary-2': $tertiary-color-2,
+	'tertiary-3': $tertiary-color-3,
+	'tertiary-4': $tertiary-color-4,
+	'highlight': $highlight-color,
+	'highlight-2': $highlight-color-2, 
+	'highlight-3': $highlight-color-3,
+	'highlight-4': $highlight-color-4,
+	'black': $black,
+	'gray': $gray,
+	'gray-400': $gray-400,
+	'gray-300': $gray-300,
+	'gray-200': $gray-200,
+	'gray-100': $gray-100,
+	'lightgray': $lightgray,
+	'darkgray': $darkgray
+);
+
+.iBttn {
+	display: inline-block;
+	padding: .75em 2em;
+	border-radius: .5em;
+	font-weight: 600;
+	min-width: 10em;
+	text-decoration: none !important;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+	font-family: $font-family;
+	text-align: center;
+	text-transform: none;
+
+	> i , 
+	> span {
+		color: inherit;
+		font-weight: inherit;
+		font-size: inherit;
+	}
+
+	// ripple
+	span:last-child {
+		display: none;
+	}
+
+	@each $name,$value in $btn-colors {
+		&-#{$name} {
+			background-color: $value;
+			color: determine-text-color($value);
+			&:hover {
+				background-color: darken($value,10);
+			}
+		}
+
+
+		&-#{$name}-inverted {
+			border: 2px solid lighten($value, 50%); 
+			color: $value;
+			background-color: transparent;
+			&:hover {
+				border-color: $value
+			}
+		}
+	}
+}
+
+
+.iBttn-second-prio {
+	border: 2px solid $gray-300;
+	color: $black;
+	&:hover {
+		color: $primary-color;
+		border-color: $gray-400;
+		background-color: transparent;
+	}
+}
+
+
+// ========================
+// FAKE TAB STYLE
+// ========================
+.iBttnFakeTab {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	width: 100%;
+	border-bottom: 2px solid $gray-200;
+	margin-bottom: 2em;
+
+	.iBttn {
+		flex-grow: 1;
+		flex-shrink: 1;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		&.active {
+			background-color: $primary-color;
+			color: #FFF;
+
+		}
+	}
+}

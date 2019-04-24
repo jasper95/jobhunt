@@ -38,20 +38,15 @@ class MyApp extends App {
         <Head>
           <title>My page</title>
         </Head>
-        <JssProvider
-          registry={this.pageContext.sheetsRegistry}
-          generateClassName={this.pageContext.generateClassName}
+        <MuiThemeProvider
+          theme={this.pageContext.theme}
+          sheetsManager={this.pageContext.sheetsManager}
         >
-          <MuiThemeProvider
-            theme={this.pageContext.theme}
-            sheetsManager={this.pageContext.sheetsManager}
-          >
-            <CssBaseline />
-            <Provider store={store}>
-              <Component pageContext={this.pageContext} {...pageProps} />
-            </Provider>
-          </MuiThemeProvider>
-        </JssProvider>
+          <CssBaseline />
+          <Provider store={store}>
+            <Component pageContext={this.pageContext} {...pageProps} />
+          </Provider>
+        </MuiThemeProvider>
       </Container>
     );
   }
