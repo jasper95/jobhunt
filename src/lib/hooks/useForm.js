@@ -9,8 +9,8 @@ export default function useForm(params){
   } = params
   const [fields, setFields] = useState(initialFields)
   const [errors, setErrors] = useState({})
-  function onElementChange(e) {
-    const { id, value } = e.target
+  function onElementChange(value, e) {
+    const { id } = e.target
     onChange(id, value)
   }
   function onChange(key, value) {

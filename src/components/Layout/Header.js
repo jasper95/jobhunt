@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+import Paper from 'react-md/lib/Papers/Paper'
+import Toolbar from 'react-md/lib/Toolbars/Toolbar'
+import DropdownMenu from 'react-md/lib/Menus/DropdownMenu'
+import AccessibleFakeButton from 'react-md/lib/Helpers/AccessibleFakeButton'
+import Avatar from 'react-md/lib/Avatars/Avatar'
+import Button from 'react-md/lib/Buttons/Button'
+
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Router from 'next/router'
 
 const profileLink = {
@@ -18,40 +18,39 @@ const profileLink = {
 }
 
 function Header(props) {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
   const { isAuthenticated, dispatch, user } = props
   return (
-    <AppBar position="static" color="default">
+    <Paper position="static" color="default">
       <Toolbar>
         <Link href='/'>
-          <Button>Home</Button>
+          <Button flat>Home</Button>
         </Link>
         {isAuthenticated && (
-          <>
-            <IconButton
-              aria-owns={isMenuOpen ? 'profile-menus' : undefined}
-              aria-haspopup="true"
-              onClick={(event) => {
-                setIsMenuOpen(true)
-                setAnchorEl(event.target)
-              }}
-              color="inherit"
+          <DropdownMenu
+            id='dropdown'
+            menuItems={renderMenus()}
+            anchor={{
+              x: DropdownMenu.HorizontalAnchors.CENTER,
+              y: DropdownMenu.VerticalAnchors.OVERLAP,
+            }}
+            position={DropdownMenu.Positions.TOP_LEFT}
+          >
+            <AccessibleFakeButton
+              // component={IconSeparator}
+              iconBefore
             >
-              <Avatar alt="Remy Sharp" src="/static/img/default-avatar.png"/>
-            </IconButton>
-            {renderMenus()}
-          </>
+              <Avatar src="/static/img/default-avatar.png" />
+            </AccessibleFakeButton>
+          </DropdownMenu>
         )}
       </Toolbar>
-    </AppBar>
+    </Paper>
   );
 
   function renderMenus() {
-    const menus = [
+    return [
       {
-        label: 'Profile',
+        primaryText: 'Profile',
         onClick: () => {
           setAnchorEl(null)
           setIsMenuOpen(false)
@@ -59,7 +58,7 @@ function Header(props) {
         }
       },
       {
-        label: 'Logout',
+        primaryText: 'Logout',
         onClick: () => {
           setAnchorEl(null)
           setIsMenuOpen(false)
@@ -67,24 +66,6 @@ function Header(props) {
         }
       }
     ]
-    return (
-      <Menu
-        id='profile-menus'
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-      >
-        {menus.map(({ label, onClick }) => (
-          <MenuItem
-            onClick={onClick}
-          >
-            {label}
-          </MenuItem>
-        ))}
-      </Menu>
-    )
   }
 }
 

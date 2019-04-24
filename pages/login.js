@@ -1,22 +1,15 @@
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
+import Button from 'react-md/lib/Buttons/Button'
+import TextField from 'react-md/lib/TextFields/TextField'
 import Link from 'next/link';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Login } from 'redux/auth/actions'
-import { styleLoginButton } from 'lib/SharedStyles';
 import useForm from 'lib/hooks/useForm'
 import withAuth from 'lib/hocs/auth';
 import api, { redirectToPath } from 'lib/api'
 import { getValidationResult } from 'lib/tools'
 import Page from 'components/Layout/Page'
 import joi from 'joi'
-
 import 'sass/pages/login.scss'
 
 
@@ -79,54 +72,41 @@ function LoginPage(props){
               id='email'
               label='Email'
               type='email'
-              margin='normal'
               variant='outlined'
               onChange={onElementChange}
-              helperText={errors.email}
+              errorText={errors.email}
               error={!!errors.email}
               value={fields.email || ''}
             />
             <TextField
-              className='iField'
+              // className='iField'
               id='password'
-              variant='outlined'
-              type={fields.isShowPassword ? 'text': 'password' }
+              // variant='outlined'
+              type='password'
               label='Password'
               value={fields.password || ''}
               error={!!errors.password}
-              helperText={errors.password}
+              errorText={errors.password}
               onChange={onElementChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='Toggle password visibility'
-                      onClick={() => onChange('isShowPassword', !fields.isShowPassword)}
-                    >
-                      {fields.isShowPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
             <div className='authContainer_form_action'>
               <Button
                 className='iBttn iBttn-primary'
                 onClick={onValidate}
                 children='Login'
+                flat
               />
-
               <Button
                 className='iBttn iBttn-second-prio'
                 href='/signup'
                 children='Sign Up'
+                flat
               />
             </div>
           </form>
         </div>
         <div className='authContainer_bg' />
       </div>
-
     </Page>
   )
 

@@ -1,16 +1,11 @@
 import React from 'react'
 import Page from 'components/Layout/Page'
-import Button from '@material-ui/core/Button';
+import Button from 'react-md/lib/Buttons/Button'
+import TextField from 'react-md/lib/TextFields/TextField'
 import Link from 'next/link';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { SignUp } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { styleLoginButton } from 'lib/SharedStyles';
 import withAuth from 'lib/hocs/auth';
 import useForm from 'lib/hooks/useForm'
 import { getValidationResult } from 'lib/tools'
@@ -62,11 +57,13 @@ function SignupPage(props){
 
             <div className='iBttnFakeTab'>
               <Button 
+                flat
                 className={cn('iBttn', {'active': !isEmployer})}
                 children='Candidate'
                 onClick={() => onChange('role', 'USER')}
               />
-              <Button 
+              <Button
+                flat
                 className={cn('iBttn', {'active': isEmployer})}
                 children='Employer'
                 onClick={() => onChange('role', 'ADMIN')}
@@ -96,11 +93,10 @@ function SignupPage(props){
                 label='Company Name'
                 type='company_name'
                 margin='normal'
-                variant='outlined'
                 onChange={onElementChange}
                 value={fields.company_name}
                 error={!!errors.company_name}
-                helperText={errors.company_name}
+                errorText={errors.company_name}
               />
             ) : (
               <div className='row iFieldRow '>
@@ -108,25 +104,21 @@ function SignupPage(props){
                   className='iField col-md-6'
                   id='first_name'
                   label='First Name'
-                  type='first_name'
                   margin='normal'
-                  variant='outlined'
                   onChange={onElementChange}
                   value={fields.first_name}
                   error={!!errors.first_name}
-                  helperText={errors.first_name}
+                  errorText={errors.first_name}
                 />
                 <TextField
                   className='iField col-md-6'
                   id='last_name'
                   label='Last Name'
-                  type='last_name'
                   margin='normal'
-                  variant='outlined'
                   onChange={onElementChange}
                   value={fields.last_name}
                   error={!!errors.last_name}
-                  helperText={errors.last_name}
+                  errorText={errors.last_name}
                 />
               </div>
             )}
@@ -141,35 +133,23 @@ function SignupPage(props){
               onChange={onElementChange}
               value={fields.email}
               error={!!errors.email}
-              helperText={errors.email}
+              errorText={errors.email}
             />
             <TextField
               className='iField'
               id='password'
-              variant='outlined'
               type={fields.isShowPassword ? 'text': 'password' }
               label='Password'
               value={fields.password}
               error={!!errors.password}
-              helperText={errors.password}
+              errorText={errors.password}
               onChange={onElementChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='Toggle password visibility'
-                      onClick={() => onChange('isShowPassword', !fields.isShowPassword)}
-                    >
-                      {fields.isShowPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
 
 
             <div className='authContainer_form_action'>
               <Button
+                flat
                 className='iBttn iBttn-primary'
                 onClick={onValidate}
                 children='Signup'

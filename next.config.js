@@ -6,6 +6,10 @@ const Dotenv = require('dotenv-webpack')
 
 module.exports = withSass({
   webpack (config) {
+    if (config.resolve.alias) {
+      delete config.resolve.alias['react']
+      delete config.resolve.alias['react-dom']
+    }
     config.resolve.modules = [
       path.join(__dirname, 'src'),
       ...config.resolve.modules
