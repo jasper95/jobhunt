@@ -52,16 +52,12 @@ function Header(props) {
       {
         primaryText: 'Profile',
         onClick: () => {
-          setAnchorEl(null)
-          setIsMenuOpen(false)
           Router.push(profileLink[user.role])
         }
       },
       {
         primaryText: 'Logout',
         onClick: () => {
-          setAnchorEl(null)
-          setIsMenuOpen(false)
           dispatch(Logout())
         }
       }
