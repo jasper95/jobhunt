@@ -25,46 +25,30 @@ function EducationDialog(props) {
       <TextField
         id='qualification'
         label='Qualification'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.qualification}
-        helperText={errors.qualification}
+        errorText={errors.qualification}
         value={fields.qualification || ''}
       />
       <TextField
         id='school'
         label='University/Institute'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.school}
-        helperText={errors.school}
+        errorText={errors.school}
         value={fields.school || ''}
       />
-      <TextField
-        id="start_date"
-        label="Admission Date"
-        type="month"
-        value={fields.start_date || ''}
-        onChange={onElementChange}
-        error={!!errors.start_date}
-        helperText={errors.start_date}
-        InputLabelProps={{
-          shrink: true,
-        }}
+      <DatePicker
+        selected={fields.start_date || ''}
+        onChange={value => onChange('start_date', value)}
+        dateFormat="MM/yyyy"
+        showMonthYearPicker
       />
-      <TextField
-        id="end_date"
-        label="Graduation Date"
-        type="month"
-        value={fields.end_date || ''}
-        onChange={onElementChange}
-        error={!!errors.end_date}
-        helperText={errors.end_date}
-        InputLabelProps={{
-          shrink: true,
-        }}
+      <DatePicker
+        selected={fields.end_date || ''}
+        onChange={value => onChange('end_date', value)}
+        dateFormat="MM/yyyy"
+        showMonthYearPicker
       />
     </>
   )

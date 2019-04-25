@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
 import withDialog from 'lib/hocs/dialog'
 import {useDropzone} from 'react-dropzone'

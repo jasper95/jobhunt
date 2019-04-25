@@ -20,38 +20,32 @@ function AboutMe(props) {
         variant='outlined'
         onChange={onElementChange}
         error={!!errors.name}
-        helperText={errors.name}
+        errorText={errors.name}
         value={fields.name || ''}
       />
       <TextField
         id='email'
-        label='email'
+        label='Email'
         type='email'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.email}
-        helperText={errors.email}
+        errorText={errors.email}
         value={fields.email || ''}
       />
       <TextField
         id='contact_number'
         label='Contact Number'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.contact_number}
-        helperText={errors.contact_number}
+        errorText={errors.contact_number}
         value={fields.contact_number || ''}
       />
       <TextField
         id='description'
         label='Company Description'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.description}
-        helperText={errors.description}
+        errorText={errors.description}
         value={fields.description || ''}
         rows={4}
         multiline

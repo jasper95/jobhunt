@@ -8,7 +8,7 @@ function JobPosts(props) {
   const { posts } = props
   return (
     <div>
-      <Grid container>
+      <Grid>
         <Cell item size={3}>
           <Search />
         </Cell>

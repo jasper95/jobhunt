@@ -1,35 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Router from 'next/router'
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Icon from '@material-ui/core/Icon';
+import List from 'react-md/lib/Lists/List'
+import ListItem from 'react-md/lib/Lists/ListItem'
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-});
-
 function MenuItem(props) {
   const { icon, label, link } = props
   return (
-    <ListItem button onClick={() => {
-      Router.push(link)
-    }}>
-      <ListItemIcon>
-        <Icon children={icon}/>
-      </ListItemIcon>
-      <ListItemText primary={label}/>
-    </ListItem>
+    <ListItem
+      onClick={() => {
+        Router.push(link)
+      }}
+      primaryText={label}
+      rightIcon={<FontIcon children={icon}/>}
+    />
   )
 }
 
@@ -82,8 +70,8 @@ function ProfileNavigation(props) {
   }
   const navItems = ROLE_NAV[user.role || 'USER']
   return (
-    <div className={classes.root}>
-      <List component="nav">
+    <div>
+      <List>
         {navItems.map(({ icon, label, link }) => (
           <MenuItem icon={icon} label={label} link={link} key={link} />
         ))}
@@ -92,9 +80,6 @@ function ProfileNavigation(props) {
   );
 }
 
-ProfileNavigation.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 const navigationSelector = createSelector(
   state => state.auth,
@@ -104,6 +89,5 @@ const navigationSelector = createSelector(
 )
 
 export default compose(
-  withStyles(styles),
   connect(navigationSelector)
 )(ProfileNavigation)

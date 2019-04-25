@@ -1,10 +1,11 @@
 require('dotenv').config()
 
-const withSass = require('@zeit/next-sass')
-const path = require('path')
 const Dotenv = require('dotenv-webpack')
+const withSass = require('@zeit/next-sass')
+const withCss = require('@zeit/next-css')
+const path = require('path')
 
-module.exports = withSass({
+module.exports = withCss(withSass({
   webpack (config) {
     if (config.resolve.alias) {
       delete config.resolve.alias['react']
@@ -29,4 +30,4 @@ module.exports = withSass({
     }
     return config
   }
-})
+}))

@@ -1,36 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon'
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-});
+import Table from 'react-md/lib/DataTables/DataTable'
+import TableBody from 'react-md/lib/DataTables/TableBody'
+import TableRow from 'react-md/lib/DataTables/TableRow'
+import TableColumn from 'react-md/lib/DataTables/TableColumn'
+import TableHead from 'react-md/lib/DataTables/TableHeader'
+import Paper from 'react-md/lib/Papers/Paper'
+import Button from 'react-md/lib/Buttons/Button'
 
 function DataTable(props) {
-  const { classes, rows, columns } = props;
+  const { rows, columns } = props;
 
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
+    <Paper>
+      <Table plain>
         <TableHead>
           <TableRow>
             {columns.map(({ title, headProps = {}}, idx) => (
-              <TableCell key={idx} {...headProps}>{title}</TableCell>
+              <TableColumn key={idx} {...headProps}>{title}</TableColumn>
             ))}
           </TableRow>
         </TableHead>
@@ -62,9 +49,14 @@ function Row(props) {
         )
       }
       return (
-        <IconButton aria-label={label} key={icon} className={className} onClick={() => onClick(row)}>
-          <Icon children={icon} />
-        </IconButton>
+        <Button
+          icon
+          children={icon}
+          tooltipLabel={label}
+          key={icon}
+          className={className}
+          onClick={() => onClick(row)}
+        />
       )
     })
   } else if (type === 'component') {
@@ -75,12 +67,8 @@ function Row(props) {
     children = row[accessor]
   }
   return (
-    <TableCell {...bodyProps}>{children}</TableCell>
+    <TableColumn {...bodyProps}>{children}</TableColumn>
   )
 }
 
-DataTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(DataTable);
+export default DataTable

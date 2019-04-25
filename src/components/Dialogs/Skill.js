@@ -15,11 +15,9 @@ function SkillDialog(props) {
       <TextField
         id='name'
         label='Skill Heading'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.name}
-        helperText={errors.name}
+        errorText={errors.name}
         value={fields.name}
       />
      <Slider
