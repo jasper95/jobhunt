@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
-import Paper from 'react-md/lib/Buttons/Button';
+import Button from 'react-md/lib/Buttons/Button';
 import Typography from '@material-ui/core/Typography';
 import {
   ShowDialog,
