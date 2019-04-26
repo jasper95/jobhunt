@@ -13,6 +13,7 @@ function SkillDialog(props) {
   return (
     <>
       <TextField
+        className='iField'
         id='name'
         label='Skill Heading'
         onChange={onElementChange}

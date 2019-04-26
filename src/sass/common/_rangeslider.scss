@@ -1,0 +1,19 @@
+.rangeslider {
+	background-color: lighten($primary-color,30%);
+	box-shadow: none !important;
+
+	.rangeslider__handle {
+		background-color: $primary-color;
+		border: none !important;
+		box-shadow: none !important;
+
+		&:before ,
+		&:after {
+			display: none;
+		}
+	}
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+	background-color: $primary-color;
+}
