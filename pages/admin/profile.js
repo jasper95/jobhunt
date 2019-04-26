@@ -16,7 +16,6 @@ import {
 } from 'redux/auth/actions'
 import Typography from '@material-ui/core/Typography';
 import TextField from 'react-md/lib/TextFields/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment';
 
 function AdminProfile(props) {
   const { user, dispatch } = props
