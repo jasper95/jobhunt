@@ -6,7 +6,7 @@ import pick from 'lodash/pick'
 function DefaultDialogTitle(props) {
   const { onCancel, title } = props;
   return (
-    <span>
+    <>
       <span className='i_dialog_title-title'>
         {title}
       </span>
@@ -16,7 +16,7 @@ function DefaultDialogTitle(props) {
         onClick={onCancel} 
         className='i_dialog_title-close'
       />
-    </span>
+    </>
   );
 }
 

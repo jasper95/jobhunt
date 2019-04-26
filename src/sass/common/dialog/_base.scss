@@ -100,11 +100,15 @@ $dialog-easing : cubic-bezier(0.180, -0.020, 0.300, 1.020);
 		align-items: center;
 		justify-content: center;
 
+		border-bottom: 1px solid $gray-100;
+
 		// .d_dialog_title-title
 		&-title {
 			flex-grow: 1;
 			flex-shrink: 1;
 			font-size: 1em;
+			font-weight: 700;
+			color: $primary-color
 		}
 
 		// .d_dialog_title-close
