@@ -1,0 +1,40 @@
+.profileNavCard {
+	padding: 1em;
+	background-color: #fff;
+	border-radius: .5em;
+	box-shadow: 0 0 1em 0 rgba(#000,.05);
+
+	// .profileNavCard_header
+	&_header {
+		margin-bottom: 1em;
+
+		// .profileNavCard_header_avatar
+		&_avatar {
+			max-width: 10em;
+			margin: 0 auto 2em auto;
+		}
+
+		// .profileNavCard_header_greeting
+		&_greeting {
+			text-align: center;
+			font-size: 1em;
+			font-weight: 600;
+			line-height: 1.4;
+			font-family: $font-family;
+			margin-bottom: 2em;
+
+			h5 {
+				font-size: 1.25em;
+				font-weight: 600;
+				color: $black;
+				margin-bottom: 0;
+			}
+
+		}
+	}
+
+	// .profileNavCard_content
+	&_content {
+
+	}
+}

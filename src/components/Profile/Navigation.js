@@ -74,14 +74,27 @@ function ProfileNavigation(props) {
   return (
     <div className='profileNavCard'>
       <div className='profileNavCard_header'>
-        <div className='avatar'>
-          <div className='avatar_circle'>
-            <img src='/static/img/default-avatar.png' alt=""/>
-          </div>
-          <div className='avatar_edit'>
-            <Button icon children='edit'/>
+        <div className='avatar profileNavCard_header_avatar'>
+          <div className='avatar_container'>
+            <div className='avatar_circle'>
+              <img src='/static/img/default-avatar.png' alt=""/>
+            </div>
+            <div className='avatar_edit'>
+              <Button className='iBttn iBttn-primary' icon children='edit'/>
+            </div>
           </div>
         </div>
+
+        <div className='profileNavCard_header_greeting'>
+          <h5>
+            Welcome back, {user.first_name}
+          </h5>
+
+          <a href="#">
+            edit profile
+          </a>
+        </div>
+
       </div>
       <div className='profileNavCard_content'>
         <List className='profileNavCard_menu'>
