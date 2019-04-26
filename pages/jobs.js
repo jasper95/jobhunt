@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import Page from 'components/Layout/Page'
 import Paper from 'react-md/lib/Papers/Paper';
 import Typography from '@material-ui/core/Typography';
-import Paper from 'react-md/lib/Buttons/Button';
+import Button from 'react-md/lib/Buttons/Button';
 import Avatar from 'react-md/lib/Avatars/Avatar'
 import { formatISOToDate } from 'lib/tools'
 import draftToHtml from 'draftjs-to-html';
