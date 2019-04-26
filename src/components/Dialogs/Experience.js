@@ -28,18 +28,24 @@ function ExperienceDialog(props) {
         errorText={errors.company}
         value={fields.company || ''}
       />
-      <DatePicker
-        selected={fields.start_date || ''}
-        onChange={value => onChange('start_date', value)}
-        dateFormat="MM/yyyy"
-        showMonthYearPicker
-      />
-      <DatePicker
-        selected={fields.end_date || ''}
-        onChange={value => onChange('end_date', value)}
-        dateFormat="MM/yyyy"
-        showMonthYearPicker
-      />
+      <div>
+        <label>Date Started</label>
+        <DatePicker
+          selected={fields.start_date || ''}
+          onChange={value => onChange('start_date', value)}
+          dateFormat="MM/yyyy"
+          showMonthYearPicker
+        />
+      </div>
+      <div>
+        <label>Date Ended</label>
+        <DatePicker
+          selected={fields.end_date || ''}
+          onChange={value => onChange('end_date', value)}
+          dateFormat="MM/yyyy"
+          showMonthYearPicker
+        />
+      </div>
     </>
   )
 }

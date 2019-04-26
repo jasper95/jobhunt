@@ -7,6 +7,8 @@ import joi from 'joi'
 import Select from 'react-select'
 import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
 import { connect } from 'react-redux'
+import DatePicker from 'react-datepicker'
+
 
 function EducationDialog(props) {
   const { formState, formHandlers, options, dispatch } = props
@@ -38,18 +40,24 @@ function EducationDialog(props) {
         errorText={errors.school}
         value={fields.school || ''}
       />
-      <DatePicker
-        selected={fields.start_date || ''}
-        onChange={value => onChange('start_date', value)}
-        dateFormat="MM/yyyy"
-        showMonthYearPicker
-      />
-      <DatePicker
-        selected={fields.end_date || ''}
-        onChange={value => onChange('end_date', value)}
-        dateFormat="MM/yyyy"
-        showMonthYearPicker
-      />
+      <div>
+        <label>Admission Date</label>
+        <DatePicker
+          selected={fields.start_date || ''}
+          onChange={value => onChange('start_date', value)}
+          dateFormat="MM/yyyy"
+          showMonthYearPicker
+        />
+      </div>
+      <div>
+        <label>Graduation Date</label>
+        <DatePicker
+          selected={fields.end_date || ''}
+          onChange={value => onChange('end_date', value)}
+          dateFormat="MM/yyyy"
+          showMonthYearPicker
+        />
+      </div>
     </>
   )
 }

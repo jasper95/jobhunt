@@ -45,14 +45,17 @@ function AboutMe(props) {
         errorText={errors.contact_number}
         value={fields.contact_number || ''}
       />
-      <DatePicker
-        selected={fields.birth_date || ''}
-        onChange={() => onChange('birth_date', value)}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-      />
+      <div>
+        <label>Date of Birth</label>
+        <DatePicker
+          selected={fields.birth_date || ''}
+          onChange={() => onChange('birth_date', value)}
+          peekNextMonth
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+        />
+      </div>
       <TextField
         id='address'
         label='Address'
