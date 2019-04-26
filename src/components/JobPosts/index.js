@@ -6,9 +6,15 @@ import Search from '../Search'
 import 'sass/components/jobSearch/index.scss'
 
 
-const postsRender = (posts) => {
+const Posts = ({ posts }) => {
 
-  if (posts.length < 1 ) {
+  if (!posts) {
+    return (
+      <h1 className='jobSearch_jobs_msg'>
+        Server Error
+      </h1>
+    )
+  } else if (posts.length < 1 ) {
     return (
       <h1 className='jobSearch_jobs_msg'>
         No results found
@@ -23,7 +29,6 @@ const postsRender = (posts) => {
       ))}
     </>
   ) 
-
 }
 
 
@@ -34,7 +39,7 @@ function JobPosts(props) {
       <div className='jobSearch_searchKey'>
         <div className='container'>
           <h1 className='jobSearch_searchKey_title'>
-            Intern Jobs
+            React Js Practice Jobs
           </h1>
           <h5 className='jobSearch_searchKey_subtitle'>
             90 intern jobs available  
@@ -52,7 +57,7 @@ function JobPosts(props) {
             <Cell 
               className='jobSearch_jobs'
               size={9}>
-              { postsRender(posts) }
+              { <Posts posts={posts}/> }
             </Cell>
           </Grid>
         </div>

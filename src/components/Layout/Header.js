@@ -44,7 +44,6 @@ function Header(props) {
           </div>
           <div className='nav_profile'>
 
-
             {isAuthenticated ? (
               <>
                 <div className='nav_profile_avatar'>
@@ -63,9 +62,11 @@ function Header(props) {
                 </div>
               </>
             ) : (
-              <Button className='iBttn iBttn-primary nav_profile_login'>
-                Login
-              </Button>
+              <Link href='/login'>
+                <Button className='iBttn iBttn-primary nav_profile_login'>
+                  Login
+                </Button>
+              </Link>
             )
           }
           </div>
