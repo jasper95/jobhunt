@@ -37,4 +37,26 @@
 	&_content {
 
 	}
+
+	// .profileNavCard_menu
+	&_menu {
+		// .profileNavCard_menu_item
+		&_item {
+			font-size: 1em;
+			.md-fake-btn {
+				font-size: 1em;
+				font-weight: 600;
+				font-family: $font-family;
+				color: $gray-300;
+				background-color: transparent !important;
+				&:hover {
+					color: $primary-color;
+				}
+			}
+
+			&:not(:last-child) {
+				border-bottom: 1px solid $gray-200;
+			}
+		}
+	}
 }

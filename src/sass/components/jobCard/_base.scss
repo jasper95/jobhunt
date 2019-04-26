@@ -1,0 +1,56 @@
+.jobCard {
+	padding: 1em;
+	margin-bottom: 1em;
+	border-radius: .5em;
+
+	// .jobCard_jobTitle
+	&_jobTitle {
+		font-weight: 700;
+		color: $black;
+		cursor: pointer;
+		margin-bottom: 0;
+		&:hover {
+			color: $primary-color;
+		}
+	}
+
+
+	// .jobCard_company
+	&_company {
+		font-size: 1em;
+		font-weight: 600;
+		color: $primary-color;
+	}
+
+
+	// .jobCard_address
+	&_address {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		margin-bottom: 0;
+		.md-icon {
+			color: $primary-color;
+			margin-right: .5em;
+		}
+
+		.name {
+			color: $gray-400;
+		}
+	}
+
+
+	// .jobCard_description
+	&_description {
+		margin-top: 2rem;
+		width: 100%;
+		padding-left: 1em;
+		label {
+			font-weight: 600;
+			margin-left: -1em;
+			margin-bottom: 1em;
+		}
+	}
+
+
+}

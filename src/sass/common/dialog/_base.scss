@@ -1,0 +1,115 @@
+$dialog_size_xs: 320px;
+$dialog_size_sm: 600px;
+$dialog_size_md: 768px;
+$dialog_size_lg: 1024px;
+$dialog_size_xl: 1280px;
+
+
+$dialog-easing : cubic-bezier(0.180, -0.020, 0.300, 1.020);
+
+@keyframes dialogShow {
+	0% {
+		opacity: 0;
+		transform: scale(0.98) translate3d(0,-20%,0);
+	}
+	
+	50% {
+		opacity: 1;
+		transform: scale(0.98) translate3d(0,0,0);
+	}
+	
+	100% {
+		opacity: 1;
+		transform: scale(1) translate3d(0,0,0);
+	}
+}
+
+
+
+.i_dialog {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	font-size: 1rem;
+
+	// .i_dialog_container
+	&_container {
+		position: relative !important;
+		top: unset !important;
+		left: unset !important;
+		right: unset !important;
+		bottom: unset !important;
+
+		margin: 10vh auto 0 auto;
+
+		width: 100%;
+		height: auto;
+		max-height: unset;
+
+		opacity: 0;
+		font-size: 1em;
+
+		animation-name: dialogShow;
+		animation-duration: .6s;
+		animation-fill-mode: forwards;
+		animation-timing-function: $dialog-easing;
+		will-change: transform , opacity;
+
+		// .d_dialog_container--xs
+		&--xs {
+			max-width: $dialog_size_xs;
+		}
+
+		// .d_dialog_container--sm
+		&--sm {
+			max-width: $dialog_size_sm;
+		}
+
+		// .d_dialog_container--md
+		&--md {
+			max-width: $dialog_size_md;
+		}
+
+		// .d_dialog_container--lg
+		&--lg {
+			max-width: $dialog_size_lg;
+		}
+
+		// .d_dialog_container--xl
+		&--xl {
+			max-width: $dialog_size_xl;
+		}
+	}
+
+	// .i_dialog_title
+	&_title {
+		position: relative;
+		width: 100%;
+
+		font-size: 1.25em;
+		padding: 0.25em .25em .25em .5em;
+		margin: 0 !important;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		// .d_dialog_title-title
+		&-title {
+			flex-grow: 1;
+			flex-shrink: 1;
+			font-size: 1em;
+		}
+
+		// .d_dialog_title-close
+		&-close {
+			flex-shrink: 0;
+		}
+	}
+}

@@ -1,3 +1,24 @@
 .iTable {
-	
+	font-size: 1em;
+	font-family: $font-family;
+
+	// cells
+	.md-table-column {
+		font-size: 1em;
+		font-family: $font-family;
+		color: $black;
+		height: auto;
+		padding: 1em;
+	}
+
+	// header
+	.md-table-header {
+		font-size: 1em;
+		color: $black;
+		height: auto;
+
+		.md-table-column {
+			border-bottom: .15em solid $primary-color;
+		}
+	}
 }

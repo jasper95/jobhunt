@@ -12,27 +12,25 @@ function DataTable(props) {
   const { rows, columns } = props;
 
   return (
-    <Paper>
-      <Table plain>
-        <TableHead>
-          <TableRow>
-            {columns.map(({ title, headProps = {}}, idx) => (
-              <TableColumn key={idx} {...headProps}>{title}</TableColumn>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.id}>
-              {columns.map((column, idx) => (
-                <Row key={idx} {...column} row={row}/>
-              ))
-              }
-            </TableRow>
+    <Table plain className='iTable'>
+      <TableHead>
+        <TableRow>
+          {columns.map(({ title, headProps = {}}, idx) => (
+            <TableColumn key={idx} {...headProps}>{title}</TableColumn>
           ))}
-        </TableBody>
-      </Table>
-    </Paper>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map(row => (
+          <TableRow key={row.id}>
+            {columns.map((column, idx) => (
+              <Row key={idx} {...column} row={row}/>
+            ))
+            }
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 

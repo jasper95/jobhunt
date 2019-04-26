@@ -23,7 +23,6 @@ function ProfilePage(props) {
         </div>
 
         <DataTable
-          className='iTable'
           rows={rows}
           columns={columns}
         />

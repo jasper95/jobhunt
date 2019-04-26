@@ -7,8 +7,15 @@ function DefaultDialogTitle(props) {
   const { onCancel, title } = props;
   return (
     <span>
-      {title}
-      <Button icon children='close' onClick={onCancel} />
+      <span className='i_dialog_title-title'>
+        {title}
+      </span>
+      <Button 
+        icon 
+        children='close' 
+        onClick={onCancel} 
+        className='i_dialog_title-close'
+      />
     </span>
   );
 }
@@ -34,6 +41,10 @@ function DialogLayout(props) {
   return (
     <DialogContainer
       visible
+      portal
+      modal
+      renderNode={document.body}
+      className={`i_dialog ${dialogId}_dialog`}
       title={(
         <DialogTitle {...pick(props, ['onCancel', 'title'])} />
       )}
@@ -48,7 +59,11 @@ function DialogLayout(props) {
 
 DialogLayout.defaultProps = {
   dialogTitleRenderer: DefaultDialogTitle,
-  dialogActionsRenderer: DefaultDialogActions
+  dialogActionsRenderer: DefaultDialogActions,
+  dialogClassName: 'i_dialog_container i_dialog_container--md',
+  titleClassName: 'i_dialog_title',
+  contentClassName: 'i_dialog_body',
+  footerClassName: 'i_dialog_footer',
 }
 
 export default DialogLayout;

@@ -137,3 +137,25 @@ $btn-colors: (
 		}
 	}
 }
+
+
+// ========================
+// SPECIAL STYLE
+// ========================
+.iBttn-special-1 {
+	width: 100%;
+	box-shadow: none !important;
+	padding: 1.25em 1em;
+	font-weight: 700;
+	font-size: 1em;
+	border: .15em dashed lighten($primary-color,10%);
+	background-color: lighten($primary-color,40%);
+	color: $primary-color;
+
+	&:hover {
+		color: #FFF;
+		border-color: $primary-color;
+		border-style: solid;
+		background-color: $primary-color;
+	}
+}
