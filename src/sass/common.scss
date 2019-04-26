@@ -1,10 +1,16 @@
 @import '/utils/index';
 
+:root {
+	font-size: 16px !important;
+}
+
 .interlink {
 	@import '/common/grid';
 	@import '/common/buttons';
 	@import '/common/field';
 	@import '/common/typography';
+	@import '/common/layout';
+	@import '/common/snackbar';
 }
 
 

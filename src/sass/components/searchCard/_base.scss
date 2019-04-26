@@ -1,0 +1,23 @@
+.searchCard {
+	padding: 2em;
+	border-radius: .5em;
+	margin-top: -5em;
+
+	// .searchCard_title
+	&_title {
+		font-size: 1.5em;
+		font-weight: 700;
+		color: $primary-color;
+	}
+
+	// .searchCard_form
+	&_form {
+		width: 100%;
+		margin-bottom: 2rem;
+	}
+
+	// .searchCard_searchBtn
+	&_searchBtn {
+		width: 100%;
+	}
+}

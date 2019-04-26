@@ -4,6 +4,7 @@ import Router from 'next/router'
 import List from 'react-md/lib/Lists/List'
 import ListItem from 'react-md/lib/Lists/ListItem'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
+import Button from 'react-md/lib/Buttons/Button'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -15,6 +16,7 @@ function MenuItem(props) {
       onClick={() => {
         Router.push(link)
       }}
+      className='profileNavCard_menu_item'
       primaryText={label}
       rightIcon={<FontIcon children={icon}/>}
     />
@@ -70,12 +72,24 @@ function ProfileNavigation(props) {
   }
   const navItems = ROLE_NAV[user.role || 'USER']
   return (
-    <div>
-      <List>
-        {navItems.map(({ icon, label, link }) => (
-          <MenuItem icon={icon} label={label} link={link} key={link} />
-        ))}
-      </List>
+    <div className='profileNavCard'>
+      <div className='profileNavCard_header'>
+        <div className='avatar'>
+          <div className='avatar_circle'>
+            <img src='/static/img/default-avatar.png' alt=""/>
+          </div>
+          <div className='avatar_edit'>
+            <Button icon children='edit'/>
+          </div>
+        </div>
+      </div>
+      <div className='profileNavCard_content'>
+        <List className='profileNavCard_menu'>
+          {navItems.map(({ icon, label, link }) => (
+            <MenuItem icon={icon} label={label} link={link} key={link} />
+          ))}
+        </List>
+      </div>
     </div>
   );
 }

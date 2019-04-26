@@ -2,12 +2,13 @@ import React from 'react'
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import Icon from '@material-ui/core/Icon';
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Profile from 'components/Profile'
 import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
+
 
 function UserProfile(props) {
   const user = {
@@ -21,12 +22,12 @@ function UserProfile(props) {
       <Paper>
         {user.name}
         <Avatar alt="Remy Sharp" src="/static/img/default-avatar.png"/>
-        <Icon children='mail_outline' /> {user.email}
-        <Icon children='person_pin_circle' /> {user.address}
-        <Icon children='phone_forwarded' /> {user.contact_number}
+        <FontIcon children='mail_outline'/> {user.email}
+        <FontIcon children='person_pin_circle' /> {user.address}
+        <FontIcon children='phone_forwarded' /> {user.contact_number}
         <Button children='Download Resume' />
         <div>
-          <Icon children='work'/> <span>Experience</span>
+          <FontIcon children='work'/> <span>Experience</span>
         </div>
         <DataTable
           rows={[
@@ -48,7 +49,7 @@ function UserProfile(props) {
           ]}
         />
         <div>
-          <Icon children='school'/> <span>Education</span>
+          <FontIcon children='school'/> <span>Education</span>
         </div>
         <DataTable
           rows={[
@@ -70,7 +71,7 @@ function UserProfile(props) {
           ]}
         />
         <div>
-          <Icon children='account_box'/> <span>Skills</span>
+          <FontIcon children='account_box'/> <span>Skills</span>
         </div>
         <DataTable
           rows={[

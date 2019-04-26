@@ -1,0 +1,33 @@
+.md-snackbar {
+	height: auto;
+	padding: 1em 2em;
+	font-size: 1rem;
+	bottom: 2em;
+	background-color: #fff;
+	box-shadow: 0 3em 2em 3em rgba(#000,.1);
+	border-radius: .25em;
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-start; 
+
+	#client-snackbar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: $black;
+		font-weight: 600;
+		line-height: 1;
+
+		.md-icon {
+			margin-right: 1rem;
+		}
+	}
+}
+
+
+.md-snackbar.error {
+	#client-snackbar .md-icon {
+		color: $error
+	}
+}

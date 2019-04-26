@@ -10,7 +10,6 @@ import Link from 'next/link'
 
 function Post(props) {
   const { post } = props;
-  console.log('post: ', post);
   return (
     <Card>
       <CardTitle

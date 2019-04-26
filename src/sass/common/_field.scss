@@ -1,4 +1,4 @@
-$fieldBorder: 2px solid $gray-200;
+$fieldBorder: 1px solid $gray-200;
 
 .iField {
 	background-color: #fff;
@@ -11,37 +11,52 @@ $fieldBorder: 2px solid $gray-200;
 	margin-bottom: 0em;
 	border: $fieldBorder;
 
-	label {
+	.md-floating-label {
 		position: relative;
 		top: 0;
 		left: 0;
-		font-size: .8em;
+		font-size: 1em;
 		font-family: inherit;
 		transform: none !important;
 		color: $gray-300;
+
+		&:not([class*="--inactive"]) {
+			color: $primary-color;
+		}
 	}
 
-	input {
+	.md-text-field {
 		padding: .5em 0;
 		font-size: 1em;
 		color: $black;
 		font-family: $font-family;
+		margin-top: 0;
 	}
 
-	fieldset {
-		display: none !important;
+	.md-divider {
+		position: absolute;
+		top: 0;
+		right: 100%;
+		width: 3px;
+		height: 100%;
+		margin-top: 0;
+		margin-bottom: 0;
+		z-index: 10;
+		background-color: $primary-color;
+		visibility: hidden;
+
+		&:before ,
+		&:after {
+			display: none;
+		}
+
+		&[class*="active"] {
+			visibility: visible;
+		}
 	}
 
-	// is compact
-	> div {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-wrap: nowrap;
-	}
-
-	p:last-child {
-		margin: 0 !important;
+	.md-text-field-inline-indicator {
+		right: 1em;
 	}
 }
 
