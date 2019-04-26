@@ -12,6 +12,8 @@ import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import Router from 'next/router'
 
+import 'sass/components/nav/index.scss'
+
 const profileLink = {
   USER: '/profile/experience',
   ADMIN: '/admin/profile'
@@ -20,27 +22,53 @@ const profileLink = {
 function Header(props) {
   const { isAuthenticated, dispatch, user } = props
   return (
-    <Paper>
-      <Toolbar>
+    <nav className='nav'>
+      <div className='nav_container'>
         <Link href='/'>
-          <Button flat>Home</Button>
+          <img 
+            src='/static/img/logo.png' 
+            alt=''
+            className='nav_logo'
+          />
         </Link>
-        {isAuthenticated && (
-          <MenuButton
-            floating
-            id='dropdown'
-            menuItems={renderMenus()}
-            anchor={{
-              x: MenuButton.HorizontalAnchors.CENTER,
-              y: MenuButton.VerticalAnchors.OVERLAP,
-            }}
-            position={MenuButton.Positions.TOP_LEFT}
-          >
-              <Avatar src="/static/img/default-avatar.png" />
-          </MenuButton>
-        )}
-      </Toolbar>
-    </Paper>
+
+        <div className='nav_actions'>
+          <div className='nav_menu'>
+            <ul className='nav_menu_list'>
+              <li className='nav_menu_list_item'>
+                <Link href="">
+                  Home
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className='nav_profile'>
+            {isAuthenticated ? (
+              <MenuButton
+                floating
+                id='dropdown'
+                className='nav_profile_avatarBtn'
+                menuItems={renderMenus()}
+                anchor={{
+                  x: MenuButton.HorizontalAnchors.CENTER,
+                  y: MenuButton.VerticalAnchors.OVERLAP,
+                }}
+                position={MenuButton.Positions.TOP_LEFT}
+              >
+                  <Avatar src="/static/img/default-avatar.png" />
+              </MenuButton>
+            ) : (
+              <Button className='iBttn iBttn-primary nav_profile_login'>
+                Login
+              </Button>
+            )
+          }
+          </div>
+        </div>
+      </div>
+    </nav>
+
+
   );
 
   function renderMenus() {
