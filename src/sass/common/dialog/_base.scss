@@ -100,16 +100,37 @@ $dialog-easing : cubic-bezier(0.180, -0.020, 0.300, 1.020);
 		align-items: center;
 		justify-content: center;
 
+		border-bottom: 1px solid $gray-100;
+
 		// .d_dialog_title-title
 		&-title {
 			flex-grow: 1;
 			flex-shrink: 1;
 			font-size: 1em;
+			font-weight: 700;
+			color: $primary-color
 		}
 
 		// .d_dialog_title-close
 		&-close {
 			flex-shrink: 0;
+		}
+	}
+
+	// .i_dialog_body
+	&_body {
+		height: auto;
+		padding: 2em 1em 4em 1em;
+		font-size: 1em;
+	}
+
+	// .i_dialog_footer
+	&_footer {
+		padding: .5em;
+		background-color: #fff;
+
+		> .md-btn {
+			margin-right: .25em;
 		}
 	}
 }

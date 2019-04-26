@@ -51,6 +51,16 @@
 				background-color: transparent !important;
 				&:hover {
 					color: $primary-color;
+
+				}
+
+				.md-text {
+					color: inherit;
+					font-size: inherit !important;
+				}
+
+				.md-icon {
+					color: inherit;
 				}
 			}
 

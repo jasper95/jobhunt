@@ -1,0 +1,29 @@
+.react-datepicker {
+	font-family: $font-family;
+	// .react-datepicker__triangle
+	&__triangle {
+		border-bottom-color: #FFF !important;
+	}
+	// .react-datepicker__header
+	&__header {
+		background-color: #fff;
+		padding: 1em 0;
+		border-bottom: 2px solid $primary-color;
+	}
+
+	// .react-datepicker__navigation
+	&__navigation {
+		top: 1.25em
+	}
+
+	// react-datepicker__month
+	&__month {
+		font-size: 1em;
+		// react-datepicker__month-text
+		&-text {
+			padding: 1em;
+			font-size: 1em;
+			font-weight: 600;
+		}
+	}
+}

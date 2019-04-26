@@ -13,6 +13,7 @@ function ExperienceDialog(props) {
   return (
     <>
       <TextField
+        className='iField'
         label='Position title'
         id='position'
         errorText={errors.position}
@@ -21,6 +22,7 @@ function ExperienceDialog(props) {
         onChange={onElementChange}
       />
       <TextField
+        className='iField'
         id='company'
         label='Company'
         onChange={onElementChange}
@@ -28,23 +30,25 @@ function ExperienceDialog(props) {
         errorText={errors.company}
         value={fields.company || ''}
       />
-      <div>
-        <label>Date Started</label>
-        <DatePicker
-          selected={fields.start_date || ''}
-          onChange={value => onChange('start_date', value)}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-        />
-      </div>
-      <div>
-        <label>Date Ended</label>
-        <DatePicker
-          selected={fields.end_date || ''}
-          onChange={value => onChange('end_date', value)}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-        />
+      <div className='row iFieldRow'>
+        <div className='iField col-md-6'>
+          <DatePicker
+            placeholderText='start month'
+            selected={fields.start_date || ''}
+            onChange={value => onChange('start_date', value)}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+          />
+        </div>
+        <div className='iField col-md-6'>
+          <DatePicker
+            placeholderText='end month'
+            selected={fields.end_date || ''}
+            onChange={value => onChange('end_date', value)}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+          />
+        </div>
       </div>
     </>
   )
