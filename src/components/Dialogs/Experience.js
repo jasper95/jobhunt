@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose } from 'redux'
-import TextField from '@material-ui/core/TextField';
+import TextField from 'react-md/lib/TextFields/TextField'
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'

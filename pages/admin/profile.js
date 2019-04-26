@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import Paper from '@material-ui/core/Paper';
+import React from 'react'
+import Paper from 'react-md/lib/Papers/Paper';
+
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
 import authSelector from 'redux/auth/selector'
-import Button from '@material-ui/core/Button';
+import Button from 'react-md/lib/Buttons/Button'
 import {
   ShowDialog,
   Update
@@ -15,8 +15,7 @@ import {
   SetUserAuth
 } from 'redux/auth/actions'
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from 'react-md/lib/TextFields/TextField'
 
 function AdminProfile(props) {
   const { user, dispatch } = props
@@ -34,24 +33,10 @@ function AdminProfile(props) {
         <TextField
           id="input-with-icon-textfield"
           value={company.email}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon children='mail_outline' />
-              </InputAdornment>
-            ),
-          }}
         />
         <TextField
           id='contact_number'
           value={company.contact_number}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon children='phone_forwarded' />
-              </InputAdornment>
-            ),
-          }}
         />
         <Typography variant="h5" component="h2" children={`About ${company.name}`} />
         <Typography component="p" children={company.description} />

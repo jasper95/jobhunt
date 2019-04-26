@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import Page from 'components/Layout/Page'
-import Paper from '@material-ui/core/Paper';
+import Paper from 'react-md/lib/Papers/Paper';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
+import Paper from 'react-md/lib/Buttons/Button';
+import Avatar from 'react-md/lib/Avatars/Avatar'
 import { formatISOToDate } from 'lib/tools'
 import draftToHtml from 'draftjs-to-html';
 import { compose } from 'redux';
