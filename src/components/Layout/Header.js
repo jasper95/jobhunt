@@ -1,12 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import Link from 'next/link';
-import Paper from 'react-md/lib/Papers/Paper'
-import Toolbar from 'react-md/lib/Toolbars/Toolbar'
-import MenuButton from 'react-md/lib/Menus/MenuButton'
-import AccessibleFakeButton from 'react-md/lib/Helpers/AccessibleFakeButton'
-import Avatar from 'react-md/lib/Avatars/Avatar'
 import Button from 'react-md/lib/Buttons/Button'
-
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -43,62 +37,54 @@ function Header(props) {
             </ul>
           </div>
           <div className='nav_profile'>
-
-            {isAuthenticated ? (
-              <>
-                <div className='nav_profile_avatar'>
-                  <img src='/static/img/default-avatar.png'/>
-                </div>
-                <div className='nav_profile_content'>
-                  <p 
-                    className='name'
-                    onClick={() => {Router.push(profileLink[user.role])}}>
-                    { user.first_name } { user.last_name }
-                  </p>
-                  <p className='logout' 
-                    onClick={() => {dispatch(Logout())}}>
-                    Logout
-                  </p>
-                </div>
-              </>
-            ) : (
-              <Link href='/login'>
-                <Button className='iBttn iBttn-primary nav_profile_login'>
-                  Login
-                </Button>
-              </Link>
-            )
-          }
+            {renderProfileNav()}
           </div>
         </div>
       </div>
     </nav>
-
-
   );
 
-  function renderMenus() {
-    return [
-      {
-        primaryText: 'Profile',
-        onClick: () => {
-          Router.push(profileLink[user.role])
-        }
-      },
-      {
-        primaryText: 'Logout',
-        onClick: () => {
-          dispatch(Logout())
-        }
-      }
-    ]
+  function renderProfileNav() {
+    let profileNav = (
+      <Link href='/login'>
+        <Button className='iBttn iBttn-primary nav_profile_login'>
+          Login
+        </Button>
+      </Link>
+    )
+    if (isAuthenticated) {
+      const displayName = [
+        user.first_name,
+        user.last_name,
+        user.company && user.company.name
+      ].filter(Boolean).join(' ')
+      profileNav = (
+        <>
+          <div className='nav_profile_avatar'>
+            <img src='/static/img/default-avatar.png'/>
+          </div>
+          <div className='nav_profile_content'>
+            <p 
+              className='name'
+              onClick={() => {Router.push(profileLink[user.role])}}>
+              {displayName}
+            </p>
+            <p className='logout' 
+              onClick={() => {dispatch(Logout())}}>
+              Logout
+            </p>
+          </div>
+        </>
+      )
+    }
+    return profileNav
   }
 }
 
 const selector = createSelector(
   state => state.auth,
   (auth) => ({
-    isAuthenticated: !!auth.user,
+    isAuthenticated: Boolean(auth.user),
     user: auth.user
   })
 )
