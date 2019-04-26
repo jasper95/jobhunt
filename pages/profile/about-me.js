@@ -1,12 +1,12 @@
 import React from 'react'
-import Paper from 'react-md/lib/Papers/Paper';
+import Paper from 'react-md/lib/Papers/Paper'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import Icon from '@material-ui/core/Icon';
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
-import Button from 'react-md/lib/Buttons/Button';
-import Typography from '@material-ui/core/Typography';
+import Button from 'react-md/lib/Buttons/Button'
+import Typography from '@material-ui/core/Typography'
 import {
   ShowDialog,
   Update,
@@ -35,10 +35,13 @@ function AboutMe(props) {
   }
   return (
     <Profile>
-      <Paper>
-        <div>
-          <Icon children='account_box'/> <span>About Me</span>
-        </div>
+      <Paper className='profileInfoCard'>
+        <h1 className='profileInfoCard_header'>
+          <FontIcon children='person'/>
+          <span className='title'>About Me</span>
+        </h1>
+
+
         <div>
           <Button
             onClick={handleUploadResume}
@@ -55,6 +58,7 @@ function AboutMe(props) {
           variant='contained'
           color='primary'
           onClick={handleUpdate}
+          className='iBttn iBttn-primary'
           children='Edit'
         />
       </Paper>
