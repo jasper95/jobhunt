@@ -1,0 +1,43 @@
+.profileInfoCard {
+	padding: 1em;
+	margin-bottom: 1em;
+
+	// .profileInfoCard_header
+	&_header {
+		font-weight: 700;
+		font-size: 2em;
+		margin-bottom: .75em;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		line-height: 1;
+
+		.md-icon {
+			color: $primary-color;
+			font-size: 1em;
+			margin-right: .5em;
+			flex-shrink: 0;
+			line-height: 1;
+		}
+
+		.title {
+			flex-grow: 1;
+			flex-shrink: 1;
+			font-size: 1em;
+			color: $black;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-align: left;
+			line-height: 1;
+		}
+
+	}
+
+	// .profileInfoCard_instruction
+	&_instruction {
+		color: $gray-400;
+	}
+
+}

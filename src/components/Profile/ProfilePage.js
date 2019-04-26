@@ -10,19 +10,30 @@ function ProfilePage(props) {
   const { rows, columns, pageName, onNew, pageIcon } = props
   return (
     <Profile>
-      <Paper>
-        <div>
-          <FontIcon children={pageIcon}/> <span>{pageName}</span>
+      <Paper className='profileInfoCard'>
+
+        <h1 className='profileInfoCard_header'>
+          <FontIcon children={pageIcon}/>
+          <span className='title'>{pageName}</span>
+        </h1>
+
+        <div className='profileInfoCard_instruction'>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+            Eaque facilis necessitatibus et, rem praesentium. Minus.</p>
         </div>
+
         <DataTable
+          className='iTable'
           rows={rows}
           columns={columns}
         />
+
         <Button
           raised
           primary
           onClick={onNew}
           children={`New ${pageName}`}
+          className='iBttn iBttn-special-1'
         />
       </Paper>
     </Profile>
