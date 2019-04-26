@@ -32,7 +32,6 @@ function MySnackbarContent(props) {
 }
 
 MySnackbarContent.propTypes = {
-  classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,
