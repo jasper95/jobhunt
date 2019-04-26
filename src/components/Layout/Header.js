@@ -30,8 +30,8 @@ function Header(props) {
           <div className='nav_menu'>
             <ul className='nav_menu_list'>
               <li className='nav_menu_list_item'>
-                <Link href="">
-                  Home
+                <Link href="/">
+                  <a>Home</a>
                 </Link>
               </li>
             </ul>
@@ -47,7 +47,7 @@ function Header(props) {
   function renderProfileNav() {
     let profileNav = (
       <Link href='/login'>
-        <Button className='iBttn iBttn-primary nav_profile_login'>
+        <Button flat className='iBttn iBttn-primary nav_profile_login'>
           Login
         </Button>
       </Link>

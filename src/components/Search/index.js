@@ -37,6 +37,7 @@ function Search(props) {
           id='title'
         />
         <Select
+          instanceId='province'
           isSearchable
           getOptionLabel={(e) => e.provDesc}
           value={useMemo(() => fields.province ? provinceOptions.find(e => e.provCode === fields.province) : '', [fields.province])}
