@@ -24,8 +24,17 @@ function DefaultDialogActions(props) {
   const { onContinue, onCancel } = props
   return (
     <>
-      <Button flat secondary onClick={onCancel} children='Cancel' />
-      <Button flat primary onClick={onContinue} children='Save' />
+      <Button
+        className='iBttn iBttn-second-prio' 
+        flat secondary onClick={onCancel} 
+        children='Cancel' 
+      />
+
+      <Button
+        className='iBttn iBttn-primary' 
+        flat primary onClick={onContinue} 
+        children='Save' 
+      />
     </>
   )
 }

@@ -116,4 +116,21 @@ $dialog-easing : cubic-bezier(0.180, -0.020, 0.300, 1.020);
 			flex-shrink: 0;
 		}
 	}
+
+	// .i_dialog_body
+	&_body {
+		height: auto;
+		padding: 2em 1em 4em 1em;
+		font-size: 1em;
+	}
+
+	// .i_dialog_footer
+	&_footer {
+		padding: .5em;
+		background-color: #fff;
+
+		> .md-btn {
+			margin-right: .25em;
+		}
+	}
 }

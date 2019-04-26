@@ -25,6 +25,10 @@ $fieldBorder: 1px solid $gray-200;
 		}
 	}
 
+	input::placeholder {
+		color: $gray-200;
+	}
+
 	.md-text-field {
 		padding: .5em 0;
 		font-size: 1em;
@@ -75,5 +79,26 @@ $fieldBorder: 1px solid $gray-200;
 
 	& + .iField {
 		border-top: none;
+	}
+}
+
+// ====================================
+// datepicker
+// ====================================
+.iField {
+	.react-datepicker-wrapper ,
+	.react-datepicker__input-container ,
+	.react-datepicker__input-container input {
+		width: 100%;
+	}
+
+	.react-datepicker__input-container {
+		input {
+			border: none;
+			outline: none !important;
+			font-size: 1em;
+			font-family: $font-family;
+			min-height: 2.5em;
+		}
 	}
 }

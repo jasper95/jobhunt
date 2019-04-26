@@ -159,3 +159,48 @@ $btn-colors: (
 		background-color: $primary-color;
 	}
 }
+
+
+// ========================
+// PROCESSING
+// ========================
+@keyframes clockwise {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+.iBttn.processing {
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 50%;
+		margin-top: -13px;
+		left: 50%;
+		margin-left: -13px;
+		visibility: visible;
+		width: 26px;
+		height: 26px;
+		border-radius: 100%;
+		border-width: 4px;
+		border-style: solid;
+		border-color: #2CA1D8 rgba(0,0,0,0.5) rgba(0,0,0,0.5) rgba(0,0,0,0.5);
+		z-index: 110;
+		animation: clockwise .5s linear infinite;
+	}
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		visibility: visible;
+		background-color: rgba(255,255,255,0.5);
+		z-index: 100;
+	}
+}
