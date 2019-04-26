@@ -30,7 +30,7 @@ export const auth = async(ctx, requireAuth) => {
   let { user } = store.getState().auth
 
   if (!token) {
-    if (requireAuth) {
+    if (requireAuth === true) {
       redirectToPath(ctx, '/login')
     }
     return null
