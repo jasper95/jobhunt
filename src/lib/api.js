@@ -39,8 +39,7 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
       config = {
         ...config,
         headers: {
-          token,
-         ...omit(req.headers, 'cookie')
+          token
         }
       }
     }
@@ -55,6 +54,7 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
       }
     }
   }
+  console.log('config: ', config);
   return axiosInstance(config)
     .then(({ data }) => data)
     .catch((err) => {
@@ -75,6 +75,7 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
 }
 
 export function formatError(response) {
+  // console.log('response: ', response);
   const error = { type: 'ERROR', payload: { message: '' } }
   if (response.status === 401) {
     error.type = 'UNAUTHORIZED'
