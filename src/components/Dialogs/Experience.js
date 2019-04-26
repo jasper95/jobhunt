@@ -4,55 +4,41 @@ import TextField from '@material-ui/core/TextField';
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
+import DatePicker from 'react-datepicker'
 
 function ExperienceDialog(props) {
   const { formState, formHandlers } = props
   const { fields, errors } = formState
-  const { onElementChange } =  formHandlers
+  const { onElementChange, onChange } =  formHandlers
   return (
     <>
       <TextField
         label='Position title'
         id='position'
-        helperText={errors.position}
+        errorText={errors.position}
         value={fields.position || ''}
         error={!!errors.position}
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
       />
       <TextField
         id='company'
         label='Company'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.company}
-        helperText={errors.company}
+        errorText={errors.company}
         value={fields.company || ''}
       />
-      <TextField
-        id="start_date"
-        label="Joined Date"
-        type="month"
-        value={fields.start_date || ''}
-        onChange={onElementChange}
-        error={!!errors.start_date}
-        helperText={errors.start_date}
-        InputLabelProps={{
-          shrink: true,
-        }}
+      <DatePicker
+        selected={fields.start_date || ''}
+        onChange={value => onChange('start_date', value)}
+        dateFormat="MM/yyyy"
+        showMonthYearPicker
       />
-      <TextField
-        id="end_date"
-        label="To"
-        type="month"
-        onChange={onElementChange}
-        error={!!errors.end_date}
-        helperText={errors.end_date}
-        InputLabelProps={{
-          shrink: true,
-        }}
+      <DatePicker
+        selected={fields.end_date || ''}
+        onChange={value => onChange('end_date', value)}
+        dateFormat="MM/yyyy"
+        showMonthYearPicker
       />
     </>
   )

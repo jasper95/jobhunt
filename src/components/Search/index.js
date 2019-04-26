@@ -1,12 +1,8 @@
 import React from 'react'
-// import Card from '@material-ui/core/Card';
 import useForm from 'lib/hooks/useForm'
 import Button from 'react-md/lib/Buttons/Button'
 import Card from 'react-md/lib/Cards/Card'
 import TextField from 'react-md/lib/TextFields/TextField'
-// import Button from '@material-ui/core/Button';
-// import TextField from '@material-ui/core/TextField';
-// import Typography from '@material-ui/core/Typography';
 
 const initialFields = {
   password: '',

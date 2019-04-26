@@ -16,6 +16,7 @@ export default class MyDocument extends Document {
           <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet" />
           <link rel="stylesheet" type="text/css" href="/static/css/materialIcons.css" />
           <link rel="stylesheet" type="text/css" href="/static/css/react-draft-wysiwyg.css" />
+          <link rel="stylesheet" type="text/css" href="/static/css/react-datepicker.css" />
           <link rel="stylesheet" type="text/css" href="/static/css/rangeslider.css" />
         </Head>
         <body>

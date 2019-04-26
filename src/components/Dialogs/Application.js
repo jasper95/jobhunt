@@ -14,11 +14,9 @@ function ApplicationDialog(props) {
       <TextField
         id='pitch'
         label='Skill Heading'
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
         error={!!errors.pitch}
-        helperText={errors.pitch}
+        errorText={errors.pitch}
         value={fields.pitch}
       />
     </>

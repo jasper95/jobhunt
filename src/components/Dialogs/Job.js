@@ -28,7 +28,7 @@ function Job(props) {
       <TextField
         label='Job Title'
         id='name'
-        helperText={errors.name}
+        errorText={errors.name}
         value={fields.name || ''}
         margin='normal'
         variant='outlined'
@@ -77,12 +77,18 @@ function Job(props) {
       <TextField
         label='Floor/Bdlg/Street'
         id='street'
-        helperText={errors.street}
+        errorText={errors.street}
         value={fields.street || ''}
         error={!!errors.street}
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
+      />
+      <DatePicker
+        selected={fields.end_date || ''}
+        onChange={value => onChange('end_date', value)}
+        minDate={new Date()}
+        showDisabledMonthNavigation
       />
       <TextField
         id="end_date"
@@ -91,7 +97,7 @@ function Job(props) {
         value={fields.end_date || ''}
         onChange={onElementChange}
         error={!!errors.end_date}
-        helperText={errors.end_date}
+        errorText={errors.end_date}
         InputLabelProps={{
           shrink: true,
         }}

@@ -1,37 +1,25 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
+import DialogContainer from 'react-md/lib/Dialogs/DialogContainer'
+import Button from 'react-md/lib/Buttons/Button'
 import pick from 'lodash/pick'
-
 
 function DefaultDialogTitle(props) {
   const { onCancel, title } = props;
   return (
-    <MuiDialogTitle disableTypography>
-      <Typography variant="h6" children={title}/>
-      <IconButton aria-label="Close"  onClick={onCancel}>
-        <CloseIcon />
-      </IconButton>
-    </MuiDialogTitle>
+    <span>
+      {title}
+      <Button icon children='close' onClick={onCancel} />
+    </span>
   );
 }
 
-
-
 function DefaultDialogActions(props) {
-  const { onContinue } = props
+  const { onContinue, onCancel } = props
   return (
-    <MuiDialogActions>
-      <Button onClick={onContinue} variant='contained' color="primary">
-        Save changes
-      </Button>
-    </MuiDialogActions>
+    <>
+      <Button flat secondary onClick={onCancel} children='Cancel' />
+      <Button flat primary onClick={onContinue} children='Save' />
+    </>
   )
 }
 
@@ -43,18 +31,18 @@ function DialogLayout(props) {
     dialogId
   } = props
 
-  return(
-    <Dialog
-      aria-labelledby={dialogId}
-      open
-      {...pick(props, ['maxWidth', 'fullWidth'])}
-    >
-      <DialogTitle id={dialogId} {...pick(props, ['onCancel', 'title'])}/>
-      <DialogContent>
-        {children}
-      </DialogContent>
-      <DialogActions {...pick(props, ['onContinue', 'onCancel'])}/>
-    </Dialog>
+  return (
+    <DialogContainer
+      visible
+      title={(
+        <DialogTitle {...pick(props, ['onCancel', 'title'])} />
+      )}
+      children={children}
+      actions={(
+        <DialogActions {...pick(props, ['onContinue', 'onCancel'])} />
+      )}
+      {...pick(props, 'dialogClassName', 'footerClassName', 'titleClassName', 'contentClassName')}
+    />
   )
 }
 

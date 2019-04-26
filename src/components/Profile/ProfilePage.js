@@ -1,9 +1,9 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper';
-import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
 import DataTable from 'components/DataTable'
-import Button from '@material-ui/core/Button';
+import Paper from 'react-md/lib/Papers/Paper'
+import Button from 'react-md/lib/Buttons/Button'
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import { formatISOToDate, formatMonthYearToISO } from 'lib/tools'
 
 function ProfilePage(props) {
@@ -12,15 +12,15 @@ function ProfilePage(props) {
     <Profile>
       <Paper>
         <div>
-          <Icon children={pageIcon}/> <span>{pageName}</span>
+          <FontIcon children={pageIcon}/> <span>{pageName}</span>
         </div>
         <DataTable
           rows={rows}
           columns={columns}
         />
         <Button
-          variant='contained'
-          color='primary'
+          raised
+          primary
           onClick={onNew}
           children={`New ${pageName}`}
         />
@@ -43,12 +43,6 @@ function dataFormatter(data, action, { user }) {
 }
 
 const profilePropsKeys = ['onNew', 'rows']
-
-// const selector = createSelector(
-//   (state, { dataPropKey }) => state.profile[dataPropKey],
-//   (rows) => ({ rows })
-// )
-// const profilePageSelector = (state, ownProps) => selector(state, ownProps)
 
 export { profilePropsKeys, dataFormatter }
 
