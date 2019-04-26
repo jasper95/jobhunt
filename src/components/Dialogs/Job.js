@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
 import { compose } from 'redux'
-import TextField from '@material-ui/core/TextField';
+import TextField from 'react-md/lib/TextFields/TextField'
 import CreatableInput from 'components/CreatableInput'
 import withDialog from 'lib/hocs/dialog'
 import Select from 'react-select'
@@ -10,6 +10,7 @@ import barangay from 'lib/constants/address/barangay'
 import municipality from 'lib/constants/address/municipality'
 import province from 'lib/constants/address/province'
 import { connect } from 'react-redux'
+import DatePicker from 'react-datepicker'
 import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
 
 const barangayOptions = barangay.RECORDS
@@ -30,8 +31,6 @@ function Job(props) {
         id='name'
         errorText={errors.name}
         value={fields.name || ''}
-        margin='normal'
-        variant='outlined'
         onChange={onElementChange}
       />
       <Editor
@@ -89,18 +88,6 @@ function Job(props) {
         onChange={value => onChange('end_date', value)}
         minDate={new Date()}
         showDisabledMonthNavigation
-      />
-      <TextField
-        id="end_date"
-        label="Deadline Date"
-        type="date"
-        value={fields.end_date || ''}
-        onChange={onElementChange}
-        error={!!errors.end_date}
-        errorText={errors.end_date}
-        InputLabelProps={{
-          shrink: true,
-        }}
       />
     </>
   )

@@ -9,10 +9,10 @@ function JobPosts(props) {
   return (
     <div>
       <Grid>
-        <Cell item size={3}>
+        <Cell size={3}>
           <Search />
         </Cell>
-        <Cell item size={9}>
+        <Cell size={9}>
           {posts.map(post => (
             <Post key={post.id} post={post}/>
           ))}

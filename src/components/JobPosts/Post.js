@@ -9,9 +9,10 @@ import Link from 'next/link'
 
 
 function Post(props) {
-  const {  post } = props;
+  const { post } = props;
+  console.log('post: ', post);
   return (
-    <Card className={classes.card}>
+    <Card>
       <CardTitle
         title={(
           <Link href={`/jobs/${post.slug}`}>
@@ -19,9 +20,7 @@ function Post(props) {
           </Link>
         )}
         subtitle={(
-          <Link>
-            <Button flat children={post.company.name} />
-          </Link>
+          <Button flat children={post.company.name} />
         )}
       />
       <CardText className="cards__weather__temperature">
@@ -40,8 +39,5 @@ function formatAddress({ province, municipality }) {
   return [municipality, province].join(', ')
 }
 
-Post.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default Post
