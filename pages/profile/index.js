@@ -1,9 +1,9 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper';
+import Paper from 'react-md/lib/Papers/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
-import Button from '@material-ui/core/Button';
+import Paper from 'react-md/lib/Buttons/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Profile from 'components/Profile'
 import DataTable from 'components/DataTable'

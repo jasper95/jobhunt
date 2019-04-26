@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
-import TextField from '@material-ui/core/TextField';
+import TextField from 'react-md/lib/TextFields/TextField'
+// import TextField from '@material-ui/core/TextField';
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
-import Select from 'react-select';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg'
 
 function AboutMe(props) {
   const { formState, formHandlers } = props
   const { fields, errors } = formState
-  const { onElementChange } =  formHandlers
+  const { onElementChange, onChange } =  formHandlers
+  const [editorState, setEditorState] = useState(getEditorInitialState)
   return (
     <>
       <TextField
@@ -40,18 +43,22 @@ function AboutMe(props) {
         errorText={errors.contact_number}
         value={fields.contact_number || ''}
       />
-      <TextField
-        id='description'
-        label='Company Description'
-        onChange={onElementChange}
-        error={!!errors.description}
-        errorText={errors.description}
-        value={fields.description || ''}
-        rows={4}
-        multiline
+      <Editor
+        editorState={editorState}
+        wrapperClassName="demo-wrapper"
+        editorClassName="demo-editor"
+        onEditorStateChange={newState => {
+          setEditorState(newState)
+          onChange('description', convertToRaw(newState.getCurrentContent()))
+        }}
       />
     </>
   )
+
+  function getEditorInitialState() {
+    return fields.description ?
+      EditorState.createWithContent(convertFromRaw(fields.description)) : EditorState.createEmpty()
+  }
 }
 
 function validator(data) {

@@ -1,11 +1,11 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper';
+import Paper from 'react-md/lib/Papers/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Icon from '@material-ui/core/Icon';
 import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
-import Button from '@material-ui/core/Button';
+import Paper from 'react-md/lib/Buttons/Button';
 import Typography from '@material-ui/core/Typography';
 import {
   ShowDialog,

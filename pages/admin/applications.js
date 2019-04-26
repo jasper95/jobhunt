@@ -12,9 +12,7 @@ import withAuth from 'lib/hocs/auth'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
 import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon'
-import { getFileLink } from 'lib/tools'
+import Button from 'react-md/lib/Buttons/Button'
 
 function Jobs(props) {
   const { dispatch } = props
@@ -102,9 +100,7 @@ function ActionButton(props) {
     return null
   }
   return (
-    <IconButton aria-label={label} key={icon} className={className} onClick={() => onClick(row)}>
-      <Icon children={icon} />
-    </IconButton>
+    <Button icon children={icon} className={className} onClick={() => onClick(row)}/>
   )
 }
 
