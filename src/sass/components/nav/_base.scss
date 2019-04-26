@@ -58,7 +58,7 @@
 				padding: 0 1em;
 				background-color: transparent;
 				transition: 
-					background-color 300ms ease-ouy;
+					background-color 300ms ease-out;
 
 				&:before {
 					content: '';
@@ -83,6 +83,8 @@
 			align-items: center;
 			justify-content: center;
 			color: $primary-color;
+			font-family: $font-family;
+			font-weight: 700;
 		}
 	}
 
@@ -96,26 +98,48 @@
 		position: relative;
 
 
-		// .nav_profile_avatarBtn
-		&_avatarBtn {
-			position: relative;
-			.md-icon {
-				position: absolute;
-				top: 0;
-				left: 0;
+		// nav_profile_avatar
+		&_avatar {
+			width: $nav-avatar-size;
+			height: $nav-avatar-size;
+			border-radius: 50%;
+			overflow: hidden;
+			img {
 				width: 100%;
 				height: 100%;
-			}
-
-			.md-avatar ,
-			.md-avatar img {
-				width: 100%;
-				height: 100%;
-			}
-
-			.md-avatar img {
 				object-fit: cover;
-				object-position: center center;
+				object-positon: 50% 50%;
+			}
+		}
+
+		// nav_profile_content
+		&_content {
+			padding: 0 1em;
+			.name ,
+			.logout {
+				line-height: 1;
+				margin-top: 0;
+				margin-bottom: 0;
+				cursor: pointer;
+			}
+
+			.name {
+				font-size: 1.5em;
+				font-weight: 700;
+				color: $black;
+				margin-bottom: .5rem;
+
+				&:hover {
+					color: $primary-color;
+				}
+			}
+
+			.logout {
+				color: $gray-200;
+				font-weight: 600;
+				&:hover {
+					color: $error;
+				}
 			}
 		}
 

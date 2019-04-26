@@ -43,20 +43,25 @@ function Header(props) {
             </ul>
           </div>
           <div className='nav_profile'>
+
+
             {isAuthenticated ? (
-              <MenuButton
-                floating
-                id='dropdown'
-                className='nav_profile_avatarBtn'
-                menuItems={renderMenus()}
-                anchor={{
-                  x: MenuButton.HorizontalAnchors.CENTER,
-                  y: MenuButton.VerticalAnchors.OVERLAP,
-                }}
-                position={MenuButton.Positions.TOP_LEFT}
-              >
-                  <Avatar src="/static/img/default-avatar.png" />
-              </MenuButton>
+              <>
+                <div className='nav_profile_avatar'>
+                  <img src='/static/img/default-avatar.png'/>
+                </div>
+                <div className='nav_profile_content'>
+                  <p 
+                    className='name'
+                    onClick={() => {Router.push(profileLink[user.role])}}>
+                    { user.first_name } { user.last_name }
+                  </p>
+                  <p className='logout' 
+                    onClick={() => {dispatch(Logout())}}>
+                    Logout
+                  </p>
+                </div>
+              </>
             ) : (
               <Button className='iBttn iBttn-primary nav_profile_login'>
                 Login

@@ -4,6 +4,9 @@ import Button from 'react-md/lib/Buttons/Button'
 import Card from 'react-md/lib/Cards/Card'
 import TextField from 'react-md/lib/TextFields/TextField'
 
+
+import 'sass/components/searchCard/index.scss'
+
 const initialFields = {
   password: '',
   email: '',
@@ -19,16 +22,31 @@ function Search(props) {
   const { fields, errors } = formState
 
   return (
-    <Card>
+    <Card className='searchCard'>
+      <h1 className='searchCard_title'>
+        Search Criteria
+      </h1>
+
+      <div className='searchCard_form'>
+        <TextField
+          className='iField'
+          onChange={onElementChange}
+          value={fields.title}
+          label='Job Title'
+          id='title'
+        />
+      </div>
+
+      <Button
+        className='iBttn iBttn-primary searchCard_searchBtn'
+        children='Search'
+        flat
+      />
+
       {/* <Typography color="textSecondary" gutterBottom>
         Search Criteria
       </Typography> */}
-      <TextField
-        id='title'
-        label='Job Title'
-        onChange={onElementChange}
-        value={fields.title}
-      />
+
       {/* <TextField
         select
         id='location'
@@ -39,12 +57,6 @@ function Search(props) {
         onChange={onElementChange}
         value={fields.location}
       /> */}
-      <br />
-      <Button
-        flat
-        // style={styleLoginButton}
-        children='Search'
-      />
     </Card>
   )
 }
