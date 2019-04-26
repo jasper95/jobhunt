@@ -54,6 +54,10 @@ $fieldBorder: 1px solid $gray-200;
 			visibility: visible;
 		}
 	}
+
+	.md-text-field-inline-indicator {
+		right: 1em;
+	}
 }
 
 .iField + .iField {

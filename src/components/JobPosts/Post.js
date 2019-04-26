@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 
 function Post(props) {
-  const {  post } = props;
+  const { post } = props;
   return (
     <Card className={classes.card}>
       <CardTitle

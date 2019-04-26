@@ -18,7 +18,7 @@ function Page(props) {
     children, dialog,
     notification, dispatch,
     hasNavigation, hasFooter,
-    pageId
+    pageId, className
   } = props
   let Dialog
  
@@ -42,7 +42,7 @@ function Page(props) {
         <Dialog {...dialog.props} />
       )}
 
-      <main className={`page page-${pageId}`}>
+      <main className={`page page-${pageId} ${className}`}>
         {children}
       </main>
 
