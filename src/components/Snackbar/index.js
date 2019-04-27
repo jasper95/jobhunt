@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Snackbar from 'react-md/lib/Snackbars'
@@ -12,19 +12,20 @@ function MySnackbarContent(props) {
     error: 'error',
     success: 'check_circle'
   }[type]
+  const toasts = useMemo(() => ([{
+    text:(
+      <span id="client-snackbar">
+        <FontIcon children={icon}/>
+        {message}
+      </span>
+    ),
+    label: 'Dismiss'
+  }]), [message, type])
   return (
     <Snackbar
       className={cn('snackbar', { error: type === 'error', success: type === 'success' } )}
       autohideTimeout={6000}
-      toasts={[{
-        text:(
-          <span id="client-snackbar">
-            <FontIcon children={icon}/>
-            {message}
-          </span>
-        ),
-        label: 'Dismiss'
-      }]}
+      toasts={toasts}
       portal
       onDismiss={onClose}
     />
