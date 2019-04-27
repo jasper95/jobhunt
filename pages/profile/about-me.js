@@ -28,15 +28,20 @@ function AboutMe(props) {
       <Paper className='profileInfoCard'>
         <h1 className='profileInfoCard_header'>
           <FontIcon children='person'/>
-          <span className='title'>About Me</span>
+          <span className='title'>
+            About Me
+            <span className='action'>
+              <span 
+                className='action_item' 
+                onClick={handleUploadResume}
+                children='Upload resume'
+              />
+            </span>
+          </span>
         </h1>
 
 
         <div>
-          <Button
-            onClick={handleUploadResume}
-            children='Upload Resume'
-          />
           <Info label='Name' value={`${user.first_name} ${user.last_name}`} />
           <Info label='Contact Number' value={user.contact_number} />
           <Info label='Email' value={user.email} />
@@ -44,13 +49,15 @@ function AboutMe(props) {
           <Info label='Date of Birth' value={user.birth_date ? day(user.birth_date).format('YYYY-MM-DD') : '' } />
           <Info label='Nationality' value={user.nationality} />
         </div>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleUpdate}
-          className='iBttn iBttn-primary'
-          children='Edit'
-        />
+
+
+        <div className='profileInfoCard_actions'>
+          <Button
+            onClick={handleUpdate}
+            className='iBttn iBttn-primary'
+            children='Edit'
+          />
+        </div>
       </Paper>
     </Profile>
   )
@@ -99,10 +106,9 @@ function AboutMe(props) {
 
 function Info({ label, value }) {
   return (
-    <div>
-      <span>{label}</span>
-      <span>{value}</span>
-      <br/>
+    <div className='infoField'>
+      <p className='infoField_key'>{label}</p>
+      <p className='infoField_value'>{value}</p>
     </div>
   )
 }

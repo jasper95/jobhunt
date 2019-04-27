@@ -1,0 +1,86 @@
+.iDropzone {
+	position: relative;
+	min-height: 20em;
+
+	// .iDropzone_entryMsg
+	&_entryMsg {
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		font-weight: 700;
+		font-size: 1.5em;
+		padding: 2em;
+		outline: none !important;
+		color: rgba($black, .8);
+		background-color: lighten($primary-color-100,2%);
+		transition: background-color 300ms ease-out;
+
+		&:hover {
+			background-color: $primary-color-100;
+		}
+	}
+
+	// .iDropzone_files
+	&_files {
+		padding: 1em;
+	}
+
+	// .iDropzone_file
+	&_file {
+		text-align: center;
+
+		// .iDropzone_file_preview
+		&_preview {
+			padding: 1em;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 1em;
+
+			// .iDropzone_file_preview_src
+			&_src {
+				width: auto;
+				height: 20em;
+			}
+		}
+
+		// .iDropzone_file_name
+		&_name {
+			text-align: center;
+			color: $black;
+			font-size: 1.25em;
+			font-weight: 700;
+			line-height: 1;
+		}
+	}
+}
+
+// ================================
+// IF HAS FILES
+// ================================
+.iDropzone-hasFiles {
+	.iDropzone_entryMsg {
+
+		z-index: 10;
+		background-color: rgba($primary-color-100,.8);
+		visibility: hidden;
+		opacity: 0;
+		transition:
+			visibility 300ms ease-out ,
+			opacity 300ms ease-out ;
+	}
+
+	&:hover {
+		.iDropzone_entryMsg {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+}

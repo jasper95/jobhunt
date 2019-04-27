@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { compose } from 'redux'
 import withDialog from 'lib/hocs/dialog'
 import {useDropzone} from 'react-dropzone'
+import cn from 'classnames'
 
 function UploadDialog(props) {
   const { formState, formHandlers } = props
@@ -10,25 +11,32 @@ function UploadDialog(props) {
   const { onChange } =  formHandlers
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({ onDrop, multiple: false })
+
+  const hasPreviewImage = file && file.type.includes('image')  && fields.base64string 
   return (
-    <div {...getRootProps()}>
+    <div 
+      className={cn('iDropzone',{'iDropzone-hasFiles': file})} 
+      {...getRootProps()}>
       <input {...getInputProps()} />
-      <p>Drag 'n' drop some files here, or click to select files</p>
-      {file && (
-        <>
-          {file && file.type.includes('image') && fields.base64string && (
-            <img
-              alt="Preview"
-              src={fields.base64string}
-              style={{
-                display: 'inline',
-                width: 100,
-                height: 100,
-              }}
-            />
-          )}
-          <span>{file.name}</span>
-        </>
+      <p className='iDropzone_entryMsg'>
+        Drag 'n' drop some files here, or click to select files
+      </p>
+
+      { file && (
+        <div className='iDropzone_files'>
+          <div className='iDropzone_file'>
+            { hasPreviewImage && (
+              <div className='iDropzone_file_preview'>
+                <img 
+                  className='iDropzone_file_preview_src'
+                  src={fields.base64string} 
+                  alt="Preview" 
+                />
+              </div>
+            )}
+            <h1 className='iDropzone_file_name'>{file.name}</h1>
+          </div>
+        </div>
       )}
     </div>
   )
