@@ -12,23 +12,50 @@ function AboutMe(props) {
   const { onElementChange, onChange } =  formHandlers
   return (
     <>
+      <div className="row iFieldRow">
+        <TextField
+          className='iField col-md-6'
+          label='Firstname'
+          id='first_name'
+          error={!!errors.first_name}
+          errorText={errors.first_name}
+          value={fields.first_name || ''}
+          onChange={onElementChange}
+        />
+        <TextField
+          className='iField col-md-6'
+          label='Lastname'
+          id='last_name'
+          error={!!errors.last_name}
+          errorText={errors.last_name}
+          value={fields.last_name || ''}
+          onChange={onElementChange}
+        />
+      </div>
+      <div className="row iFieldRow">
+        <div className='iField col-md-6'>
+          <label>Date of Birth</label>
+          <DatePicker
+            selected={fields.birth_date || ''}
+            onChange={() => onChange('birth_date', value)}
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+          />
+        </div>
+        <TextField
+          className='iField col-md-6'
+          id='nationality'
+          label='Nationality'
+          onChange={onElementChange}
+          error={!!errors.nationality}
+          errorText={errors.nationality}
+          value={fields.nationality || ''}
+        />
+      </div>
       <TextField
-        label='Firstname'
-        id='first_name'
-        error={!!errors.first_name}
-        errorText={errors.first_name}
-        value={fields.first_name || ''}
-        onChange={onElementChange}
-      />
-      <TextField
-        label='Lastname'
-        id='last_name'
-        error={!!errors.last_name}
-        errorText={errors.last_name}
-        value={fields.last_name || ''}
-        onChange={onElementChange}
-      />
-      <TextField
+        className='iField'
         id='email'
         label='Email'
         type='email'
@@ -38,6 +65,7 @@ function AboutMe(props) {
         value={fields.email || ''}
       />
       <TextField
+        className='iField'
         id='contact_number'
         label='Contact Number'
         onChange={onElementChange}
@@ -45,18 +73,9 @@ function AboutMe(props) {
         errorText={errors.contact_number}
         value={fields.contact_number || ''}
       />
-      <div>
-        <label>Date of Birth</label>
-        <DatePicker
-          selected={fields.birth_date || ''}
-          onChange={() => onChange('birth_date', value)}
-          peekNextMonth
-          showMonthDropdown
-          showYearDropdown
-          dropdownMode="select"
-        />
-      </div>
+
       <TextField
+        className='iField'
         id='address'
         label='Address'
         margin='normal'
@@ -66,14 +85,7 @@ function AboutMe(props) {
         errorText={errors.address}
         value={fields.address || ''}
       />
-      <TextField
-        id='nationality'
-        label='Nationality'
-        onChange={onElementChange}
-        error={!!errors.nationality}
-        errorText={errors.nationality}
-        value={fields.nationality || ''}
-      />
+
     </>
   )
 }
