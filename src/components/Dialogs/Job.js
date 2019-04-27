@@ -12,7 +12,7 @@ import province from 'lib/constants/address/province'
 import { connect } from 'react-redux'
 import DatePicker from 'react-datepicker'
 import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
-import { getValidationResult } from 'lib/tools'
+import { getValidationResult, validateDescription } from 'lib/tools'
 import joi from 'joi'
 
 const barangayOptions = barangay.RECORDS
@@ -182,17 +182,19 @@ function validator(data) {
     job_category_id: joi.string().required().error(() => 'Job Category is required'),
     barangay: joi.string().required().error(() => 'Barangay is required'),
     municipality: joi.string().required().error(() => 'Municipality is required'),
-    skills: joi.array().min(1).required().error(() => 'At least 1 skill is required'),
-    description: joi.object().keys({
-      blocks: joi.array().min(1).items(
-        joi.object({
-          text: joi.string().required()
-        })
-      )
-    }).required().error(() => 'Description is required')
+    skills: joi.array().min(1).required().error(() => 'At least 1 skill is required')
   })
-  return getValidationResult(data, schema)
+  let { errors } = getValidationResult(data, schema)
+  errors = {
+    ...errors,
+    ...validateDescription(data.description)
+  }
+  return {
+    errors,
+    isValid: !Object.keys(errors).length
+  }
 }
+
 const customChangeHandler = {
   province(province) {
     return {

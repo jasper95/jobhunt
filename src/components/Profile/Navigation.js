@@ -44,7 +44,12 @@ const ROLE_NAV = {
       icon: 'account_box',
       label: 'About Me',
       link: '/profile/about-me',
-    }
+    },
+    {
+      icon: 'insert_drive_file',
+      label: 'Applications',
+      link: '/profile/applications',
+    },
   ],
   ADMIN: [
     {

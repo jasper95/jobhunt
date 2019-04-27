@@ -5,7 +5,6 @@ import TableBody from 'react-md/lib/DataTables/TableBody'
 import TableRow from 'react-md/lib/DataTables/TableRow'
 import TableColumn from 'react-md/lib/DataTables/TableColumn'
 import TableHead from 'react-md/lib/DataTables/TableHeader'
-import Paper from 'react-md/lib/Papers/Paper'
 import Button from 'react-md/lib/Buttons/Button'
 
 function DataTable(props) {
@@ -37,7 +36,7 @@ function DataTable(props) {
 function Row(props) {
   const {
     type, row, accessor, bodyProps = {}, actions = [],
-    component: Cell} = props
+    component: Cell, fn = () => null } = props
   let children
   if (type === 'actions') {
     children = actions.map(({ label, className, icon, onClick, type, component: Action }) => {
@@ -61,7 +60,9 @@ function Row(props) {
     children = (
       <Cell row={row} />
     )
-  } else {
+  } else if (type === 'function') {
+    children = fn(row)
+  }else {
     children = row[accessor]
   }
   return (
