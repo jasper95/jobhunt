@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react'
 import Button from 'react-md/lib/Buttons/Button'
 import TextField from 'react-md/lib/TextFields/TextField'
 import Link from 'next/link';
@@ -9,6 +10,7 @@ import withAuth from 'lib/hocs/auth';
 import api, { redirectToPath } from 'lib/api'
 import { getValidationResult } from 'lib/tools'
 import Page from 'components/Layout/Page'
+import Router from 'next/router'
 import joi from 'joi'
 import 'sass/pages/login.scss'
 
@@ -28,7 +30,11 @@ function LoginPage(props){
     onValidate
   } = formHandlers
   const { fields, errors } = formState
-
+  useEffect(() => {
+    if(verified) {
+      Router.push('/login', '/login', { shallow: true })
+    }
+  }, [1])
   return (
     <Page 
       pageId='login'
