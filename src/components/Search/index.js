@@ -37,6 +37,8 @@ function Search(props) {
           id='title'
         />
         <Select
+          className='iField iField-rs'
+          classNamePrefix='iField-rs'
           instanceId='province'
           isSearchable
           getOptionLabel={(e) => e.provDesc}

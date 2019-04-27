@@ -68,9 +68,6 @@ $fieldBorder: 1px solid $gray-200;
 	border-top: none;
 }
 
-
-
-
 .iFieldRow {
 	.iField + .iField {
 		border-top: $fieldBorder;
@@ -100,5 +97,56 @@ $fieldBorder: 1px solid $gray-200;
 			font-family: $font-family;
 			min-height: 2.5em;
 		}
+	}
+}
+
+// ====================================
+// react select
+// ====================================
+.iField-rs {
+	padding: 0;
+
+	// .iField-rs__control
+	&__control {
+		border: none;
+		padding: .8em;
+		border-radius: 0;
+
+		// .iField-rs__control--is-focused
+		&--is-focused {
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 100%;
+				width: 3px;
+				height: 100%;
+				background-color: $primary-color;
+			}
+			border: none !important;
+		}
+	}
+
+	// .iField-rs__menu
+	&__menu {
+		margin-top: 0;
+		border-radius: 0;
+
+		// .iField-rs__menu-list
+		&-list {
+			padding: 0;
+			max-height: 12em;
+		}
+	}
+
+	// .iField-rs__indicators
+	&__indicators {
+
+
+	}
+
+	// .iField-rs__indicator-separator
+	&__indicator-separator {
+		display: none;
 	}
 }

@@ -1,6 +1,7 @@
 .iTable {
 	font-size: 1em;
 	font-family: $font-family;
+	overflow: visible;
 
 	// cells
 	.md-table-column {

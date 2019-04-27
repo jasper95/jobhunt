@@ -54,9 +54,13 @@
 
 				}
 
+				.md-text ,
+				.md-text--theme-primary {
+					font-size: inherit !important;
+				}
+
 				.md-text {
 					color: inherit;
-					font-size: inherit !important;
 				}
 
 				.md-icon {
