@@ -7,7 +7,7 @@ import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import { formatISOToDate, formatMonthYearToISO } from 'lib/tools'
 
 function ProfilePage(props) {
-  const { rows, columns, pageName, onNew, pageIcon } = props
+  const { rows, columns, pageName, onNew, pageIcon, readOnly } = props
   return (
     <Profile>
       <Paper className='profileInfoCard'>
@@ -27,13 +27,15 @@ function ProfilePage(props) {
           columns={columns}
         />
 
-        <Button
-          raised
-          primary
-          onClick={onNew}
-          children={`New ${pageName}`}
-          className='iBttn iBttn-special-1'
-        />
+        {!readOnly && (
+          <Button
+            raised
+            primary
+            onClick={onNew}
+            children={`New ${pageName}`}
+            className='iBttn iBttn-special-1'
+          />
+        )}
       </Paper>
     </Profile>
   )
