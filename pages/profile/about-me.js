@@ -6,7 +6,6 @@ import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
 import Button from 'react-md/lib/Buttons/Button'
-import Typography from '@material-ui/core/Typography'
 import {
   ShowDialog,
   Update,
@@ -18,15 +17,6 @@ import {
 import day from 'dayjs'
 import { formatDateToISO, formatISOToDate } from 'lib/tools'
 import authSelector from 'redux/auth/selector'
-
-function Info({ label, value }) {
-  return (
-    <>
-      <Typography variant="caption" gutterBottom children={label} />
-      <Typography variant="caption" gutterBottom children={value} />
-    </>
-  )
-}
 
 function AboutMe(props) {
   const { dispatch, user } = props
@@ -106,6 +96,17 @@ function AboutMe(props) {
     dispatch(SetUserAuth(data))
   }
 }
+
+function Info({ label, value }) {
+  return (
+    <div>
+      <span>{label}</span>
+      <span>{value}</span>
+      <br/>
+    </div>
+  )
+}
+
 
 export default compose(
   withAuth(),

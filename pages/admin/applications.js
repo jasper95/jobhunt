@@ -88,10 +88,6 @@ function Jobs(props) {
       }
     }))
   }
-
-  function handleDownloadResume() {
-
-  }
 }
 
 function ActionButton(props) {

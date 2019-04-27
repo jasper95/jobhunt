@@ -12,6 +12,8 @@ import province from 'lib/constants/address/province'
 import { connect } from 'react-redux'
 import DatePicker from 'react-datepicker'
 import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
+import { getValidationResult } from 'lib/tools'
+import joi from 'joi'
 
 const barangayOptions = barangay.RECORDS
 const municipalityOptions = municipality.RECORDS
@@ -30,49 +32,86 @@ function Job(props) {
         label='Job Title'
         id='name'
         errorText={errors.name}
+        error={Boolean(errors.name)}
         value={fields.name || ''}
         onChange={onElementChange}
       />
-      <Editor
-        editorState={editorState}
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
-        onEditorStateChange={newState => {
-          setEditorState(newState)
-          onChange('description', convertToRaw(newState.getCurrentContent()))
-        }}
-      />
-      <CreatableInput
-        value={fields.skills}
-        onChange={value => onChange('skills', value)}
-      />
-      <Select
-        getOptionLabel={(e) => e.name}
-        onChange={value => onChange('job_category_id', value.id)}
-        options={options.jobCategories || []}
-        value={getValue('job_category_id')}
-      />
-      <Select
-        isSearchable
-        getOptionLabel={(e) => e.provDesc}
-        value={getValue('province')}
-        onChange={value => onChange('province', value.provCode)}
-        options={provinceOptions}
-      />
-      <Select
-        isSearchable
-        getOptionLabel={(e) => e.citymunDesc}
-        value={getValue('municipality')}
-        onChange={value => onChange('municipality', value.citymunCode)}
-        options={getOptions('municipality')}
-      />
-      <Select
-        isSearchable
-        getOptionLabel={(e) => e.brgyDesc}
-        onChange={value => onChange('barangay', value.brgyCode)}
-        options={getOptions('barangay')}
-        value={getValue('barangay')}
-      />
+      <div>
+        <label>Description</label>
+        <Editor
+          editorState={editorState}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={newState => {
+            setEditorState(newState)
+            onChange('description', convertToRaw(newState.getCurrentContent()))
+          }}
+        />
+        {errors.description && (
+          <span>{errors.description}</span>
+        )}
+      </div>
+      <div>
+        <label>Skills</label>
+        <CreatableInput
+          value={fields.skills || []}
+          onChange={value => onChange('skills', value)}
+        />
+        {errors.skills && (
+          <span>{errors.skills}</span>
+        )}
+      </div>
+      <div>
+        <label>Job Category</label>
+        <Select
+          getOptionLabel={(e) => e.name}
+          onChange={value => onChange('job_category_id', value.id)}
+          options={options.jobCategories || []}
+          value={getValue('job_category_id')}
+        />
+        {errors.job_category_id && (
+          <span>{errors.job_category_id}</span>
+        )}
+      </div>
+      <div>
+        <label>Province</label>
+        <Select
+          isSearchable
+          getOptionLabel={(e) => e.provDesc}
+          value={getValue('province')}
+          onChange={value => onChange('province', value.provCode)}
+          options={provinceOptions}
+        />
+        {errors.province && (
+          <span>{errors.province}</span>
+        )}
+      </div>
+      <div>
+        <label>Municipality</label>
+        <Select
+          isSearchable
+          getOptionLabel={(e) => e.citymunDesc}
+          value={getValue('municipality')}
+          onChange={value => onChange('municipality', value.citymunCode)}
+          options={getOptions('municipality')}
+        />
+        {errors.municipality && (
+          <span>{errors.municipality}</span>
+        )}
+      </div>
+      <div>
+        <label>Barangay</label>
+        <Select
+          isSearchable
+          getOptionLabel={(e) => e.brgyDesc}
+          onChange={value => onChange('barangay', value.brgyCode)}
+          options={getOptions('barangay')}
+          value={getValue('barangay')}
+        />
+        {errors.barangay && (
+          <span>{errors.barangay}</span>
+        )}
+      </div>
       <TextField
         label='Floor/Bdlg/Street'
         id='street'
@@ -83,12 +122,18 @@ function Job(props) {
         variant='outlined'
         onChange={onElementChange}
       />
-      <DatePicker
-        selected={fields.end_date || ''}
-        onChange={value => onChange('end_date', value)}
-        minDate={new Date()}
-        showDisabledMonthNavigation
-      />
+      <div>
+        <label>Application Deadline</label>
+        <DatePicker
+          selected={fields.end_date || ''}
+          onChange={value => onChange('end_date', value)}
+          minDate={new Date()}
+          showDisabledMonthNavigation
+        />
+        {errors.barangay && (
+          <span>{errors.barangay}</span>
+        )}
+      </div>
     </>
   )
 
@@ -130,22 +175,43 @@ const Dialog = compose(
   connect(formOptionsSelector)
 )(Job)
 
-Dialog.defaultProps = {
-  customChangeHandler: {
-    province(province) {
-      return {
-        province,
-        municipality: '',
-        barangay: ''
-      }
-    },
-    municipality(municipality) {
-      return {
-        municipality,
-        barangay: ''
-      }
+function validator(data) {
+  const schema = joi.object().keys({
+    province: joi.string().required().error(() => 'Province is required'),
+    name: joi.string().required().error(() => 'Job Title is required'),
+    job_category_id: joi.string().required().error(() => 'Job Category is required'),
+    barangay: joi.string().required().error(() => 'Barangay is required'),
+    municipality: joi.string().required().error(() => 'Municipality is required'),
+    skills: joi.array().min(1).required().error(() => 'At least 1 skill is required'),
+    description: joi.object().keys({
+      blocks: joi.array().min(1).items(
+        joi.object({
+          text: joi.string().required()
+        })
+      )
+    }).required().error(() => 'Description is required')
+  })
+  return getValidationResult(data, schema)
+}
+const customChangeHandler = {
+  province(province) {
+    return {
+      province,
+      municipality: '',
+      barangay: ''
+    }
+  },
+  municipality(municipality) {
+    return {
+      municipality,
+      barangay: ''
     }
   }
+}
+
+Dialog.defaultProps = {
+  customChangeHandler,
+  validator
 }
 
 export { provinceOptions, barangayOptions, municipalityOptions }

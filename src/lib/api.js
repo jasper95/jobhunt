@@ -2,7 +2,6 @@ import axios from 'axios'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
-import omit from 'lodash/omit'
 
 export const axiosInstance = axios
   .create({
@@ -54,7 +53,6 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
       }
     }
   }
-  console.log('config: ', config);
   return axiosInstance(config)
     .then(({ data }) => data)
     .catch((err) => {

@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Router from 'next/router'
+import Router, { withRouter } from 'next/router'
 import List from 'react-md/lib/Lists/List'
 import ListItem from 'react-md/lib/Lists/ListItem'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
@@ -10,13 +9,14 @@ import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
 function MenuItem(props) {
-  const { icon, label, link } = props
+  const { icon, label, link, active } = props
   return (
     <ListItem
       onClick={() => {
         Router.push(link)
       }}
       className='profileNavCard_menu_item'
+      active={active}
       primaryText={label}
       rightIcon={<FontIcon children={icon}/>}
     />
@@ -66,10 +66,15 @@ const ROLE_NAV = {
 }
 
 function ProfileNavigation(props) {
-  const { classes, user } = props;
+  const { user, router } = props;
   if (!user) {
     return null
   }
+  const displayName = [
+    user.first_name,
+    user.last_name,
+    user.company && user.company.name
+  ].filter(Boolean).join(' ')
   const navItems = ROLE_NAV[user.role || 'USER']
   return (
     <div className='profileNavCard'>
@@ -87,7 +92,7 @@ function ProfileNavigation(props) {
 
         <div className='profileNavCard_header_greeting'>
           <h5>
-            Welcome back, {user.first_name}
+            Welcome back, {displayName}
           </h5>
 
           <a href="#">
@@ -99,7 +104,13 @@ function ProfileNavigation(props) {
       <div className='profileNavCard_content'>
         <List className='profileNavCard_menu'>
           {navItems.map(({ icon, label, link }) => (
-            <MenuItem icon={icon} label={label} link={link} key={link} />
+            <MenuItem
+              active={router.pathname === link}
+              icon={icon}
+              label={label}
+              link={link}
+              key={link} 
+            />
           ))}
         </List>
       </div>
@@ -116,5 +127,6 @@ const navigationSelector = createSelector(
 )
 
 export default compose(
+  withRouter,
   connect(navigationSelector)
 )(ProfileNavigation)

@@ -24,7 +24,7 @@ function MySnackbarContent(props) {
   return (
     <Snackbar
       className={cn('snackbar', { error: type === 'error', success: type === 'success' } )}
-      autohideTimeout={6000}
+      autohideTimeout={3000}
       toasts={toasts}
       portal
       onDismiss={onClose}

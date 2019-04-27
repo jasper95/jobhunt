@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Paper from 'react-md/lib/Papers/Paper';
-
+import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Profile from 'components/Profile'
@@ -14,11 +14,15 @@ import {
 import {
   SetUserAuth
 } from 'redux/auth/actions'
-import Typography from '@material-ui/core/Typography';
-import TextField from 'react-md/lib/TextFields/TextField'
 
 function AdminProfile(props) {
   const { user, dispatch } = props
+  const description = useMemo(() => {
+    if (user && Object.keys(user.company.description).length) {
+      return draftToHtml(user.company.description)
+    }
+    return ('<div>No Description</div>')
+  }, [user])
   if (!user) {
     return null
   }
@@ -29,17 +33,11 @@ function AdminProfile(props) {
         <div>
           Company Profile
         </div>
-        <Button children='Edit Profile' onClick={handleUpdate} />
-        <TextField
-          id="input-with-icon-textfield"
-          value={company.email}
-        />
-        <TextField
-          id='contact_number'
-          value={company.contact_number}
-        />
-        <Typography variant="h5" component="h2" children={`About ${company.name}`} />
-        <Typography component="p" children={company.description} />
+        <Button flat children='Edit Profile' onClick={handleUpdate} />
+        Email: <span>{company.email}</span><br/>
+        Contact Number: <span>{company.contact_number}</span><br/>
+        <span>About {company.name}</span>
+        <div dangerouslySetInnerHTML={{__html: description }} />
       </Paper>
     </Profile>
   )

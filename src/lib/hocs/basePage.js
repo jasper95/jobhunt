@@ -42,6 +42,7 @@ const withBasePage = (params) => WrappedComponent => {
         path: dialogPath,
         props: {
           ...dialogProps,
+          dialogId: dialogPath,
           title: `New ${pageName}`,
           onValid: (data) => dispatch(Create({
             data: dataFormatter(data, 'SAVE_CREATE', props),

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField'
-// import TextField from '@material-ui/core/TextField';
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
@@ -43,20 +42,26 @@ function AboutMe(props) {
         errorText={errors.contact_number}
         value={fields.contact_number || ''}
       />
-      <Editor
-        editorState={editorState}
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
-        onEditorStateChange={newState => {
-          setEditorState(newState)
-          onChange('description', convertToRaw(newState.getCurrentContent()))
-        }}
-      />
+      <div>
+        <label>Description</label>
+        <Editor
+          editorState={editorState}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={newState => {
+            setEditorState(newState)
+            onChange('description', convertToRaw(newState.getCurrentContent()))
+          }}
+        />
+        {errors.description && (
+          <span>{errors.description}</span>
+        )}
+      </div>
     </>
   )
 
   function getEditorInitialState() {
-    return fields.description ?
+    return fields.description && Object.keys(fields.description).length ?
       EditorState.createWithContent(convertFromRaw(fields.description)) : EditorState.createEmpty()
   }
 }
@@ -64,16 +69,14 @@ function AboutMe(props) {
 function validator(data) {
   const schema = joi.object().keys({
     name: joi.string().required().error(() => 'Firstname is required'),
-    description: joi.string().required().error(() => 'Description is required'),
+    description: joi.object().keys({
+      blocks: joi.array().min(1).items(
+        joi.object({
+          text: joi.string().required()
+        })
+      )
+    }).required().error(() => 'Description is required'),
     email: joi.string().email().required().error(() => 'Email is required'),
-    // address: joi.string().required().error(() => 'Address is required'),
-    // nationality: joi.string().required().error(() => 'Nationality is required'),
-    // contact_number: joi
-    //   .string()
-    //   .regex(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
-    //   // .required()
-    //   .error(() => 'Invalid Phone Number'),
-    // birth_date: joi.date().required().error(() => 'Birth Date is required')
   })
   return getValidationResult(data, schema)
 }

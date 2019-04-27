@@ -1,6 +1,6 @@
 import Router from 'next/router';
-import { takeLatest, put, call } from 'redux-saga/effects'
-import { ShowSuccess } from 'redux/app/actions'
+import { takeLatest, put, call, delay } from 'redux-saga/effects'
+import { ShowSuccess, HideNotification } from 'redux/app/actions'
 import cookie from 'js-cookie'
 import { SetUserAuth } from './actions'
 import omit from 'lodash/omit'
@@ -43,6 +43,9 @@ function* Signup({ payload }) {
       data: payload
     })
     yield put(ShowSuccess({ message: 'Account successfully registered. Please verify your email to login' }))
+    yield delay(2000)
+    yield put(HideNotification())
+    Router.push('/login')
   } catch(err) {
     yield put(err)
   }
