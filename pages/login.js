@@ -102,12 +102,13 @@ function LoginPage(props){
                 children='Login'
                 flat
               />
-              <Button
-                className='iBttn iBttn-second-prio'
-                href='/signup'
-                children='Sign Up'
-                flat
-              />
+              <Link href='/signup'>
+                <Button
+                  className='iBttn iBttn-second-prio'
+                  children='Sign Up'
+                  flat
+                />
+              </Link>
             </div>
           </form>
         </div>
