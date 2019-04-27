@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField'
 import withDialog from 'lib/hocs/dialog'
-import { getValidationResult } from 'lib/tools'
+import { getValidationResult, validateDescription } from 'lib/tools'
 import joi from 'joi'
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
@@ -78,7 +78,15 @@ function validator(data) {
     }).required().error(() => 'Description is required'),
     email: joi.string().email().required().error(() => 'Email is required'),
   })
-  return getValidationResult(data, schema)
+  let { errors } = getValidationResult(data, schema)
+  errors = {
+    ...errors,
+    ...validateDescription(data.description)
+  }
+  return {
+    errors,
+    isValid: !Object.keys(errors).length
+  }
 }
 
 const Dialog = compose(

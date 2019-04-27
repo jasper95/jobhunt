@@ -20,6 +20,11 @@ export function getValidationResult(data, schema) {
   }
 }
 
+export function validateDescription(description) {
+  const isValid = description && description.blocks.some(block => (!block.text.trim() && '\n') || block.text)
+  return !isValid ? { description: 'Description is required' } : {}
+}
+
 export function formatMonthYearToISO(data, keys = ['start_date', 'end_date']) {
   return keys.reduce((acc, key) => {
     const value = acc[key]

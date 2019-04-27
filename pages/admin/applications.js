@@ -11,6 +11,7 @@ import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
+import { capitalizeCell } from 'components/DataTable/CellFormatter'
 import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 import Button from 'react-md/lib/Buttons/Button'
 
@@ -40,8 +41,9 @@ function Jobs(props) {
         title: 'Qualification'
       },
       {
-        accessor: 'status',
-        title: 'Status'
+        fn: capitalizeCell('status'),
+        title: 'Status',
+        type: 'function'
       },
       {
         type: 'actions',

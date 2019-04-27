@@ -6,6 +6,7 @@ import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
+import { capitalizeCell, formatDate } from 'components/DataTable/CellFormatter'
 import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 
 function Applications(props) {
@@ -30,12 +31,14 @@ function Applications(props) {
         title: 'Company'
       },
       {
-        accessor: 'date_applied',
-        title: 'Date Applied'
+        type: 'function',
+        title: 'Date Applied',
+        fn: formatDate('application_date', 'MMMM DD, YYYY')
       },
       {
-        accessor: 'status',
-        title: 'Status'
+        type: 'function',
+        title: 'Status',
+        fn: capitalizeCell('status')
       }
     ]
   }
