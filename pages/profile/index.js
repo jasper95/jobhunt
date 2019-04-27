@@ -3,7 +3,7 @@ import Paper from 'react-md/lib/Papers/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
-import Paper from 'react-md/lib/Buttons/Button';
+import Button from 'react-md/lib/Buttons/Button';
 import Avatar from 'react-md/lib/Avatars/Avatar'
 import Profile from 'components/Profile'
 import DataTable from 'components/DataTable'
