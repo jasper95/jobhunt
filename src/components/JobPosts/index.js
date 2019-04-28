@@ -2,38 +2,12 @@ import React from 'react';
 import Grid from 'react-md/lib/Grids/Grid'
 import Cell from 'react-md/lib/Grids/Cell'
 import Post from './Post'
+import ProfilePost from './ProfilePost'
 import Search from '../Search'
 import 'sass/components/jobSearch/index.scss'
 
-
-const Posts = ({ posts }) => {
-
-  if (!posts) {
-    return (
-      <h1 className='jobSearch_jobs_msg'>
-        Server Error
-      </h1>
-    )
-  } else if (posts.length < 1 ) {
-    return (
-      <h1 className='jobSearch_jobs_msg'>
-        No results found
-      </h1>
-    )
-  }
-
-  return (
-    <>
-      {posts.map(post => (
-        <Post key={post.id} post={post}/>
-      ))}
-    </>
-  ) 
-}
-
-
 function JobPosts(props) {
-  const { posts } = props
+  const { posts, isAdmin } = props
   return (
     <div className='jobSearch'>
       <div className='jobSearch_searchKey'>
@@ -57,7 +31,7 @@ function JobPosts(props) {
             <Cell 
               className='jobSearch_jobs'
               size={9}>
-              { <Posts posts={posts}/> }
+              <Posts posts={posts} postRenderer={isAdmin ? ProfilePost : Post }/>
             </Cell>
           </Grid>
         </div>
@@ -67,3 +41,31 @@ function JobPosts(props) {
 }
 
 export default JobPosts
+
+function Posts(props) {
+  const { postRenderer: PostComponent, posts } = props
+  if (!posts) {
+    return (
+      <h1 className='jobSearch_jobs_msg'>
+        Server Error
+      </h1>
+    )
+  } else if (posts.length < 1 ) {
+    return (
+      <h1 className='jobSearch_jobs_msg'>
+        No results found
+      </h1>
+    )
+  }
+  return (
+    <>
+      {posts.map(post => (
+        <PostComponent key={post.id} post={post}/>
+      ))}
+    </>
+  ) 
+}
+
+Post.defaulProps = {
+  postRenderer: Post
+}

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Link from 'next/link';
 import Button from 'react-md/lib/Buttons/Button'
+import ImageLoader from 'components/ImageLoader'
+import { getFileLink } from 'lib/tools'
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -14,7 +16,18 @@ const profileLink = {
 }
 
 function Header(props) {
-  const { isAuthenticated, dispatch, user } = props
+  const { isAuthenticated, dispatch, user, isAdmin } = props
+
+  const avatarLink = useMemo(() => {
+    if (isAdmin) {
+      const { company } = user
+      return getFileLink({ type: 'avatar', node: 'company', id: company.id, updated: company.updated_date })
+    } else if (user) {
+      return getFileLink({ type: 'avatar', node: 'user', id: user.id, updated: user.updated_date })
+    }
+    return ''
+  }, [user])
+
   return (
     <nav className='nav'>
       <div className='nav_container'>
@@ -61,7 +74,11 @@ function Header(props) {
       profileNav = (
         <>
           <div className='nav_profile_avatar'>
-            <img src='/static/img/default-avatar.png'/>
+            <ImageLoader
+              key={avatarLink}
+              fallback='/static/img/default-avatar.png'
+              src={avatarLink}
+            />
           </div>
           <div className='nav_profile_content'>
             <p 

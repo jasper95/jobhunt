@@ -32,22 +32,30 @@ function ExperienceDialog(props) {
       />
       <div className='row iFieldRow'>
         <div className='iField col-md-6'>
+          <label>Date Started</label>
           <DatePicker
-            placeholderText='start month'
+            placeholderText='Select Date'
             selected={fields.start_date || ''}
             onChange={value => onChange('start_date', value)}
             dateFormat="MM/yyyy"
             showMonthYearPicker
           />
+          {errors.start_date && (
+            <span>{errors.start_date}</span>
+          )}
         </div>
         <div className='iField col-md-6'>
+          <label>Date Ended</label>
           <DatePicker
-            placeholderText='end month'
+            placeholderText='Select Date'
             selected={fields.end_date || ''}
             onChange={value => onChange('end_date', value)}
             dateFormat="MM/yyyy"
             showMonthYearPicker
           />
+          {errors.end_date && (
+            <span>{errors.end_date}</span>
+          )}
         </div>
       </div>
     </>
