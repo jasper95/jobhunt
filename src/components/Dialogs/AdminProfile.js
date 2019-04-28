@@ -15,6 +15,7 @@ function AboutMe(props) {
   return (
     <>
       <TextField
+        className='iField'
         id='name'
         label='Company Name'
         type='name'
@@ -26,6 +27,7 @@ function AboutMe(props) {
         value={fields.name || ''}
       />
       <TextField
+        className='iField'
         id='email'
         label='Email'
         type='email'
@@ -35,6 +37,7 @@ function AboutMe(props) {
         value={fields.email || ''}
       />
       <TextField
+        className='iField'
         id='contact_number'
         label='Contact Number'
         onChange={onElementChange}
@@ -42,7 +45,7 @@ function AboutMe(props) {
         errorText={errors.contact_number}
         value={fields.contact_number || ''}
       />
-      <div>
+      <div className='iField iField-editor'>
         <label>Description</label>
         <Editor
           editorState={editorState}
@@ -53,9 +56,13 @@ function AboutMe(props) {
             onChange('description', convertToRaw(newState.getCurrentContent()))
           }}
         />
-        {errors.description && (
-          <span>{errors.description}</span>
-        )}
+        <div className='iField_errors'>
+          {errors.description && (
+            <span className='iField_error'>
+              {errors.description}
+            </span>
+          )}
+        </div>
       </div>
     </>
   )

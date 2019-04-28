@@ -7,6 +7,8 @@ import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
 import authSelector from 'redux/auth/selector'
 import Button from 'react-md/lib/Buttons/Button'
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
+
 import {
   ShowDialog,
   Update
@@ -29,15 +31,36 @@ function AdminProfile(props) {
   const { company = {} } = user
   return (
     <Profile>
-      <Paper>
+      <Paper className='profileInfoCard'>
+        <h1 className='profileInfoCard_header'>
+          <FontIcon children='location_city'/>
+          <span className='title'>
+           Company Profile
+            <span className='action'>
+              <span 
+                className='action_item' 
+                onClick={handleUpdate}
+                children='Edit Profile'
+              />
+            </span>
+          </span>
+        </h1>
+
+
         <div>
-          Company Profile
+          <Info label='Email' value={company.email} />
+          <Info label='Contact Number' value={company.contact_number} />
+          <Info label={`About ${company.name}`} value={<div dangerouslySetInnerHTML={{__html: description }} />} />
         </div>
-        <Button flat children='Edit Profile' onClick={handleUpdate} />
-        Email: <span>{company.email}</span><br/>
-        Contact Number: <span>{company.contact_number}</span><br/>
-        <span>About {company.name}</span>
-        <div dangerouslySetInnerHTML={{__html: description }} />
+
+
+        <div className='profileInfoCard_actions'>
+          <Button
+            onClick={handleUpdate}
+            className='iBttn iBttn-primary'
+            children='Edit'
+          />
+        </div>
       </Paper>
     </Profile>
   )
@@ -67,6 +90,16 @@ function AdminProfile(props) {
     }))
   }
 }
+
+function Info({ label, value }) {
+  return (
+    <div className='infoField'>
+      <p className='infoField_key'>{label}</p>
+      <p className='infoField_value'>{value}</p>
+    </div>
+  )
+}
+
 
 export default compose(
   withAuth(),
