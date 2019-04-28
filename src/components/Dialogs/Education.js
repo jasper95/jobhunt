@@ -17,14 +17,19 @@ function EducationDialog(props) {
   useFormOptions({ dispatch, options, optionKeys: [{ key: 'jobCategories' }] })
   return (
     <>
-      <Select
-        className='iField'
-        isSearchable
-        getOptionLabel={(e) => e.name}
-        getOptionValue={(e) => e.id}
-        onChange={value => onChange('job_category_id', value.id)}
-        options={options.jobCategories || []}
-      />
+      <div className='iField'>
+        <label>Category</label>
+        <Select
+          isSearchable
+          getOptionLabel={(e) => e.name}
+          getOptionValue={(e) => e.id}
+          onChange={value => onChange('job_category_id', value.id)}
+          options={options.jobCategories || []}
+        />
+        {errors.job_category_id && (
+          <span>{errors.job_category_id}</span>
+        )}
+      </div>
       <TextField
         className='iField'
         id='qualification'
@@ -45,18 +50,30 @@ function EducationDialog(props) {
       />
       <div className='row iFieldRow'>
         <div className='iField col-md-6'>
+          <label>Admission Date</label>
           <DatePicker
             selected={fields.start_date || ''}
+            placeholderText='Select Date'
             onChange={value => onChange('start_date', value)}
             dateFormat="MM/yyyy"
             showMonthYearPicker
           />
+          {errors.start_date && (
+            <span>{errors.start_date}</span>
+          )}
+        </div>
+        <div className='iField col-md-6'>
+          <label>Graduation Date</label>
           <DatePicker
             selected={fields.end_date || ''}
+            placeholderText='Select Date'
             onChange={value => onChange('end_date', value)}
             dateFormat="MM/yyyy"
             showMonthYearPicker
           />
+          {errors.end_date && (
+            <span>{errors.end_date}</span>
+          )}
         </div>
       </div>
     </>

@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Router, { withRouter } from 'next/router'
 import List from 'react-md/lib/Lists/List'
 import ListItem from 'react-md/lib/Lists/ListItem'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Button from 'react-md/lib/Buttons/Button'
+import ImageLoader from 'components/ImageLoader'
+import {
+  ShowDialog,
+  Upload,
+} from 'redux/app/actions'
+import {
+  SetUserAuth
+} from 'redux/auth/actions'
+import authSelector from 'redux/auth/selector'
+import { getFileLink } from 'lib/tools'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
 
 function MenuItem(props) {
   const { icon, label, link, active } = props
@@ -71,7 +80,16 @@ const ROLE_NAV = {
 }
 
 function ProfileNavigation(props) {
-  const { user, router } = props;
+  const { user, router, isAdmin } = props;
+  const avatarLink = useMemo(() => {
+    if (isAdmin) {
+      const { company } = user
+      return getFileLink({ type: 'avatar', node: 'company', id: company.id, updated: company.updated_date })
+    } else if (user) {
+      return getFileLink({ type: 'avatar', node: 'user', id: user.id, updated: user.updated_date })
+    }
+    return ''
+  }, [user])
   if (!user) {
     return null
   }
@@ -87,10 +105,19 @@ function ProfileNavigation(props) {
         <div className='avatar profileNavCard_header_avatar'>
           <div className='avatar_container'>
             <div className='avatar_circle'>
-              <img src='/static/img/default-avatar.png' alt=""/>
+              <ImageLoader
+                key={avatarLink}
+                fallback='/static/img/default-avatar.png'
+                src={avatarLink}
+              />
             </div>
             <div className='avatar_edit'>
-              <Button className='iBttn iBttn-primary' icon children='edit'/>
+              <Button
+                className='iBttn iBttn-primary'
+                onClick={handleEditAvatar}
+                icon
+                children='edit'
+              />
             </div>
           </div>
         </div>
@@ -101,7 +128,7 @@ function ProfileNavigation(props) {
           </h5>
 
           <a href="#">
-            edit profile
+            Preview Profile
           </a>
         </div>
 
@@ -121,17 +148,32 @@ function ProfileNavigation(props) {
       </div>
     </div>
   );
+
+  function handleEditAvatar() {
+    const { dispatch, isAdmin } = props
+    dispatch(ShowDialog({
+      path: 'Upload',
+      props: {
+        title: 'Upload Avatar',
+        onValid: (data) => {
+          dispatch(Upload({
+            data: {
+              ...data,
+              node: 'user',
+              id: user.id,
+              type: 'avatar'
+            },
+            callback: ({ updated_date }) => {
+              dispatch(SetUserAuth({ ...user, updated_date }))
+            }
+          }))
+        }
+      }
+    }))
+  }
 }
-
-
-const navigationSelector = createSelector(
-  state => state.auth,
-  ({ user }) => ({
-    user
-  })
-)
 
 export default compose(
   withRouter,
-  connect(navigationSelector)
+  connect(authSelector)
 )(ProfileNavigation)

@@ -36,13 +36,17 @@ function AboutMe(props) {
         <div className='iField col-md-6'>
           <label>Date of Birth</label>
           <DatePicker
+            placeholderText='Select Date'
             selected={fields.birth_date || ''}
-            onChange={() => onChange('birth_date', value)}
+            onChange={(value) => onChange('birth_date', value)}
             peekNextMonth
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
           />
+          {errors.birth_date && (
+            <span>{errors.birth_date}</span>
+          )}
         </div>
         <TextField
           className='iField col-md-6'
@@ -54,25 +58,27 @@ function AboutMe(props) {
           value={fields.nationality || ''}
         />
       </div>
-      <TextField
-        className='iField'
-        id='email'
-        label='Email'
-        type='email'
-        onChange={onElementChange}
-        error={!!errors.email}
-        errorText={errors.email}
-        value={fields.email || ''}
-      />
-      <TextField
-        className='iField'
-        id='contact_number'
-        label='Contact Number'
-        onChange={onElementChange}
-        error={!!errors.contact_number}
-        errorText={errors.contact_number}
-        value={fields.contact_number || ''}
-      />
+      <div className="row iFieldRow">
+        <TextField
+          className='iField col-md-6'
+          id='email'
+          label='Email'
+          type='email'
+          onChange={onElementChange}
+          error={!!errors.email}
+          errorText={errors.email}
+          value={fields.email || ''}
+        />
+        <TextField
+          className='iField col-md-6'
+          id='contact_number'
+          label='Contact Number'
+          onChange={onElementChange}
+          error={!!errors.contact_number}
+          errorText={errors.contact_number}
+          value={fields.contact_number || ''}
+        />
+      </div>
 
       <TextField
         className='iField'

@@ -5,28 +5,34 @@ import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
 import Page from 'components/Layout/Page'
 import JobPosts from 'components/JobPosts'
+import authSelector from 'redux/auth/selector'
 import api from 'lib/api'
 
 function Index(props) {
-  const { auth, jobs } = props
-  const { user } = auth
+  const { user, posts } = props
   return (
     <Page>
       <Head>
         <title>Job Search</title>
         <meta name='description' content='description for indexing bots' />
       </Head>
-      <JobPosts posts={jobs}/>
+      <JobPosts posts={posts} isAdmin={user && user.role === 'ADMIN'} />
     </Page>
   )
 }
 
 Index.getInitialProps = async(ctx) => {
-  const jobs = await api({ url: '/job/search' }, ctx)
-  return { jobs }
+  let url = '/job/search'
+  const { store } = ctx
+  const { user } = store.getState().auth
+  if (user && user.role === 'ADMIN') {
+    url = '/user/applicant/suggestion'
+  }
+  const posts = await api({ url }, ctx)
+  return { posts }
 }
 
 export default compose(
   withAuth('optional'),
-  connect(state => state)
+  connect(authSelector)
 )(Index)

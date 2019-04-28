@@ -30,11 +30,13 @@ export default function Footer(){
 
 
   const renderMenu = () => {
-    return sample_menu.map(({name,link}) => {
+    return sample_menu.map(({name, link}) => {
       return (
-        <li className='footer_colItem_menu_item'>
+        <li key={link} className='footer_colItem_menu_item'>
           <Link href={link}>
-            {name}
+            <a>
+              {name}
+            </a>
           </Link>
         </li>
       )
