@@ -1,7 +1,10 @@
 import React from 'react';
-import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Card from 'react-md/lib/Cards/Card'
 import Link from 'next/link'
+import ImageLoader from 'components/ImageLoader'
+import capitalize from 'lodash/capitalize'
+import { getFileLink } from 'lib/tools'
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 
 import 'sass/components/jobCard/index.scss'
 
@@ -9,7 +12,7 @@ function ProfilePost(props) {
   const { post } = props;
   const displayName = [post.first_name, post.last_name].join(' ')
   const [lastSchoolAttended] = post.educations
-  console.log('lastSchoolAttended: ', lastSchoolAttended);
+  const { skills } = post
   return (
     <Card className='jobCard'>
       <Link href={`/user/${post.id}`}>
@@ -19,38 +22,33 @@ function ProfilePost(props) {
           </h1>
         </a>
       </Link>
-
-      <div>
-        <span>Last School Attended</span>
-        
-      </div>
-      {/* <h2 className='jobCard_company'>
-        { post.company.name }
-      </h2> */}
-
-      {/* <p className='jobCard_address'>
+      <div className='jobCard_address'>
         <FontIcon>place</FontIcon>
         <span className="name">
-          {formatAddress(post.address_description)}
+          {post.address || 'Address Not Available'}
         </span>
-      </p> */}
-
-      {/* <div className='jobCard_description'>
-        <label>Job Description</label>
-        <p>{extractDescription(post.description)}</p>
-      </div> */}
-
+      </div>
+      <div className='nav_profile_avatar'>
+        <ImageLoader
+          fallback='/static/img/default-avatar.png'
+          src={getFileLink({ type: 'avatar', node: 'user', id: post.id })}
+        />
+      </div>
+      {skills.length > 0 && (
+        <div>
+          <span>Skills</span>
+          <p>{skills.map(e => capitalize(e.name)).join(', ')}</p>
+        </div>
+      )}
+      {lastSchoolAttended && (
+        <div>
+          <span>Last School Attended</span>
+          <p>{lastSchoolAttended.school}</p>
+          <p>{lastSchoolAttended.category}</p>
+        </div>
+      )}
     </Card>
   );
 }
-
-// function extractDescription({ blocks }) {
-//   return blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
-// }
-
-// function formatAddress({ province, municipality }) {
-//   return [municipality, province].join(', ')
-// }
-
 
 export default ProfilePost

@@ -1,11 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Button from 'react-md/lib/Buttons/Button'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Card from 'react-md/lib/Cards/Card'
-import CardTitle from 'react-md/lib/Cards/CardTitle'
-import CardText from 'react-md/lib/Cards/CardText'
-// import CardActions from 'react-md/lib/Cards/CardActions'
 import Link from 'next/link'
 
 import 'sass/components/jobCard/index.scss'

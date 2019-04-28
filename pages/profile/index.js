@@ -1,113 +1,48 @@
 import React from 'react'
-import Paper from 'react-md/lib/Papers/Paper';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import FontIcon from 'react-md/lib/FontIcons/FontIcon'
-import Button from 'react-md/lib/Buttons/Button';
-import Avatar from 'react-md/lib/Avatars/Avatar'
-import Profile from 'components/Profile'
-import DataTable from 'components/DataTable'
 import withAuth from 'lib/hocs/auth'
-
+import api from 'lib/api'
+import queryString from 'query-string'
+import Profile from 'components/Profile'
+import UserDetails from 'components/Profile/User'
+import pick from 'lodash/pick'
+import Error from 'next/error'
 
 function UserProfile(props) {
-  const user = {
-    name: 'Alma Mae Bernales',
-    email: 'maebernales@gmail.com',
-    contact_number: '09123456789',
-    address: 'Candijay, Bohol'
+  const { errorCode } = props
+  if (errorCode) {
+    return <Error statusCode={errorCode} />
   }
   return (
     <Profile>
-      <Paper>
-        {user.name}
-        <Avatar alt="Remy Sharp" src="/static/img/default-avatar.png"/>
-        <FontIcon children='mail_outline'/> {user.email}
-        <FontIcon children='person_pin_circle' /> {user.address}
-        <FontIcon children='phone_forwarded' /> {user.contact_number}
-        <Button children='Download Resume' />
-        <div>
-          <FontIcon children='work'/> <span>Experience</span>
-        </div>
-        <DataTable
-          rows={[
-            {
-              id: 1,
-              skill: 'Instructor at Bohol Island State University',
-              dates: '2017-present',
-            }
-          ]}
-          columns={[
-            {
-              accessor: 'skill',
-              title: 'Skill at company'
-            },
-            {
-              accessor: 'dates',
-              title: 'Dates'
-            }
-          ]}
-        />
-        <div>
-          <FontIcon children='school'/> <span>Education</span>
-        </div>
-        <DataTable
-          rows={[
-            {
-              id: 1,
-              qualification: 'Bachelor of Science in Computer Science',
-              dates: '2010-2014',
-            }
-          ]}
-          columns={[
-            {
-              accessor: 'qualification',
-              title: 'Qualifications'
-            },
-            {
-              accessor: 'dates',
-              title: 'Dates'
-            }
-          ]}
-        />
-        <div>
-          <FontIcon children='account_box'/> <span>Skills</span>
-        </div>
-        <DataTable
-          rows={[
-            {
-              id: 1,
-              name: 'Programming',
-              level: 10,
-            },
-            {
-              id: 2,
-              name: 'Writing',
-              level: 10,
-            },
-            {
-              id: 3,
-              name: 'Self-learning',
-              level: 10
-            },
-          ]}
-          columns={[
-            {
-              accessor: 'name',
-              title: 'Skill or Expertise'
-            },
-            {
-              accessor: 'level',
-              title: 'Level'
-            }
-          ]}
-        />
-      </Paper>
+      <UserDetails {...pick(props, ['profile', 'skills', 'educations', 'experiences'])} />
     </Profile>
   )
 }
 
+UserProfile.getInitialProps = async(ctx) => {
+  const { store } = ctx
+  const { auth } = store.getState()
+  if (!auth.user) {
+    return { errorCode: 404 }
+  }
+  const { id, slug } = auth.user
+  const [profile, skills, experiences, educations] = await Promise.all([
+    api({ url: `/user/${slug}`}, ctx),
+    api({ url: `/skill?${queryString.stringify({ user_id: id, fields: ['id', 'name', 'level']})}` }, ctx),
+    api({ url: `/experience?${queryString.stringify({ user_id: id, fields: ['id', 'position', 'start_date', 'end_date', 'company']})}`}, ctx),
+    api({ url: `/education?${queryString.stringify({ user_id: id, fields: ['id', 'job_category', 'start_date', 'end_date', 'qualification', 'school']})}`}, ctx)
+  ])
+  return {
+    profile,
+    skills,
+    experiences,
+    educations
+  }
+}
+
 export default compose(
-  withAuth(),
+  withAuth('optional'),
   connect()
 )(UserProfile)

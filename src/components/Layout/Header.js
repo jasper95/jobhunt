@@ -11,7 +11,7 @@ import Router from 'next/router'
 import 'sass/components/nav/index.scss'
 
 const profileLink = {
-  USER: '/profile/experience',
+  USER: '/profile',
   ADMIN: '/admin/profile'
 }
 

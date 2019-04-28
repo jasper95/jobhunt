@@ -5,15 +5,13 @@ function ImageLoader(props) {
   const { src, loading, fallback } = props
   const [imgSrc, setImgSrc] = useState(src)
   return (
-    <>
-      <img
-        src={imgSrc}
-        {...pick(props, 'alt', 'className')}
-        onError={() => {
-          setImgSrc(fallback)
-        }}
-      />
-    </>
+    <img
+      src={imgSrc}
+      {...pick(props, 'alt', 'className')}
+      onError={() => {
+        setImgSrc(fallback)
+      }}
+    />
   )
 }
 

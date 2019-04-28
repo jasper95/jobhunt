@@ -90,7 +90,6 @@ function ProfileNavigation(props) {
     }
     return ''
   }, [user])
-  console.log('avatar link', avatarLink)
   if (!user) {
     return null
   }
@@ -129,7 +128,7 @@ function ProfileNavigation(props) {
           </h5>
 
           <a href="#">
-            edit profile
+            Preview Profile
           </a>
         </div>
 

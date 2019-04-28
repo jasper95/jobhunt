@@ -5,7 +5,6 @@
   "scripts": {
     "build": "next build",
     "start": "node server.js",
-    "dev": "nodemon server.js --watch server.js",
     "lint": "eslint src pages server.js"
   },
   "dependencies": {
