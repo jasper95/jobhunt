@@ -144,6 +144,13 @@ function ProfileNavigation(props) {
 
   function handleEditAvatar() {
     const { dispatch, isAdmin } = props
+    const payload = isAdmin ? {
+      node: 'company',
+      id: user.company_id,
+    } : {
+      node: 'user',
+      id: user.id
+    }
     dispatch(ShowDialog({
       path: 'Upload',
       props: {
@@ -152,12 +159,16 @@ function ProfileNavigation(props) {
           dispatch(Upload({
             data: {
               ...data,
-              node: 'user',
-              id: user.id,
+              ...payload,
               type: 'avatar'
             },
             callback: ({ updated_date }) => {
-              dispatch(SetUserAuth({ ...user, updated_date }))
+              if (isAdmin) {
+                const { company } = user
+                dispatch(SetUserAuth({ ...user, company: { ...company, updated_date } }))
+              } else {
+                dispatch(SetUserAuth({ ...user, updated_date }))
+              }
             }
           }))
         }

@@ -21,7 +21,7 @@ import {
 function AdminProfile(props) {
   const { user, dispatch, errorCode } = props
   let { company } = props
-  if (!company) {
+  if (!company && user) {
     company = user.company
   }
   const description = useMemo(() => {
