@@ -5,6 +5,7 @@ import ListItem from 'react-md/lib/Lists/ListItem'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Button from 'react-md/lib/Buttons/Button'
 import ImageLoader from 'components/ImageLoader'
+import Link from 'next/link'
 import {
   ShowDialog,
   Upload,
@@ -13,7 +14,6 @@ import {
   SetUserAuth
 } from 'redux/auth/actions'
 import authSelector from 'redux/auth/selector'
-import { getFileLink } from 'lib/tools'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
@@ -80,16 +80,7 @@ const ROLE_NAV = {
 }
 
 function ProfileNavigation(props) {
-  const { user, router, isAdmin } = props;
-  const avatarLink = useMemo(() => {
-    if (isAdmin) {
-      const { company } = user
-      return getFileLink({ type: 'avatar', node: 'company', id: company.id, updated: company.updated_date })
-    } else if (user) {
-      return getFileLink({ type: 'avatar', node: 'user', id: user.id, updated: user.updated_date })
-    }
-    return ''
-  }, [user])
+  const { user, router, avatarLink, profileLink } = props;
   if (!user) {
     return null
   }
@@ -127,9 +118,11 @@ function ProfileNavigation(props) {
             Welcome back, {displayName}
           </h5>
 
-          <a href="#">
-            Preview Profile
-          </a>
+          <Link href={profileLink}>
+            <a>
+              Preview Profile
+            </a>
+          </Link>
         </div>
 
       </div>

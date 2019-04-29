@@ -22,17 +22,17 @@ function UserProfile(props) {
 }
 
 UserProfile.getInitialProps = async(ctx) => {
-  const { store } = ctx
-  const { auth } = store.getState()
-  if (!auth.user) {
+  const { query } = ctx
+  const { id } = query
+  const profile = await api({ url: `/user/${id}`}, ctx)
+  if (!profile) {
     return { errorCode: 404 }
   }
-  const { id, slug } = auth.user
-  const [profile, skills, experiences, educations] = await Promise.all([
-    api({ url: `/user/${slug}`}, ctx),
-    api({ url: `/skill?${queryString.stringify({ user_id: id, fields: ['id', 'name', 'level']})}` }, ctx),
-    api({ url: `/experience?${queryString.stringify({ user_id: id, fields: ['id', 'position', 'start_date', 'end_date', 'company']})}`}, ctx),
-    api({ url: `/education?${queryString.stringify({ user_id: id, fields: ['id', 'job_category', 'start_date', 'end_date', 'qualification', 'school']})}`}, ctx)
+  const { id: user_id } = profile
+  const [skills, experiences, educations] = await Promise.all([
+    api({ url: `/skill?${queryString.stringify({ user_id, fields: ['id', 'name', 'level']})}` }, ctx),
+    api({ url: `/experience?${queryString.stringify({ user_id, fields: ['id', 'position', 'start_date', 'end_date', 'company']})}`}, ctx),
+    api({ url: `/education?${queryString.stringify({ user_id, fields: ['id', 'job_category', 'start_date', 'end_date', 'qualification', 'school']})}`}, ctx)
   ])
   return {
     profile,

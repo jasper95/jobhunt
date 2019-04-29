@@ -21,12 +21,14 @@ app.prepare().then(() => {
     changeOrigin: true
   }))
 
-  server.get('/profile/:id', (req, res) => {
+  server.get('/user/:id', (req, res) => {
     const { id } = req.params
-    if (['about-me', 'education', 'experience', 'skill', 'applications'].includes(id)) {
-      return app.render(req, res, `/profile/${id}`)
-    }
-    return app.render(req, res, '/profile', { id })
+    return app.render(req, res, '/user', { id })
+  });
+
+  server.get('/company/:id', (req, res) => {
+    const { id } = req.params
+    return app.render(req, res, '/company', { id })
   });
 
   server.get('/jobs/:id', (req, res) => {

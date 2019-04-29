@@ -2,31 +2,17 @@ import React, { useMemo } from 'react'
 import Link from 'next/link';
 import Button from 'react-md/lib/Buttons/Button'
 import ImageLoader from 'components/ImageLoader'
-import { getFileLink } from 'lib/tools'
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
-import Router from 'next/router'
+import authSelector from 'redux/auth/selector'
 
 import 'sass/components/nav/index.scss'
 
-const profileLink = {
-  USER: '/profile',
-  ADMIN: '/admin/profile'
-}
-
 function Header(props) {
-  const { isAuthenticated, dispatch, user, isAdmin } = props
-
-  const avatarLink = useMemo(() => {
-    if (isAdmin) {
-      const { company } = user
-      return getFileLink({ type: 'avatar', node: 'company', id: company.id, updated: company.updated_date })
-    } else if (user) {
-      return getFileLink({ type: 'avatar', node: 'user', id: user.id, updated: user.updated_date })
-    }
-    return ''
-  }, [user])
+  const {
+    isAuthenticated, dispatch, user, avatarLink, profileLink
+  } = props
+  console.log('profileLink: ', profileLink);
 
   return (
     <nav className='nav'>
@@ -83,8 +69,12 @@ function Header(props) {
           <div className='nav_profile_content'>
             <p 
               className='name'
-              onClick={() => {Router.push(profileLink[user.role])}}>
-              {displayName}
+            >
+              <Link href={profileLink}>
+                <a>
+                  {displayName}
+                </a>
+              </Link>
             </p>
             <p className='logout' 
               onClick={() => {dispatch(Logout())}}>
@@ -98,12 +88,4 @@ function Header(props) {
   }
 }
 
-const selector = createSelector(
-  state => state.auth,
-  (auth) => ({
-    isAuthenticated: Boolean(auth.user),
-    user: auth.user
-  })
-)
-
-export default connect(selector)(Header)
+export default connect(authSelector)(Header)
