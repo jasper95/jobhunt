@@ -3,14 +3,14 @@ import Page from 'components/Layout/Page'
 import Paper from 'react-md/lib/Papers/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from 'react-md/lib/Buttons/Button';
-import Avatar from 'react-md/lib/Avatars/Avatar'
-import { formatISOToDate } from 'lib/tools'
+import { formatISOToDate, getFileLink } from 'lib/tools'
 import draftToHtml from 'draftjs-to-html';
 import { compose } from 'redux';
 import withAuth from 'lib/hocs/auth';
 import withDetailsPage from 'lib/hocs/detailsPage';
 import { connect } from 'react-redux'
 import authSelector from 'redux/auth/selector'
+import ImageLoader from 'components/ImageLoader'
 import {
   GetJobData
 } from 'redux/job/actions'
@@ -32,7 +32,12 @@ function JobDetail(props) {
   return (
     <Page>
       <Paper>
-        <Avatar alt="Remy Sharp" src="/static/img/default-company.png"/>
+        <div className='nav_profile_avatar'>
+          <ImageLoader
+            fallback='/static/img/default-avatar.png'
+            src={getFileLink({ type: 'avatar', node: 'company', id: user.company_id })}
+          />
+        </div>
         <Typography variant='h3' children={job.name} />
         <Typography variant='h2' children={job.company.name} />
         <Typography variant='h4' children={job.address} />
