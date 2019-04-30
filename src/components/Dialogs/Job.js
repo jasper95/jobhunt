@@ -29,6 +29,7 @@ function Job(props) {
   return (
     <>
       <TextField
+        className='iField'
         label='Job Title'
         id='name'
         errorText={errors.name}
@@ -36,7 +37,7 @@ function Job(props) {
         value={fields.name || ''}
         onChange={onElementChange}
       />
-      <div>
+      <div className='iField'>
         <label>Description</label>
         <Editor
           editorState={editorState}
@@ -51,7 +52,7 @@ function Job(props) {
           <span>{errors.description}</span>
         )}
       </div>
-      <div>
+      <div className='iField'>
         <label>Skills</label>
         <CreatableInput
           value={fields.skills || []}
@@ -61,7 +62,7 @@ function Job(props) {
           <span>{errors.skills}</span>
         )}
       </div>
-      <div>
+      <div className='iField'>
         <label>Job Category</label>
         <Select
           getOptionLabel={(e) => e.name}
@@ -73,7 +74,7 @@ function Job(props) {
           <span>{errors.job_category_id}</span>
         )}
       </div>
-      <div>
+      <div className='iField'>
         <label>Province</label>
         <Select
           isSearchable
@@ -86,7 +87,7 @@ function Job(props) {
           <span>{errors.province}</span>
         )}
       </div>
-      <div>
+      <div className='iField'>
         <label>Municipality</label>
         <Select
           isSearchable
@@ -99,7 +100,7 @@ function Job(props) {
           <span>{errors.municipality}</span>
         )}
       </div>
-      <div>
+      <div className='iField'>
         <label>Barangay</label>
         <Select
           isSearchable
@@ -113,6 +114,7 @@ function Job(props) {
         )}
       </div>
       <TextField
+        className='iField'
         label='Floor/Bdlg/Street'
         id='street'
         errorText={errors.street}
@@ -122,7 +124,7 @@ function Job(props) {
         variant='outlined'
         onChange={onElementChange}
       />
-      <div>
+      <div className='iField'>
         <label>Application Deadline</label>
         <DatePicker
           selected={fields.end_date || ''}

@@ -19,8 +19,8 @@ module.exports = withCss(withSass({
     config.plugins = [
       ...config.plugins,
       new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true
+        path: path.join(__dirname, '.env')
+        // systemvars: true
       })
     ]
     config.node = {
