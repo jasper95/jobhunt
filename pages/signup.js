@@ -1,6 +1,7 @@
 import React from 'react'
 import Page from 'components/Layout/Page'
 import Button from 'react-md/lib/Buttons/Button'
+import SubmitButton from 'components/SubmitButton'
 import TextField from 'react-md/lib/TextFields/TextField'
 import Link from 'next/link';
 import { SignUp } from 'redux/auth/actions'
@@ -148,7 +149,7 @@ function SignupPage(props){
 
 
             <div className='authContainer_form_action'>
-              <Button
+              <SubmitButton
                 flat
                 className='iBttn iBttn-primary'
                 onClick={onValidate}

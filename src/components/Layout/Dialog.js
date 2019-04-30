@@ -2,6 +2,7 @@ import React from 'react';
 import DialogContainer from 'react-md/lib/Dialogs/DialogContainer'
 import Button from 'react-md/lib/Buttons/Button'
 import pick from 'lodash/pick'
+import cn from 'classnames'
 
 function DefaultDialogTitle(props) {
   const { onCancel, title } = props;
@@ -21,7 +22,7 @@ function DefaultDialogTitle(props) {
 }
 
 function DefaultDialogActions(props) {
-  const { onContinue, onCancel } = props
+  const { onContinue, onCancel, isProcessing } = props
   return (
     <>
       <Button
@@ -31,7 +32,7 @@ function DefaultDialogActions(props) {
       />
 
       <Button
-        className='iBttn iBttn-primary' 
+        className={cn('iBttn iBttn-primary', { processing: isProcessing })}
         flat primary onClick={onContinue} 
         children='Save' 
       />
@@ -60,7 +61,7 @@ function DialogLayout(props) {
       )}
       children={children}
       actions={(
-        <DialogActions {...pick(props, ['onContinue', 'onCancel'])} />
+        <DialogActions {...pick(props, ['onContinue', 'onCancel', 'isProcessing'])} />
       )}
       {...pick(props, 'dialogClassName', 'footerClassName', 'titleClassName', 'contentClassName')}
     />

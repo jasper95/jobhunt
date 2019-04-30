@@ -4,6 +4,7 @@ import Button from 'react-md/lib/Buttons/Button'
 import ImageLoader from 'components/ImageLoader'
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
+import { ShowDialog } from 'redux/app/actions'
 import authSelector from 'redux/auth/selector'
 
 import 'sass/components/nav/index.scss'
@@ -12,7 +13,6 @@ function Header(props) {
   const {
     isAuthenticated, dispatch, user, avatarLink, profileLink
   } = props
-  console.log('profileLink: ', profileLink);
 
   return (
     <nav className='nav'>
@@ -77,7 +77,7 @@ function Header(props) {
               </Link>
             </p>
             <p className='logout' 
-              onClick={() => {dispatch(Logout())}}>
+              onClick={handleClickLogout}>
               Logout
             </p>
           </div>
@@ -85,6 +85,19 @@ function Header(props) {
       )
     }
     return profileNav
+  }
+
+  function handleClickLogout() {
+    dispatch(ShowDialog({
+      path: 'Confirm',
+      props: {
+        title: 'Confirm Logout',
+        message: 'Do you really want to logout?',
+        onValid: () => {
+          dispatch(Logout())
+        }
+      }
+    }))
   }
 }
 

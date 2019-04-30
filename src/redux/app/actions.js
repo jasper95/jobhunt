@@ -129,6 +129,13 @@ export function DialogProcessing(payload) {
   }
 }
 
+export function FormProcessing(payload) {
+  return {
+    type: 'FORM_PROCESSING',
+    payload
+  }
+}
+
 export function HideDialog() {
   return {
     type: 'HIDE_DIALOG'

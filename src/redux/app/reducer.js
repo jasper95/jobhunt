@@ -3,7 +3,8 @@ import createReducer from 'lib/createReducer'
 const initialState = {
   dialog: null,
   notification: null,
-  dialogProcessing: false
+  dialogProcessing: false,
+  formProcessing: false
 }
 
 const reducer = {
@@ -20,6 +21,9 @@ const reducer = {
     }
     return state
   },
+  FORM_PROCESSING(state, { payload }) {
+    return { ...state, formProcessing: payload }
+  },
   HIDE_NOTIFICATION(state) {
     return { ...state, notification: null }
   },
@@ -30,12 +34,14 @@ const reducer = {
         type: 'error',
         ...payload
       },
+      formProcessing: false,
       dialogProcessing: false
     }
   },
   SUCCESS(state, { payload }){
     return {
       ...state,
+      formProcessing: false,
       dialogProcessing: false,
       notification: {
         type: 'success',

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import Button from 'react-md/lib/Buttons/Button'
 import TextField from 'react-md/lib/TextFields/TextField'
+import cn from 'classnames'
 import Link from 'next/link';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -12,6 +13,7 @@ import { getValidationResult } from 'lib/tools'
 import Page from 'components/Layout/Page'
 import Router from 'next/router'
 import joi from 'joi'
+import SubmitButton from 'components/SubmitButton'
 import 'sass/pages/login.scss'
 
 
@@ -22,7 +24,7 @@ const initialFields = {
 }
 
 function LoginPage(props){
-  const { dispatch, verified } = props
+  const { dispatch, verified, formProcessing } = props
   const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
@@ -87,7 +89,6 @@ function LoginPage(props){
             <TextField
               className='iField'
               id='password'
-              // variant='outlined'
               type='password'
               label='Password'
               value={fields.password || ''}
@@ -96,7 +97,7 @@ function LoginPage(props){
               onChange={onElementChange}
             />
             <div className='authContainer_form_action'>
-              <Button
+              <SubmitButton
                 className='iBttn iBttn-primary'
                 onClick={onValidate}
                 children='Login'
