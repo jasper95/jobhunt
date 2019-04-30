@@ -85,8 +85,13 @@ function SignupPage(props){
           <form
             className='authContainer_form' 
             noValidate 
-            autoComplete='off'>
-
+            autoComplete='off'
+            onSubmit={(e) => {
+              e.preventDefault()
+              onValidate()
+            }}
+          >
+            <input type='Submit' hidden />
             { isEmployer ? (
               <TextField
                 className='iField'

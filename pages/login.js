@@ -28,7 +28,6 @@ function LoginPage(props){
   const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
-    onChange,
     onValidate
   } = formHandlers
   const { fields, errors } = formState
@@ -66,15 +65,19 @@ function LoginPage(props){
           <form
             className='authContainer_form' 
             noValidate 
-            autoComplete='off'>
-
+            autoComplete='off'
+            onSubmit={(e) => {
+              e.preventDefault()
+              onValidate()
+            }}
+          >
             { verified && (
               <div className='authContainer_form_msg 
                 authContainer_form_msg-success'>
                 <p>Account successfully verified</p>
               </div>
             )}
-
+            <input type='Submit' hidden />
             <TextField
               className='iField'
               id='email'
