@@ -1,0 +1,132 @@
+@import '../utils/index';
+
+$avatar-size: 15em;
+
+.jobsPage {
+	padding: 2em 0;
+
+	// .jobsPage_container
+	&_container {
+		background-color: #fff;
+		box-shadow: 0 0 1em 0 rgba(#000,.05);
+		border-radius: .25rem;
+	}
+
+	// jobsPage_header
+	&_header {
+		background-color: $primary-color-100;
+		display: flex;
+		align-items: stretch;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+
+
+		// .jobsPage_header_img
+		&_img {
+			
+			width: $avatar-size;
+			max-width: unset;
+			margin: 0;
+			// .jobsPage_header_img_container
+			&_container {
+				position: relative;
+				width: 100%;
+				padding-top: 100%;
+				border-radius: .25em;
+				overflow: hidden;
+				img {
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					object-position: 50% 50%;
+				}
+			}
+		}
+
+
+		// .jobsPage_header_content
+		&_content {
+			width: calc(100% - #{$avatar-size});
+			max-width: unset;
+			margin: 0;
+			padding: 1em;
+			display: flex;
+			align-items: flex-start;
+			justify-content: center;
+			flex-direction: column;
+		}
+
+
+		// jobsPage_header_job
+		&_job {
+			font-weight: 700;
+			color: $black;
+			&:after {
+				content: '';
+				height: .1em;
+				width: 2em;
+				background-color: $primary-color;
+				display: block;
+				margin-top: .15em;
+			}
+		}
+
+		// .jobsPage_header_company
+		&_company {
+			font-size: 1em;
+			text-transform: uppercase;
+			color: $primary-color;
+			font-weight: 600;
+			letter-spacing: .15em;
+		}
+
+		// .jobsPage_header_actions
+		&_actions {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+			width: 100%;
+		}
+
+		// .jobsPage_header_applied
+		&_applied {
+			width: 100%;
+			background-color: rgba(#000,.025);
+			text-align: center;
+			padding: 1em;
+			line-height: 1;
+			color: lighten($black,10%);
+			font-weight: 600;
+			font-size: 1.15em;
+			font-style: italic;
+		}
+	}
+
+	// .jobsPage_information
+	&_information {
+		padding: 1em;
+
+		// .jobsPage_information_label
+		&_label {
+			font-weight: 600;
+			color: $primary-color;
+			font-size: 1.15em;
+		}
+
+		// .jobsPage_information_desc
+		&_desc {
+			font-family: $font-family;
+			font-size: 1em;
+
+			* {
+				font-family: $font-family !important;
+			}
+		}
+	}
+
+
+}
