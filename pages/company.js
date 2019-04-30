@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import Paper from 'react-md/lib/Papers/Paper';
 import Error from 'next/error'
 import draftToHtml from 'draftjs-to-html';
+import parser from 'html-react-parser'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Profile from 'components/Profile'
@@ -56,7 +57,11 @@ function AdminProfile(props) {
         <div>
           <Info label='Email' value={company.email} />
           <Info label='Contact Number' value={company.contact_number} />
-          <Info label={`About ${company.name}`} value={<div dangerouslySetInnerHTML={{__html: description }} />} />
+          <Info label={`About ${company.name}`} value={(
+            <div>
+              {parser(description)}
+            </div>
+          )} />
         </div>
 
       </Paper>

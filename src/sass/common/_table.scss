@@ -2,6 +2,7 @@
 	font-size: 1em;
 	font-family: $font-family;
 	overflow: visible;
+	position: relative;
 
 	// cells
 	.md-table-column {
@@ -20,6 +21,19 @@
 
 		.md-table-column {
 			border-bottom: .15em solid $primary-color;
+		}
+	}
+
+	// body
+	.md-table-body {
+		> div:first-child {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			width: 100%;
+			text-align: center;
+			padding: .5em;
+			opacity: .5;
 		}
 	}
 }

@@ -112,6 +112,27 @@ $btn-colors: (
 	}
 }
 
+// ========================
+// TRANSPARENT
+// ========================
+.iBttn-transparent {
+	background-color: rgba(#000,.02);
+	color: $black;
+	border: none;
+	&:hover {
+		color: #FFF;
+		background-color: $primary-color;
+	}
+}
+
+.iBttn-transparent-white {
+	background-color: rgba(#FFF,.1);
+	color: #FFF;
+	border: none;
+	&:hover {
+		background-color: rgba(#FFF,.2);
+	}
+}
 
 // ========================
 // FAKE TAB STYLE

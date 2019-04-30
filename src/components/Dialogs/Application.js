@@ -10,16 +10,15 @@ function ApplicationDialog(props) {
   const { fields, errors } = formState
   const { onElementChange } =  formHandlers
   return (
-    <>
-      <TextField
-        id='pitch'
-        label='Skill Heading'
-        onChange={onElementChange}
-        error={!!errors.pitch}
-        errorText={errors.pitch}
-        value={fields.pitch}
-      />
-    </>
+    <TextField
+      className='iField'
+      id='pitch'
+      label='Skill Heading'
+      onChange={onElementChange}
+      error={!!errors.pitch}
+      errorText={errors.pitch}
+      value={fields.pitch}
+    />
   )
 }
 

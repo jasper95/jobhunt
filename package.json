@@ -23,6 +23,7 @@
     "express": "4.16.4",
     "express-session": "1.15.6",
     "googleapis": "34.0.0",
+    "html-react-parser": "^0.7.0",
     "http-proxy-middleware": "^0.19.1",
     "joi": "^14.3.1",
     "js-cookie": "^2.2.0",
