@@ -6,7 +6,7 @@ import Grid from 'react-md/lib/Grids/Grid'
 import Cell from 'react-md/lib/Grids/Cell'
 
 export default function UserProfile(props) {
-  const { profile, skills, experiences, educations } = props
+  const { profile, skills, experiences, educations, onDownloadResume } = props
   return (
     <>
       <div className='profileInfoCard'>
@@ -15,10 +15,13 @@ export default function UserProfile(props) {
           <span className='title'>
             {profile.first_name} {profile.last_name}
             <span className='action'>
-              <span 
-                className='action_item' 
-                children='Download resume'
-              />
+              {profile.resume && (
+                <span 
+                  className='action_item' 
+                  children='Download resume'
+                  onClick={onDownloadResume}
+                />
+              )}
             </span>
           </span>
         </h1>
@@ -116,6 +119,6 @@ export default function UserProfile(props) {
   )
 }
 
-function formatAddress({ municipality, province, barangay }, street) {
+export function formatAddress({ municipality, province, barangay }, street) {
   return [street, barangay, municipality, province].filter(Boolean).join(', ')
 }

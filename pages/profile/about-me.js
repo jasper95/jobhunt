@@ -19,6 +19,7 @@ import {
   formatDateToISO, formatISOToDate, getAddressDescription
 } from 'lib/tools'
 import authSelector from 'redux/auth/selector'
+import { formatAddress } from 'components/Profile/User'
 
 function AboutMe(props) {
   const { dispatch, user } = props
@@ -47,9 +48,10 @@ function AboutMe(props) {
           <Info label='Name' value={`${user.first_name} ${user.last_name}`} />
           <Info label='Contact Number' value={user.contact_number} />
           <Info label='Email' value={user.email} />
-          <Info label='Address' value={user.address} />
+          <Info label='Address' value={formatAddress(user.address_description, user.address)} />
           <Info label='Date of Birth' value={user.birth_date ? day(user.birth_date).format('YYYY-MM-DD') : '' } />
           <Info label='Nationality' value={user.nationality} />
+          <Info label='Resume' value={user.resume ? user.resume : 'Not Available' } />
         </div>
 
 
@@ -97,7 +99,8 @@ function AboutMe(props) {
               node: 'user',
               id: user.id,
               type: 'resume'
-            }
+            },
+            callback: handleUpdateCallback
           }))
         }
       }

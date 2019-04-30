@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
+import { Download } from 'redux/app/actions'
 import api from 'lib/api'
 import queryString from 'query-string'
 import Profile from 'components/Profile'
@@ -10,15 +11,23 @@ import pick from 'lodash/pick'
 import Error from 'next/error'
 
 function UserProfile(props) {
-  const { errorCode } = props
+  const { errorCode, dispatch } = props
   if (errorCode) {
     return <Error statusCode={errorCode} />
   }
   return (
     <Profile>
-      <UserDetails {...pick(props, ['profile', 'skills', 'educations', 'experiences'])} />
+      <UserDetails
+        onDownloadResume={handleDownloadResume}
+        {...pick(props, ['profile', 'skills', 'educations', 'experiences'])}
+      />
     </Profile>
   )
+
+  function handleDownloadResume() {
+    const { profile } = props
+    dispatch(Download({ id: profile.id, type: 'resume', node: 'user', attachment: true }))
+  }
 }
 
 UserProfile.getInitialProps = async(ctx) => {
