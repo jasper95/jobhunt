@@ -1,5 +1,4 @@
 import React from 'react'
-import Paper from 'react-md/lib/Papers/Paper';
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Button from 'react-md/lib/Buttons/Button';
 import Avatar from 'react-md/lib/Avatars/Avatar'
@@ -11,9 +10,7 @@ import Cell from 'react-md/lib/Grids/Cell'
 export default function UserProfile(props) {
   const { profile, skills, experiences, educations } = props
   return (
-
-
-    <Paper>
+    <>
       <div className='profileInfoCard'>
         <h1 className='profileInfoCard_header'>
           <FontIcon children='person'/>
@@ -117,6 +114,6 @@ export default function UserProfile(props) {
           ]}
         />
       </div>
-    </Paper>
+    </>
   )
 }
