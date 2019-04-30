@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Table from 'react-md/lib/DataTables/DataTable'
 import TableBody from 'react-md/lib/DataTables/TableBody'
 import TableRow from 'react-md/lib/DataTables/TableRow'
@@ -8,7 +7,7 @@ import TableHead from 'react-md/lib/DataTables/TableHeader'
 import Button from 'react-md/lib/Buttons/Button'
 
 function DataTable(props) {
-  const { rows, columns } = props;
+  const { rows, columns, onRowClick } = props;
 
   return (
     <Table plain className='iTable'>
@@ -24,7 +23,13 @@ function DataTable(props) {
           <div>No Records Found</div>
         )}
         {rows.map(row => (
-          <TableRow key={row.id}>
+          <TableRow
+            key={row.id}
+            onClick={e => {
+              e.stopPropagation()
+              onRowClick(row)
+            }}
+          >
             {columns.map((column, idx) => (
               <Row key={idx} {...column} row={row}/>
             ))
@@ -71,6 +76,10 @@ function Row(props) {
   return (
     <TableColumn {...bodyProps}>{children}</TableColumn>
   )
+}
+
+DataTable.defaultProps = {
+  onRowClick: () => {}
 }
 
 export default DataTable

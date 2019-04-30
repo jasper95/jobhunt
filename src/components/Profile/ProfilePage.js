@@ -4,10 +4,11 @@ import DataTable from 'components/DataTable'
 import Paper from 'react-md/lib/Papers/Paper'
 import Button from 'react-md/lib/Buttons/Button'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
+import pick from 'lodash/pick'
 import { formatISOToDate, formatMonthYearToISO } from 'lib/tools'
 
 function ProfilePage(props) {
-  const { rows, columns, pageName, onNew, pageIcon, readOnly } = props
+  const { pageName, onNew, pageIcon, readOnly } = props
   return (
     <Profile>
       <Paper className='profileInfoCard'>
@@ -23,8 +24,7 @@ function ProfilePage(props) {
         </div>
 
         <DataTable
-          rows={rows}
-          columns={columns}
+          {...pick(props, 'rows', 'columns', 'onRowClick')}
         />
 
         {!readOnly && (

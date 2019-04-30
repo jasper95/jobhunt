@@ -10,6 +10,7 @@ import {
 import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
 import withBasePage from 'lib/hocs/basePage'
+import Router from 'next/router'
 import pick from 'lodash/pick'
 import { capitalizeCell } from 'components/DataTable/CellFormatter'
 import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
@@ -23,6 +24,7 @@ function Jobs(props) {
       pageIcon='work'
       pageName='Applications'
       readOnly
+      onRowClick={handleRowClick}
       {...pick(props, profilePropsKeys)}
     />
   )
@@ -71,6 +73,10 @@ function Jobs(props) {
         ]
       }
     ]
+  }
+
+  function handleRowClick(row) {
+    Router.push(`/user/${row.user_id}`)
   }
 
   function handleUpdateStatus(status, data) {
