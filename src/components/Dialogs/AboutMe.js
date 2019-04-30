@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField';
+import Select from 'react-select'
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import DatePicker from 'react-datepicker'
+import { getAddressValue, getAddressOptions } from 'lib/tools'
+import {
+  customChangeHandler
+} from './Job'
 import joi from 'joi'
 
 function AboutMe(props) {
@@ -79,11 +84,51 @@ function AboutMe(props) {
           value={fields.contact_number || ''}
         />
       </div>
-
+      <div className='row iField'>
+        <div className='iField col-md-4'>
+          <label>Province</label>
+          <Select
+            isSearchable
+            getOptionLabel={(e) => e.provDesc}
+            value={getAddressValue('province', fields)}
+            onChange={value => onChange('province', value.provCode)}
+            options={getAddressOptions('province')}
+          />
+          {errors.province && (
+            <span>{errors.province}</span>
+          )}
+        </div>
+        <div className='iField col-md-4'>
+          <label>Municipality</label>
+          <Select
+            isSearchable
+            getOptionLabel={(e) => e.citymunDesc}
+            value={getAddressValue('municipality', fields)}
+            onChange={value => onChange('municipality', value.citymunCode)}
+            options={getAddressOptions('municipality', fields)}
+          />
+          {errors.municipality && (
+            <span>{errors.municipality}</span>
+          )}
+        </div>
+        <div className='iField col-md-4'>
+          <label>Barangay</label>
+          <Select
+            isSearchable
+            getOptionLabel={(e) => e.brgyDesc}
+            onChange={value => onChange('barangay', value.brgyCode)}
+            options={getAddressOptions('barangay', fields)}
+            value={getAddressValue('barangay', fields)}
+          />
+          {errors.barangay && (
+            <span>{errors.barangay}</span>
+          )}
+        </div>
+      </div>
       <TextField
         className='iField'
         id='address'
-        label='Address'
+        label='Street'
         margin='normal'
         variant='outlined'
         onChange={onElementChange}
@@ -91,7 +136,6 @@ function AboutMe(props) {
         errorText={errors.address}
         value={fields.address || ''}
       />
-
     </>
   )
 }
@@ -118,6 +162,7 @@ const Dialog = compose(
 )(AboutMe)
 
 Dialog.defaultProps = {
-  validator
+  validator,
+  customChangeHandler
 }
 export default Dialog

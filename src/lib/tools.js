@@ -1,6 +1,48 @@
+import { useMemo } from 'react'
+import barangay from 'lib/constants/address/barangay'
+import municipality from 'lib/constants/address/municipality'
+import province from 'lib/constants/address/province'
 import joi from 'joi'
 import day from 'dayjs'
 import queryString from 'query-string'
+
+const barangayOptions = barangay.RECORDS
+const municipalityOptions = municipality.RECORDS
+const provinceOptions = province.RECORDS
+
+export function getAddressOptions(field, fields) {
+  if (field === 'barangay') {
+    return useMemo(() => barangayOptions.filter(e => e.citymunCode === fields.municipality), [fields.municipality])
+  }
+  if (field === 'municipality') {
+    return useMemo(() => municipalityOptions.filter(e => e.provCode === fields.province), [fields.province])
+  }
+  if (field === 'province') {
+    return provinceOptions
+  }
+  return []
+}
+
+export function getAddressDescription({ province, barangay, municipality }) {
+  return {
+    barangay: barangayOptions.find(e => e.brgyCode === barangay).brgyDesc,
+    municipality: municipalityOptions.find(e => e.citymunCode === municipality).citymunDesc,
+    province: provinceOptions.find(e => e.provCode === province).provDesc,
+  }
+}
+
+export function getAddressValue(field, fields) {
+  if (field === 'province') {
+    return useMemo(() => fields.province ? provinceOptions.find(e => e.provCode === fields.province) : '', [fields[field]])
+  }
+  if (field === 'municipality') {
+    return useMemo(() => fields.municipality ? municipalityOptions.find(e => e.citymunCode === fields.municipality) : '', [fields[field]])
+  }
+  if (field === 'barangay') {
+    return useMemo(() => fields.barangay ? barangayOptions.find(e => e.brgyCode === fields.barangay) : '', [fields[field]])
+  }
+  return ''
+}
 
 export function getValidationResult(data, schema) {
   const validationResult = joi.validate(data, schema, { abortEarly: false, allowUnknown: true })

@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { takeLatest, put, call, delay } from 'redux-saga/effects'
 import { ShowSuccess, HideNotification } from 'redux/app/actions'
+import { GetJobData } from 'redux/job/actions'
 import cookie from 'js-cookie'
 import { SetUserAuth } from './actions'
 import omit from 'lodash/omit'
@@ -28,8 +29,9 @@ function* Logout() {
       method: 'POST'
     })
     cookie.remove('token')
-    Router.push('/login')
+    yield put(GetJobData({ data: [], request: false, key: 'list' }))
     yield put(SetUserAuth(null))
+    Router.replace('/login')
   } catch(err) {
     yield put(err)
   }

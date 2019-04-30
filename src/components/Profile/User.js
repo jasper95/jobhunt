@@ -1,7 +1,5 @@
 import React from 'react'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
-import Button from 'react-md/lib/Buttons/Button';
-import Avatar from 'react-md/lib/Avatars/Avatar'
 import DateCell from 'components/DateCell'
 import DataTable from 'components/DataTable'
 import Grid from 'react-md/lib/Grids/Grid'
@@ -33,7 +31,7 @@ export default function UserProfile(props) {
              <FontIcon children='phone_forwarded' /> {profile.contact_number}
             </Cell>
             <Cell size={6}>
-              <FontIcon children='person_pin_circle' /> {profile.address}
+              <FontIcon children='person_pin_circle' /> {formatAddress(profile.address_description, profile.address)}
             </Cell>
           </Grid>
         </Cell>
@@ -116,4 +114,8 @@ export default function UserProfile(props) {
       </div>
     </>
   )
+}
+
+function formatAddress({ municipality, province, barangay }, street) {
+  return [street, barangay, municipality, province].filter(Boolean).join(', ')
 }

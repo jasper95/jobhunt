@@ -40,8 +40,8 @@ function extractDescription({ blocks }) {
   return blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
 }
 
-function formatAddress({ province, municipality }) {
-  return [municipality, province].join(', ')
+export function formatAddress({ province, municipality }) {
+  return [municipality, province].filter(Boolean).join(', ')
 }
 
 

@@ -6,18 +6,13 @@ import TextField from 'react-md/lib/TextFields/TextField'
 import CreatableInput from 'components/CreatableInput'
 import withDialog from 'lib/hocs/dialog'
 import Select from 'react-select'
-import barangay from 'lib/constants/address/barangay'
-import municipality from 'lib/constants/address/municipality'
-import province from 'lib/constants/address/province'
 import { connect } from 'react-redux'
 import DatePicker from 'react-datepicker'
 import useFormOptions, { formOptionsSelector } from 'lib/hooks/useFormOptions'
-import { getValidationResult, validateDescription } from 'lib/tools'
+import {
+  getValidationResult, validateDescription, getAddressOptions, getAddressValue
+} from 'lib/tools'
 import joi from 'joi'
-
-const barangayOptions = barangay.RECORDS
-const municipalityOptions = municipality.RECORDS
-const provinceOptions = province.RECORDS
 
 function Job(props) {
   const { formState, formHandlers, options, dispatch } = props
@@ -52,66 +47,70 @@ function Job(props) {
           <span>{errors.description}</span>
         )}
       </div>
-      <div className='iField'>
-        <label>Skills</label>
-        <CreatableInput
-          value={fields.skills || []}
-          onChange={value => onChange('skills', value)}
-        />
-        {errors.skills && (
-          <span>{errors.skills}</span>
-        )}
+      <div className='row iField'>
+        <div className='iField col-md-6'>
+          <label>Job Category</label>
+          <Select
+            getOptionLabel={(e) => e.name}
+            onChange={value => onChange('job_category_id', value.id)}
+            options={options.jobCategories || []}
+            value={getCategoryValue('job_category_id')}
+          />
+          {errors.job_category_id && (
+            <span>{errors.job_category_id}</span>
+          )}
+        </div>
+        <div className='iField col-md-6'>
+          <label>Skills</label>
+          <CreatableInput
+            value={fields.skills || []}
+            onChange={value => onChange('skills', value)}
+          />
+          {errors.skills && (
+            <span>{errors.skills}</span>
+          )}
+        </div>
       </div>
-      <div className='iField'>
-        <label>Job Category</label>
-        <Select
-          getOptionLabel={(e) => e.name}
-          onChange={value => onChange('job_category_id', value.id)}
-          options={options.jobCategories || []}
-          value={getValue('job_category_id')}
-        />
-        {errors.job_category_id && (
-          <span>{errors.job_category_id}</span>
-        )}
-      </div>
-      <div className='iField'>
-        <label>Province</label>
-        <Select
-          isSearchable
-          getOptionLabel={(e) => e.provDesc}
-          value={getValue('province')}
-          onChange={value => onChange('province', value.provCode)}
-          options={provinceOptions}
-        />
-        {errors.province && (
-          <span>{errors.province}</span>
-        )}
-      </div>
-      <div className='iField'>
-        <label>Municipality</label>
-        <Select
-          isSearchable
-          getOptionLabel={(e) => e.citymunDesc}
-          value={getValue('municipality')}
-          onChange={value => onChange('municipality', value.citymunCode)}
-          options={getOptions('municipality')}
-        />
-        {errors.municipality && (
-          <span>{errors.municipality}</span>
-        )}
-      </div>
-      <div className='iField'>
-        <label>Barangay</label>
-        <Select
-          isSearchable
-          getOptionLabel={(e) => e.brgyDesc}
-          onChange={value => onChange('barangay', value.brgyCode)}
-          options={getOptions('barangay')}
-          value={getValue('barangay')}
-        />
-        {errors.barangay && (
-          <span>{errors.barangay}</span>
-        )}
+      <div className='row iField'>
+        <div className='iField col-md-4'>
+          <label>Province</label>
+          <Select
+            isSearchable
+            getOptionLabel={(e) => e.provDesc}
+            value={getAddressValue('province', fields)}
+            onChange={value => onChange('province', value.provCode)}
+            options={provinceOptions}
+          />
+          {errors.province && (
+            <span>{errors.province}</span>
+          )}
+        </div>
+        <div className='iField col-md-4'>
+          <label>Municipality</label>
+          <Select
+            isSearchable
+            getOptionLabel={(e) => e.citymunDesc}
+            value={getAddressValue('municipality', fields)}
+            onChange={value => onChange('municipality', value.citymunCode)}
+            options={getAddressOptions('municipality', fields)}
+          />
+          {errors.municipality && (
+            <span>{errors.municipality}</span>
+          )}
+        </div>
+        <div className='iField col-md-4'>
+          <label>Barangay</label>
+          <Select
+            isSearchable
+            getOptionLabel={(e) => e.brgyDesc}
+            onChange={value => onChange('barangay', value.brgyCode)}
+            options={getAddressOptions('barangay', fields)}
+            value={getAddressValue('barangay', fields)}
+          />
+          {errors.barangay && (
+            <span>{errors.barangay}</span>
+          )}
+        </div>
       </div>
       <TextField
         className='iField'
@@ -144,29 +143,10 @@ function Job(props) {
       EditorState.createWithContent(convertFromRaw(fields.description)) : EditorState.createEmpty()
   }
 
-  function getOptions(field) {
-    if (field === 'barangay') {
-      return useMemo(() => barangayOptions.filter(e => e.citymunCode === fields.municipality), [fields.municipality])
-    }
-    if (field === 'municipality') {
-      return useMemo(() => municipalityOptions.filter(e => e.provCode === fields.province), [fields.province])
-    }
-    return []
-  }
-
-  function getValue(field) {
+  function getCategoryValue(field) {
     if (field === 'job_category_id') {
       const { jobCategories = [] } = options
       return useMemo(() => fields.job_category_id ? jobCategories.find(e => e.id === fields.job_category_id) : '', [options, fields[field]])
-    }
-    if (field === 'province') {
-      return useMemo(() => fields.province ? provinceOptions.find(e => e.provCode === fields.province) : '', [options, fields[field]])
-    }
-    if (field === 'municipality') {
-      return useMemo(() => fields.municipality ? municipalityOptions.find(e => e.citymunCode === fields.municipality) : '', [options, fields[field]])
-    }
-    if (field === 'barangay') {
-      return useMemo(() => fields.barangay ? barangayOptions.find(e => e.brgyCode === fields.barangay) : '', [options, fields[field]])
     }
     return ''
   }
@@ -218,6 +198,6 @@ Dialog.defaultProps = {
   validator
 }
 
-export { provinceOptions, barangayOptions, municipalityOptions }
+export { customChangeHandler }
 
 export default Dialog

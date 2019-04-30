@@ -15,7 +15,9 @@ import {
   SetUserAuth
 } from 'redux/auth/actions'
 import day from 'dayjs'
-import { formatDateToISO, formatISOToDate } from 'lib/tools'
+import {
+  formatDateToISO, formatISOToDate, getAddressDescription
+} from 'lib/tools'
 import authSelector from 'redux/auth/selector'
 
 function AboutMe(props) {
@@ -70,7 +72,10 @@ function AboutMe(props) {
         title: 'Edit About Me',
         onValid: (data) => {
           dispatch(Update({
-            data: formatDateToISO(data, ['birth_date'], 'YYYY-MM-DD'),
+            data: {
+              ...formatDateToISO(data, ['birth_date'], 'YYYY-MM-DD'),
+              address_description: getAddressDescription(data)
+            },
             node: 'user',
             sucessMessage: 'Personal Details successfull updated',
             callback: handleUpdateCallback

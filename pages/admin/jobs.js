@@ -4,14 +4,11 @@ import withAuth from 'lib/hocs/auth'
 import {
   GetProfileData
 } from 'redux/profile/actions'
-import { formatMonthYearToISO, formatISOToDate } from 'lib/tools'
+import { formatMonthYearToISO, formatISOToDate, getAddressDescription } from 'lib/tools'
 import ProfilePage, { profilePropsKeys } from 'components/Profile/ProfilePage'
 import withBasePage from 'lib/hocs/basePage'
 import pick from 'lodash/pick'
 import Router from 'next/router'
-import {
-  barangayOptions, municipalityOptions, provinceOptions
-} from 'components/Dialogs/Job'
 
 function Jobs(props) {
   return (
@@ -94,13 +91,6 @@ function dataFormatter(data, action, { user = {} }) {
   }
 }
 
-function getAddressDescription({ province, barangay, municipality }) {
-  return {
-    barangay: barangayOptions.find(e => e.brgyCode === barangay).brgyDesc,
-    municipality: municipalityOptions.find(e => e.citymunCode === municipality).citymunDesc,
-    province: provinceOptions.find(e => e.provCode === province).provDesc,
-  }
-}
 
 const basePageProps = {
   getListRequestData,

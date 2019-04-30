@@ -10,7 +10,7 @@ import Select from 'react-select'
 import {
   GetJobData
 } from 'redux/job/actions'
-import { provinceOptions } from 'components/Dialogs/Job'
+import { getAddressOptions, getAddressValue } from 'lib/tools'
 import { connect } from 'react-redux'
 
 import 'sass/components/searchCard/index.scss'
@@ -39,7 +39,7 @@ function Search(props) {
       <div className='searchCard_form'>
         {isAdmin ? (
           <div className='iField'>
-            <label>Category</label>
+            <label>Specialization</label>
             <Select
               isSearchable
               getOptionLabel={(e) => e.name}
@@ -63,9 +63,9 @@ function Search(props) {
           instanceId='province'
           isSearchable
           getOptionLabel={(e) => e.provDesc}
-          value={useMemo(() => fields.province ? provinceOptions.find(e => e.provCode === fields.province) : '', [fields.province])}
+          value={getAddressValue('province', fields)}
           onChange={value => onChange('province', value.provCode)}
-          options={provinceOptions}
+          options={getAddressOptions('province', fields)}
         />
       </div>
 

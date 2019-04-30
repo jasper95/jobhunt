@@ -5,6 +5,7 @@ import ImageLoader from 'components/ImageLoader'
 import capitalize from 'lodash/capitalize'
 import { getFileLink } from 'lib/tools'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
+import { formatAddress } from './Post'
 
 import 'sass/components/jobCard/index.scss'
 
@@ -13,6 +14,7 @@ function ProfilePost(props) {
   const displayName = [post.first_name, post.last_name].join(' ')
   const [lastSchoolAttended] = post.educations
   const { skills } = post
+  console.log('post: ', post);
   return (
     <Card className='jobCard'>
       <Link href={`/user/${post.id}`}>
@@ -25,7 +27,7 @@ function ProfilePost(props) {
       <div className='jobCard_address'>
         <FontIcon>place</FontIcon>
         <span className="name">
-          {post.address || 'Address Not Available'}
+          {formatAddress(post.address_description) || 'Address Not Available'}
         </span>
       </div>
       <div className='nav_profile_avatar'>
