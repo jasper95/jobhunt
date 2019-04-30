@@ -9,28 +9,53 @@ import 'sass/components/footer/index.scss'
 
 export default function Footer(){
 
-  const sample_menu = [
+  const information_menu = [
     {
-      name: 'lorem menu',
-      link: '/lorem'
+      name: 'About Us',
+      link: '/#'
     },
     {
-      name: 'ipsum menu',
-      link: '/ipsum'
+      name: 'Contact Us',
+      link: '/#'
     },
     {
-      name: 'dolor menu',
-      link: '/dolor'
+      name: 'Privacy Policy',
+      link: '/#'
     },
     {
-      name: 'amet menu',
-      link: '/amet'
+      name: 'Terms & Conditions',
+      link: '/#'
+    }
+  ]
+
+  const interns_menu = [
+    {
+      name: 'Create Account',
+      link: '/#'
+    },
+    {
+      name: 'FAQ',
+      link: '/#'
     }
   ]
 
 
   const renderMenu = () => {
-    return sample_menu.map(({name, link}) => {
+    return information_menu.map(({name, link}) => {
+      return (
+        <li key={link} className='footer_colItem_menu_item'>
+          <Link href={link}>
+            <a>
+              {name}
+            </a>
+          </Link>
+        </li>
+      )
+    })
+  }
+
+  const renderInterns = () => {
+    return interns_menu.map(({name, link}) => {
       return (
         <li key={link} className='footer_colItem_menu_item'>
           <Link href={link}>
@@ -58,8 +83,7 @@ export default function Footer(){
                 />
               </a>
             </Link>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing 
-              elit. Autem tenetur optio temporibus</p>
+            <p>Find the right internship for you anywhere in the Philippines!</p>
           </Cell>
           <Cell 
             className='footer_colItem footer_colItem-information'
@@ -72,9 +96,9 @@ export default function Footer(){
           <Cell 
             className='footer_colItem footer_colItem-other'
             size={3}>
-            <h1 className='footer_colItem_header'>Other</h1>
+            <h1 className='footer_colItem_header'>Interns</h1>
             <ul className='footer_colItem_menu'>
-              { renderMenu() }
+              { renderInterns() }
             </ul>
           </Cell>
           <Cell 
@@ -84,7 +108,7 @@ export default function Footer(){
             <p>
               <FontIcon>place</FontIcon>
               <div className='value'>
-                <p>Sample Place , sample</p>
+                <p>Gorordo Avenue, Lahug, Cebu City</p>
                 <p>Cebu, Philippines</p>
                 <p>6000</p>
               </div>
@@ -92,8 +116,13 @@ export default function Footer(){
             <p>
               <FontIcon>local_phone</FontIcon>
               <div className='value'>
-                <p>+32 230 - 1234</p>
-                <p>+32 914 123 - 1234</p>
+                <p>+63 977-826-9012</p>
+              </div>
+            </p>
+            <p>
+              <FontIcon>email</FontIcon>
+              <div className='value'>
+                <p>internlinksupport@gmail.com</p>
               </div>
             </p>
           </Cell>
