@@ -62,11 +62,6 @@ const ROLE_NAV = {
   ],
   ADMIN: [
     {
-      icon: 'domain',
-      label: 'Profile',
-      link: '/admin/profile',
-    },
-    {
       icon: 'work',
       label: 'Manage Jobs',
       link: '/admin/jobs',

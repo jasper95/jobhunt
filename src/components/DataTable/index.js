@@ -20,6 +20,9 @@ function DataTable(props) {
         </TableRow>
       </TableHead>
       <TableBody>
+        {rows.length === 0 && (
+          <div>No Records Found</div>
+        )}
         {rows.map(row => (
           <TableRow key={row.id}>
             {columns.map((column, idx) => (

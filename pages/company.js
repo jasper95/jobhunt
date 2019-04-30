@@ -7,7 +7,6 @@ import { compose } from 'redux'
 import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
 import authSelector from 'redux/auth/selector'
-import Button from 'react-md/lib/Buttons/Button'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import api from 'lib/api'
 import {

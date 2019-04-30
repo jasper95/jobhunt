@@ -21,7 +21,8 @@ function Jobs(props) {
     <ProfilePage
       columns={getColumns()}
       pageIcon='work'
-      pageName='Job'
+      pageName='Applications'
+      readOnly
       {...pick(props, profilePropsKeys)}
     />
   )
