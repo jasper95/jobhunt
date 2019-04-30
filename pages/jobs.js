@@ -28,14 +28,14 @@ function JobDetail(props) {
   }), [job])
   const { user } = props
   const isAdminView = user && job.company_id === user.company_id
-  const isApplied = !isAdminView && job.applicants.includes(user.id)
+  const isApplied = !isAdminView && user && job.applicants.includes(user.id)
   return (
     <Page>
       <Paper>
         <div className='nav_profile_avatar'>
           <ImageLoader
             fallback='/static/img/default-avatar.png'
-            src={getFileLink({ type: 'avatar', node: 'company', id: user.company_id })}
+            src={getFileLink({ type: 'avatar', node: 'company', id: job.company_id })}
           />
         </div>
         <Typography variant='h3' children={job.name} />

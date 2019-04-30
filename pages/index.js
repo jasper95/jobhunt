@@ -5,6 +5,8 @@ import { compose } from 'redux'
 import withAuth from 'lib/hocs/auth'
 import Page from 'components/Layout/Page'
 import JobPosts from 'components/JobPosts'
+import { createSelector } from 'reselect'
+import { GetJobData } from 'redux/job/actions'
 import authSelector from 'redux/auth/selector'
 import api from 'lib/api'
 
@@ -29,10 +31,22 @@ Index.getInitialProps = async(ctx) => {
     url = '/user/applicant/suggestion'
   }
   const posts = await api({ url }, ctx)
-  return { posts }
+  store.dispatch(GetJobData({
+    data: posts,
+    request: false,
+    key: 'list'
+  }))
+  return { }
 }
 
 export default compose(
   withAuth('optional'),
-  connect(authSelector)
+  connect(createSelector(
+    authSelector,
+    state => state.job,
+    (auth, { list: posts }) => ({
+      ...auth,
+      posts
+    })
+  ))
 )(Index)
