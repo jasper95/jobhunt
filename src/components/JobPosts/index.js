@@ -13,7 +13,7 @@ function JobPosts(props) {
       <div className='jobSearch_searchKey'>
         <div className='container'>
           <h1 className='jobSearch_searchKey_title'>
-            React Js Practice Jobs
+            Search Internship Jobs
           </h1>
           <h5 className='jobSearch_searchKey_subtitle'>
             90 intern jobs available  

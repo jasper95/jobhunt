@@ -73,8 +73,9 @@ function Search(props) {
         className='iBttn iBttn-primary searchCard_searchBtn'
         children='Search'
         onClick={() => {
+          const url = isAdmin ? '/user/applicant/suggestion' : '/job/search'
           dispatch(GetJobData({
-            url: '/job/search',
+            url,
             data: fields,
             key: 'list'
           }))
