@@ -79,7 +79,7 @@ function Job(props) {
             getOptionLabel={(e) => e.provDesc}
             value={getAddressValue('province', fields)}
             onChange={value => onChange('province', value.provCode)}
-            options={provinceOptions}
+            options={getAddressOptions('province')}
           />
           {errors.province && (
             <span>{errors.province}</span>
