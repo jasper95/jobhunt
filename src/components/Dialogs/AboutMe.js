@@ -48,6 +48,7 @@ function AboutMe(props) {
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
+            popperPlacement="top-end"
           />
           {errors.birth_date && (
             <span>{errors.birth_date}</span>
