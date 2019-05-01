@@ -32,6 +32,7 @@ $dialog-easing : cubic-bezier(0.180, -0.020, 0.300, 1.020);
 	bottom: 0;
 	left: 0;
 	right: 0;
+	z-index: 999999;
 	width: 100vw;
 	height: 100vh;
 	overflow-x: hidden;

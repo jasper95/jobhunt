@@ -15,7 +15,7 @@ const dialogSelector = createSelector(
     isProcessing
   })
 )
-const dialogProps = ['dialogId', 'dialogActionsRenderer', 'dialogTitleRenderer', 'title', 'isProcessing']
+const dialogProps = ['dialogId', 'dialogActionsRenderer', 'dialogTitleRenderer', 'title', 'isProcessing', 'dialogClass']
 const formProps =  ['initialFields', 'validator', 'customChangeHandler', 'onValid']
 export default () => (WrappedComponent) => {
   function Dialog(props) {

@@ -45,6 +45,7 @@ function DialogLayout(props) {
     children,
     dialogTitleRenderer: DialogTitle,
     dialogActionsRenderer: DialogActions,
+    dialogClass,
     dialogId
   } = props
 
@@ -55,7 +56,7 @@ function DialogLayout(props) {
       modal
       id={dialogId}
       renderNode={document.body}
-      className={`i_dialog ${dialogId}_dialog`}
+      className={`i_dialog ${dialogId}_dialog ${dialogClass}`}
       title={(
         <DialogTitle {...pick(props, ['onCancel', 'title'])} />
       )}
@@ -75,6 +76,7 @@ DialogLayout.defaultProps = {
   titleClassName: 'i_dialog_title',
   contentClassName: 'i_dialog_body',
   footerClassName: 'i_dialog_footer',
+  dialogClass: ''
 }
 
 export default DialogLayout;

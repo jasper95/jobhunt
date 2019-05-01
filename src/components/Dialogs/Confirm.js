@@ -27,7 +27,8 @@ function DialogActions(props) {
 }
 
 Dialog.defaultProps = {
-  dialogActionsRenderer: DialogActions
+  dialogActionsRenderer: DialogActions,
+  dialogClass: 'messageDialog'
 }
 
 export default Dialog

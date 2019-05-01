@@ -1,4 +1,9 @@
 .nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 9999;
 	height: $nav-height;
 	background-color: #fff;
 	box-shadow: 0 0 .25em .5em rgba(#000,.05);
@@ -144,4 +149,8 @@
 		}
 
 	}
+}
+
+.nav + main {
+	padding-top: $nav-height;
 }

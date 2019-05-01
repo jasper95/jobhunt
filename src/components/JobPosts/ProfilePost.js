@@ -7,7 +7,7 @@ import { getFileLink } from 'lib/tools'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import { formatAddress } from './Post'
 
-import 'sass/components/jobCard/index.scss'
+import 'sass/components/userCard/index.scss'
 
 function ProfilePost(props) {
   const { post } = props;
@@ -16,39 +16,42 @@ function ProfilePost(props) {
   const { skills } = post
   console.log('post: ', post);
   return (
-    <Card className='jobCard'>
-      <Link href={`/user/${post.id}`}>
-        <a>
-          <h1 className='jobCard_jobTitle'>
+    <Card className='userCard'>
+      <div className='userCard_avatar'>
+        <div className='userCard_avatar_container'>
+          <ImageLoader
+            className='userCard_avatar_src'
+            fallback='/static/img/default-avatar.png'
+            src={getFileLink({ type: 'avatar', node: 'user', id: post.id })}
+          />
+        </div>
+      </div>
+      <div className='userCard_info'>
+        <Link href={`/user/${post.id}`}>
+          <a className='userCard_info_name'>
             { displayName }
-          </h1>
-        </a>
-      </Link>
-      <div className='jobCard_address'>
-        <FontIcon>place</FontIcon>
-        <span className="name">
-          {formatAddress(post.address_description) || 'Address Not Available'}
-        </span>
-      </div>
-      <div className='nav_profile_avatar'>
-        <ImageLoader
-          fallback='/static/img/default-avatar.png'
-          src={getFileLink({ type: 'avatar', node: 'user', id: post.id })}
-        />
-      </div>
-      {skills.length > 0 && (
-        <div>
-          <span>Skills</span>
-          <p>{skills.map(e => capitalize(e.name)).join(', ')}</p>
+          </a>
+        </Link>
+        <h5 className='userCard_info_address'>
+          <FontIcon>place</FontIcon>
+          <span className="name">
+            {formatAddress(post.address_description) || 'Address Not Available'}
+          </span>
+        </h5>
+        <div className='userCard_info_moreInfo'>
+          <label>Skills</label>
+          {skills.length > 0 && (
+            <p className='info'>
+              {skills.map(e => capitalize(e.name)).join(', ')}
+            </p>
+          )}
         </div>
-      )}
-      {lastSchoolAttended && (
-        <div>
-          <span>Last School Attended</span>
-          <p>{lastSchoolAttended.school}</p>
-          <p>{lastSchoolAttended.category}</p>
+        <div className='userCard_info_moreInfo'>
+          <label>Last School Attended</label>
+          <p className='info'>{lastSchoolAttended.school}</p>
+          <p className='info'>{lastSchoolAttended.category}</p>
         </div>
-      )}
+      </div>
     </Card>
   );
 }

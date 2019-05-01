@@ -19,6 +19,9 @@ $fieldBorder: 1px solid $gray-200;
 		font-family: inherit;
 		transform: none !important;
 		color: $gray-300;
+		width: 100%;
+		text-align: left;
+		display: block;
 
 		&:not([class*="--inactive"]) {
 			color: $primary-color;
