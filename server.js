@@ -23,8 +23,8 @@ app.prepare().then(() => {
   }))
 
   server.get('/service-worker.js', (req, res) => {
-    const filePath = path.join(__dirname, '../', '.next', 'service-worker.js')
-    app.serveStatic(req, res, filePath)
+    const swPath = path.join(process.cwd(), '.next', 'service-worker.js')
+    app.serveStatic(req, res, swPath)
   })
 
   server.get('/user/:id', (req, res) => {
