@@ -2,10 +2,31 @@ require('dotenv').config()
 
 const Dotenv = require('dotenv-webpack')
 const withSass = require('@zeit/next-sass')
+const withOffline = require('next-offline')
 const withCss = require('@zeit/next-css')
 const path = require('path')
 
-module.exports = withCss(withSass({
+module.exports = withOffline(withCss(withSass({
+  workboxOpts: {
+    runtimeCaching: [
+      {
+        urlPattern: /.png$/,
+        handler: 'cacheFirst'
+      },
+      {
+        urlPattern: /api/,
+        handler: 'networkFirst',
+        options: {
+          cacheableResponse: {
+            statuses: [0, 200],
+            headers: {
+              'x-test': 'true'
+            }
+          }
+        }
+      }
+    ]
+  },
   webpack (config) {
     if (config.resolve.alias) {
       delete config.resolve.alias['react']
@@ -31,4 +52,4 @@ module.exports = withCss(withSass({
     }
     return config
   }
-}))
+})))

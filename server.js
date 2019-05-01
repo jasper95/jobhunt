@@ -1,6 +1,7 @@
 const express = require('express');
 const next = require('next');
 const proxy = require('http-proxy-middleware')
+const path = require('path')
 
 require('dotenv').config();
 
@@ -20,6 +21,11 @@ app.prepare().then(() => {
     pathRewrite: { '^/api': '/' },
     changeOrigin: true
   }))
+
+  server.get('/service-worker.js', (req, res) => {
+    const filePath = path.join(__dirname, '../', '.next', 'service-worker.js')
+    app.serveStatic(req, res, filePath)
+  })
 
   server.get('/user/:id', (req, res) => {
     const { id } = req.params
