@@ -38,16 +38,16 @@ function Search(props) {
 
       <div className='searchCard_form'>
         {isAdmin ? (
-          <div className='iField'>
-            <label>Specialization</label>
-            <Select
-              isSearchable
-              getOptionLabel={(e) => e.name}
-              getOptionValue={(e) => e.id}
-              onChange={value => onChange('job_category_id', value.id)}
-              options={options.jobCategories || []}
-            />
-          </div>
+          <Select
+            className='iField iField-rs'
+            classNamePrefix='iField-rs'
+            placeholder='Specialization' 
+            isSearchable
+            getOptionLabel={(e) => e.name}
+            getOptionValue={(e) => e.id}
+            onChange={value => onChange('job_category_id', value.id)}
+            options={options.jobCategories || []}
+          />
         ) : (
           <TextField
             className='iField'
@@ -60,6 +60,7 @@ function Search(props) {
         <Select
           className='iField iField-rs'
           classNamePrefix='iField-rs'
+          placeholder='Province' 
           instanceId='province'
           isSearchable
           getOptionLabel={(e) => e.provDesc}
