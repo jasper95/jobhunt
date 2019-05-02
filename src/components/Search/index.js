@@ -53,7 +53,7 @@ function Search(props) {
             className='iField'
             onChange={onElementChange}
             value={fields.keyword}
-            label='Job Title'
+            placeholder='Job Title'
             id='keyword'
           />
         )}
