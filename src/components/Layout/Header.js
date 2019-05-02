@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link';
 import Button from 'react-md/lib/Buttons/Button'
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import ImageLoader from 'components/ImageLoader'
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
@@ -81,6 +82,12 @@ function Header(props) {
               Logout
             </p>
           </div>
+          <Button 
+            icon
+            tooltipLabel='1253'
+            children='notifications' 
+            className='nav_profile_notification'
+          />
         </>
       )
     }

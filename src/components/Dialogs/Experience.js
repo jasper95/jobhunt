@@ -14,6 +14,7 @@ function ExperienceDialog(props) {
     <>
       <TextField
         className='iField'
+        required
         label='Position title'
         id='position'
         errorText={errors.position}
@@ -23,6 +24,7 @@ function ExperienceDialog(props) {
       />
       <TextField
         className='iField'
+        required
         id='company'
         label='Company'
         onChange={onElementChange}
@@ -32,7 +34,7 @@ function ExperienceDialog(props) {
       />
       <div className='row iFieldRow'>
         <div className='iField col-md-6'>
-          <label>Date Started</label>
+          <label>Date Started*</label>
           <DatePicker
             placeholderText='Select Date'
             selected={fields.start_date || ''}
@@ -47,11 +49,12 @@ function ExperienceDialog(props) {
         <div className='iField col-md-6'>
           <label>Date Ended</label>
           <DatePicker
-            placeholderText='Select Date'
+            placeholderText='Present'
             selected={fields.end_date || ''}
             onChange={value => onChange('end_date', value)}
             dateFormat="MM/yyyy"
             showMonthYearPicker
+            isClearable={true}
           />
           {errors.end_date && (
             <span>{errors.end_date}</span>
