@@ -5,6 +5,10 @@
 }
 
 .interlink {
+	#nprogress .bar {
+		z-index: 999999;
+	}
+
 	@import '/common/grid';
 	@import '/common/buttons';
 	@import '/common/field';
