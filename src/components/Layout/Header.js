@@ -1,12 +1,17 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link';
 import Button from 'react-md/lib/Buttons/Button'
-import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import ImageLoader from 'components/ImageLoader'
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { ShowDialog } from 'redux/app/actions'
+import { GetProfileData } from 'redux/profile/actions'
 import authSelector from 'redux/auth/selector'
+import DropdownMenu from 'react-md/lib/Menus/DropdownMenu'
+import FontIcon from 'react-md/lib/FontIcons/FontIcon'
+import Avatar from 'react-md/lib/Avatars/Avatar'
+import ListItem from 'react-md/lib/Lists/ListItem'
+import { createSelector } from 'reselect'
 
 import 'sass/components/nav/index.scss'
 
@@ -52,6 +57,7 @@ function Header(props) {
         </Button>
       </Link>
     )
+    const { notifications = [] } = props
     if (isAuthenticated) {
       const displayName = [
         user.first_name,
@@ -82,12 +88,23 @@ function Header(props) {
               Logout
             </p>
           </div>
-          <Button 
-            icon
-            tooltipLabel='1253'
-            children='notifications' 
-            className='nav_profile_notification'
-          />
+          <DropdownMenu 
+            id='notif'
+            menuItems={notifications.map(e => (
+              <ListItem
+                key={e.id}
+                leftAvatar={<Avatar suffix="blue" icon={<FontIcon>insert_drive_file</FontIcon>} />}
+                rightIcon={<FontIcon children='info' />}
+                primaryText={e.body.message}
+              />
+            ))}
+            anchor={{
+              x: DropdownMenu.HorizontalAnchors.INNER_LEFT,
+              y: DropdownMenu.VerticalAnchors.BOTTOM,
+            }}
+          >
+            <Button icon children='notifications' onClick={handleGetNotification} className='nav_profile_notification' />
+          </DropdownMenu>
         </>
       )
     }
@@ -106,6 +123,20 @@ function Header(props) {
       }
     }))
   }
+
+  function handleGetNotification() {
+    dispatch(GetProfileData({
+      key: 'notifications',
+      url: '/user/notification'
+    }))
+  }
 }
 
-export default connect(authSelector)(Header)
+export default connect(createSelector(
+  authSelector,
+  state => state.profile.notifications,
+  (auth, notifications) => ({
+    ...auth,
+    notifications
+  })
+))(Header)
