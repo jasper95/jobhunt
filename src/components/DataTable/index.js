@@ -60,7 +60,10 @@ function Row(props) {
           tooltipLabel={label}
           key={icon}
           className={className}
-          onClick={() => onClick(row)}
+          onClick={(e) => {
+            e.stopPropagation()
+            onClick(row)
+          }}
         />
       )
     })

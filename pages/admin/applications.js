@@ -105,7 +105,15 @@ function ActionButton(props) {
     return null
   }
   return (
-    <Button icon children={icon} className={className} onClick={() => onClick(row)}/>
+    <Button
+      icon
+      children={icon}
+      className={className}
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick(row)
+      }}
+    />
   )
 }
 
