@@ -31,7 +31,7 @@ export default function Footer(){
   const interns_menu = [
     {
       name: 'Create Account',
-      link: '/#'
+      link: '/signup'
     },
     {
       name: 'FAQ',
