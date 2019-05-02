@@ -18,7 +18,7 @@ function EducationDialog(props) {
   return (
     <>
       <div className='iField'>
-        <label>Category</label>
+        <label>Field of Study*</label>
         <Select
           isSearchable
           getOptionLabel={(e) => e.name}
@@ -32,6 +32,7 @@ function EducationDialog(props) {
       </div>
       <TextField
         className='iField'
+        required
         id='qualification'
         label='Qualification'
         onChange={onElementChange}
@@ -41,6 +42,7 @@ function EducationDialog(props) {
       />
       <TextField
         className='iField'
+        required
         id='school'
         label='University/Institute'
         onChange={onElementChange}
@@ -50,7 +52,7 @@ function EducationDialog(props) {
       />
       <div className='row iFieldRow'>
         <div className='iField col-md-6'>
-          <label>Admission Date</label>
+          <label>Admission Date*</label>
           <DatePicker
             selected={fields.start_date || ''}
             placeholderText='Select Date'
@@ -70,6 +72,7 @@ function EducationDialog(props) {
             onChange={value => onChange('end_date', value)}
             dateFormat="MM/yyyy"
             showMonthYearPicker
+            isClearable={true}
           />
           {errors.end_date && (
             <span>{errors.end_date}</span>

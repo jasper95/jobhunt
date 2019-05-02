@@ -17,7 +17,7 @@ function AboutMe(props) {
       <TextField
         className='iField'
         id='name'
-        label='Company Name'
+        label='Company Name*'
         type='name'
         margin='normal'
         variant='outlined'
@@ -29,7 +29,7 @@ function AboutMe(props) {
       <TextField
         className='iField'
         id='email'
-        label='Email'
+        label='Email*'
         type='email'
         onChange={onElementChange}
         error={!!errors.email}
@@ -46,7 +46,7 @@ function AboutMe(props) {
         value={fields.contact_number || ''}
       />
       <div className='iField iField-editor'>
-        <label>Description</label>
+        <label>Description*</label>
         <Editor
           editorState={editorState}
           wrapperClassName="demo-wrapper"

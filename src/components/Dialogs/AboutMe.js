@@ -20,7 +20,7 @@ function AboutMe(props) {
       <div className="row iFieldRow">
         <TextField
           className='iField col-md-6'
-          label='Firstname'
+          label='Firstname*'
           id='first_name'
           error={!!errors.first_name}
           errorText={errors.first_name}
@@ -29,7 +29,7 @@ function AboutMe(props) {
         />
         <TextField
           className='iField col-md-6'
-          label='Lastname'
+          label='Lastname*'
           id='last_name'
           error={!!errors.last_name}
           errorText={errors.last_name}
@@ -48,7 +48,7 @@ function AboutMe(props) {
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
-            popperPlacement="top-end"
+            
           />
           {errors.birth_date && (
             <span>{errors.birth_date}</span>
@@ -68,12 +68,15 @@ function AboutMe(props) {
         <TextField
           className='iField col-md-6'
           id='email'
-          label='Email'
+          label='Email*'
           type='email'
           onChange={onElementChange}
           error={!!errors.email}
           errorText={errors.email}
           value={fields.email || ''}
+          InputProps={{
+            readOnly: true,
+          }}
         />
         <TextField
           className='iField col-md-6'
@@ -83,6 +86,9 @@ function AboutMe(props) {
           error={!!errors.contact_number}
           errorText={errors.contact_number}
           value={fields.contact_number || ''}
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </div>
       <div className='row iField'>
