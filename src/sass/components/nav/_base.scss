@@ -1,3 +1,30 @@
+@keyframes swing {
+  20% {
+    -webkit-transform: rotate3d(0, 0, 1, 15deg);
+    transform: rotate3d(0, 0, 1, 15deg);
+  }
+
+  40% {
+    -webkit-transform: rotate3d(0, 0, 1, -10deg);
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+
+  60% {
+    -webkit-transform: rotate3d(0, 0, 1, 5deg);
+    transform: rotate3d(0, 0, 1, 5deg);
+  }
+
+  80% {
+    -webkit-transform: rotate3d(0, 0, 1, -5deg);
+    transform: rotate3d(0, 0, 1, -5deg);
+  }
+
+  to {
+    -webkit-transform: rotate3d(0, 0, 1, 0deg);
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+
 .nav {
 	position: fixed;
 	top: 0;
@@ -146,6 +173,38 @@
 					color: $error;
 				}
 			}
+		}
+
+		// .nav_profile_notification
+		&_notification {
+			width: auto;
+			height: auto;
+			line-height: 1em;
+			font-size: 1em;
+			padding: .5em;
+			flex-shrink: 0;
+			color: $black;
+
+			.md-icon {
+				height: 1em;
+				width: 1em;
+				text-align: center;
+				font-size: 1.75em;
+				line-height: 1;
+				color: inherit;
+				display: block;
+				transform-origin: top center;
+			}
+
+			&:hover {
+				color: $primary-color;
+				.md-icon {
+					animation-name: swing;
+					animation-fill-mode: both;
+					animation-duration: 1s
+				}
+			}
+
 		}
 
 	}
