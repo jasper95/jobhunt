@@ -1,7 +1,8 @@
 import Router from 'next/router';
 import { takeLatest, put, call, delay } from 'redux-saga/effects'
 import {
-  ShowSuccess, HideNotification, HideDialog, FormProcessing, DialogProcessing
+  ShowSuccess, HideNotification, HideDialog, FormProcessing,
+  DialogProcessing, ClearLoading
 } from 'redux/app/actions'
 import { GetJobData } from 'redux/job/actions'
 import cookie from 'js-cookie'
@@ -19,6 +20,7 @@ function* LoginUser({ payload }) {
     })
     cookie.set('token', response.token, { expires: 360000 })
     yield put(SetUserAuth(omit(response, 'token')))
+    yield put(ClearLoading())
     Router.push('/')
   } catch(err) {
     yield put(err)
@@ -35,6 +37,7 @@ function* Logout() {
     cookie.remove('token')
     yield put(HideDialog())
     yield put(GetJobData({ data: [], request: false, key: 'list' }))
+    yield put(ClearLoading())
     yield put(SetUserAuth(null))
     Router.replace('/login')
   } catch(err) {

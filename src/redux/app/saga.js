@@ -1,20 +1,30 @@
-import { takeLatest, put, call } from 'redux-saga/effects'
-import { HideDialog, DialogProcessing, ShowSuccess } from './actions'
+import { takeLatest, put, call, delay } from 'redux-saga/effects'
+import {
+  HideDialog, DialogProcessing, ShowSuccess, FormProcessing
+} from './actions'
 import api, { formatError } from 'lib/api'
 import axios from 'axios'
 import { getDownloadFilename, getFileLink } from 'lib/tools'
 
 function* Mutation({ payload }) {
   try {
-    yield put(DialogProcessing(true))
     const {
       hideDialog = true, requestConfig,
-      successMessage, callback = () => {}
+      successMessage, callback = () => {},
+      formType = 'dialog', callbackDelay = 0
     } = payload
+    if (formType === 'dialog') {
+      yield put(DialogProcessing(true))
+    } else {
+      yield put(FormProcessing(true))
+    }
     const response = yield call(api, requestConfig)
     yield put(ShowSuccess({ message: successMessage }))
     if (hideDialog) {
       yield put(HideDialog())
+    }
+    if (callbackDelay) {
+      yield delay(callbackDelay)
     }
     callback(response)
   } catch(err) {

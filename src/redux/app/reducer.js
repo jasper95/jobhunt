@@ -12,7 +12,12 @@ const reducer = {
     return { ...state, dialog: payload }
   },
   HIDE_DIALOG(state) {
-    return { ...state, dialog: null, dialogProcessing: false }
+    return {
+      ...state,
+      dialog: null,
+      dialogProcessing: false,
+      formProcessing: false
+    }
   },
   DIALOG_PROCESSING(state, { payload }) {
     const { dialog } = state
@@ -47,6 +52,13 @@ const reducer = {
         type: 'success',
         ...payload
       }
+    }
+  },
+  CLEAR_LOADING_STATES(state) {
+    return {
+      ...state,
+      formProcessing: false,
+      dialogProcessing: false,
     }
   }
 }

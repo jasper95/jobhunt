@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
-import Button from 'react-md/lib/Buttons/Button'
 import TextField from 'react-md/lib/TextFields/TextField'
 import Link from 'next/link';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { Login } from 'redux/auth/actions'
+import { Update, HideNotification } from 'redux/app/actions'
 import useForm from 'lib/hooks/useForm'
 import withAuth from 'lib/hocs/auth';
-import api, { redirectToPath } from 'lib/api'
+import Error from 'next/error'
 import { getValidationResult } from 'lib/tools'
 import Page from 'components/Layout/Page'
 import Router from 'next/router'
@@ -18,12 +17,10 @@ import 'sass/pages/login.scss'
 
 const initialFields = {
   password: '',
-  email: '',
-  isShowPassword: false
 }
 
-function LoginPage(props){
-  const { dispatch, verified, formProcessing } = props
+function ResetPassword(props){
+  const { dispatch, user_id } = props
   const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
@@ -31,10 +28,13 @@ function LoginPage(props){
   } = formHandlers
   const { fields, errors } = formState
   useEffect(() => {
-    if(verified) {
-      Router.push('/login', '/login', { shallow: true })
+    if(user_id) {
+      Router.push('/reset-password', '/reset-password', { shallow: true })
     }
   }, [1])
+  if (!user_id) {
+    return <Error statusCode={404} />
+  }
   return (
     <Page 
       pageId='login'
@@ -57,8 +57,7 @@ function LoginPage(props){
             </h1>
 
             <p className='authContainer_contentHeader_msg'>
-              Welcome back , Please login <br/> 
-              to your account
+              Please Enter your new password
             </p>
           </div>
           <form
@@ -70,24 +69,7 @@ function LoginPage(props){
               onValidate()
             }}
           >
-            { verified && (
-              <div className='authContainer_form_msg 
-                authContainer_form_msg-success'>
-                <p>Account successfully verified</p>
-              </div>
-            )}
             <input type='Submit' hidden />
-            <TextField
-              className='iField'
-              id='email'
-              label='Email'
-              type='email'
-              variant='outlined'
-              onChange={onElementChange}
-              errorText={errors.email}
-              error={!!errors.email}
-              value={fields.email || ''}
-            />
             <TextField
               className='iField'
               id='password'
@@ -102,23 +84,9 @@ function LoginPage(props){
               <SubmitButton
                 className='iBttn iBttn-primary'
                 onClick={onValidate}
-                children='Login'
+                children='Reset Password'
                 flat
               />
-              <Link href='/signup'>
-                <Button
-                  className='iBttn iBttn-second-prio'
-                  children='Sign Up'
-                  flat
-                />
-              </Link>
-              <div className='row'>
-                <p> 
-                  <Link href="/forgot-password">
-                    <a>Forgot Password? </a>
-                  </Link>
-                </p>
-              </div>
             </div>
           </form>
         </div>
@@ -128,33 +96,30 @@ function LoginPage(props){
   )
 
   function onValid(data) {
-    dispatch(Login(data))
+    dispatch(Update({
+      data: {
+        ...data,
+        user_id
+      },
+      node: 'reset-password',
+      successMessage: 'Password successfully updated',
+      formType: 'default',
+      callbackDelay: 2000,
+      callback: () => {
+        dispatch(HideNotification())
+        Router.push('/login')
+      }
+    }))
   }
 }
 
-LoginPage.getInitialProps = async(ctx) => {
-  const { query, isServer } = ctx
-  const props = {}
-  if (query.user_id && isServer) {
-    const { user_id } = query
-    await api({
-      url: '/user',
-      method: 'PUT',
-      data: {
-        id: user_id,
-        verified: true
-      }
-    }, ctx)
-    redirectToPath(ctx, '/login?verified=true')
-  } else if(query.verified) {
-    props.verified = true
-  }
-  return props
+ResetPassword.getInitialProps = async(ctx) => {
+  const { query: { user_id } } = ctx
+  return { user_id }
 }
 
 function validator(data) {
   const schema = joi.object().keys({
-    email: joi.string().email().required().error(() => 'Invalid Email'),
     password: joi.string().required().error(() => 'Password is required')
   })
   return getValidationResult(data, schema)
@@ -163,4 +128,4 @@ function validator(data) {
 export default compose(
   withAuth(false),
   connect()
-)(LoginPage)
+)(ResetPassword)

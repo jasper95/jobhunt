@@ -136,6 +136,12 @@ export function FormProcessing(payload) {
   }
 }
 
+export function ClearLoading() {
+  return {
+    type: 'CLEAR_LOADING_STATES'
+  }
+}
+
 export function HideDialog() {
   return {
     type: 'HIDE_DIALOG'
