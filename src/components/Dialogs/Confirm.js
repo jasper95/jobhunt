@@ -13,7 +13,7 @@ const Dialog = compose(
   withDialog()
 )(ConfirmDialog)
 
-function DialogActions(props) {
+export function DialogActions(props) {
   const { onContinue, isProcessing } = props
   return (
     <>

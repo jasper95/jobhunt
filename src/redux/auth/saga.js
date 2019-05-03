@@ -21,7 +21,8 @@ function* LoginUser({ payload }) {
     cookie.set('token', response.token, { expires: 360000 })
     yield put(SetUserAuth(omit(response, 'token')))
     yield put(ClearLoading())
-    Router.push('/')
+    const { query = {} } = Router
+    Router.push(query.return_url || '/')
   } catch(err) {
     yield put(err)
   }

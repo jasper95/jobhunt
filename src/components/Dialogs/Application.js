@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField'
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
+import { DialogActions as ConfirmActions } from './Confirm'
 import joi from 'joi'
 
 function ApplicationDialog(props) {
@@ -13,7 +14,7 @@ function ApplicationDialog(props) {
     <TextField
       className='iField'
       id='pitch'
-      label='Skill Heading'
+      label='Pitch'
       onChange={onElementChange}
       error={!!errors.pitch}
       errorText={errors.pitch}
@@ -34,7 +35,8 @@ const Dialog = compose(
 )(ApplicationDialog)
 
 Dialog.defaultProps = {
-  validator
+  validator,
+  dialogActionsRenderer: ConfirmActions,
 }
 
 export default Dialog

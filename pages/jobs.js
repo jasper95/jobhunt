@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import Page from 'components/Layout/Page'
 import Paper from 'react-md/lib/Papers/Paper';
 import Button from 'react-md/lib/Buttons/Button';
@@ -13,6 +13,7 @@ import ImageLoader from 'components/ImageLoader'
 import Grid from 'react-md/lib/Grids/Grid'
 import Cell from 'react-md/lib/Grids/Cell'
 import parser from 'html-react-parser'
+import Router from 'next/router'
 import {
   GetJobData
 } from 'redux/job/actions'
@@ -33,7 +34,6 @@ function JobDetail(props) {
   const { user } = props
   const isAdminView = user && job.company_id === user.company_id
   const isApplied = !isAdminView && user && job.applicants.includes(user.id)
-
   const avatarSrc = getFileLink({ type: 'avatar', node: 'company', id: job.company_id })
   return (
     <Page pageId='jobs' className='jobsPage'>
@@ -104,6 +104,10 @@ function JobDetail(props) {
   )
 
   function handleApply() {
+    if (!user) {
+      Router.push(`/login?return_url=${Router.pathname}/${job.slug}`)
+      return
+    }
     dispatch(ShowDialog({
       path: 'Application',
       props: {
