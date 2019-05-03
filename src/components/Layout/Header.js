@@ -6,11 +6,16 @@ import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { ShowDialog } from 'redux/app/actions'
 import { GetProfileData } from 'redux/profile/actions'
+import { SetUserAuth } from 'redux/auth/actions'
 import authSelector from 'redux/auth/selector'
 import DropdownMenu from 'react-md/lib/Menus/DropdownMenu'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Avatar from 'react-md/lib/Avatars/Avatar'
 import ListItem from 'react-md/lib/Lists/ListItem'
+import Subheader from 'react-md/lib/Subheaders/Subheader'
+import Divider from 'react-md/lib/Dividers/Divider'
+import Badge from 'react-md/lib/Badges/Badge'
+import { format as formatTime } from 'timeago.js'
 import { createSelector } from 'reselect'
 
 import 'sass/components/nav/index.scss'
@@ -57,7 +62,6 @@ function Header(props) {
         </Button>
       </Link>
     )
-    const { notifications = [] } = props
     if (isAuthenticated) {
       const displayName = [
         user.first_name,
@@ -90,20 +94,25 @@ function Header(props) {
           </div>
           <DropdownMenu 
             id='notif'
-            menuItems={notifications.map(e => (
-              <ListItem
-                key={e.id}
-                leftAvatar={<Avatar suffix="blue" icon={<FontIcon>insert_drive_file</FontIcon>} />}
-                rightIcon={<FontIcon children='info' />}
-                primaryText={e.body.message}
-              />
-            ))}
+            menuItems={renderNotifications()}
             anchor={{
               x: DropdownMenu.HorizontalAnchors.INNER_LEFT,
               y: DropdownMenu.VerticalAnchors.BOTTOM,
             }}
           >
-            <Button icon children='notifications' onClick={handleGetNotification} className='nav_profile_notification' />
+            <Badge
+              badgeContent={Number(user.unread_notifications)}
+              invisibleOnZero
+              secondary
+              badgeId="notifications-2"
+            >
+              <Button
+                icon
+                children='notifications'
+                onClick={handleGetNotification}
+                className='nav_profile_notification'
+              />
+            </Badge>
           </DropdownMenu>
         </>
       )
@@ -124,7 +133,41 @@ function Header(props) {
     }))
   }
 
+  function renderNotifications() {
+    const { notifications = [] } = props
+    const unreadNotifications = notifications.filter(e => e.status === 'unread')
+    const readNotifications = notifications.filter(e => e.status !== 'unread')
+    return [
+      unreadNotifications.length && <Subheader primaryText='Unread Notifications' key='new-header' />,
+      ...unreadNotifications.map(itemMapper),
+      readNotifications.length && unreadNotifications.length && <Divider inset key='divider' />,
+      readNotifications.length && <Subheader primaryText='Read Notifications' key='old-header' />,
+      ...readNotifications.map(itemMapper)
+    ].filter(Boolean)
+  }
+
+  function itemMapper(item) {
+    const { id, body: { icon, type, message }, created_date: createdDate } = item
+    return (
+      <ListItem
+        key={id}
+        leftAvatar={
+          <Avatar
+            suffix={type === 'success' ? 'green' : 'yellow'}
+            icon={<FontIcon>{icon}</FontIcon>}
+          />
+        }
+        primaryText={message}
+        secondaryText={formatTime(createdDate)}
+      />
+    )
+  }
+
   function handleGetNotification() {
+    dispatch(SetUserAuth({
+      ...user,
+      unread_notifications: 0
+    }))
     dispatch(GetProfileData({
       key: 'notifications',
       url: '/user/notification'
