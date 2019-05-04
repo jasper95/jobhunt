@@ -7,7 +7,7 @@ const withCss = require('@zeit/next-css')
 const path = require('path')
 
 module.exports = withOffline(withCss(withSass({
-  target: 'serverless',
+  // target: 'serverless',
   webpack (config) {
     if (config.resolve.alias) {
       delete config.resolve.alias['react']
