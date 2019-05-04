@@ -3,6 +3,7 @@ import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField'
+import TextFieldMessage from 'react-md/lib/TextFields/TextFieldMessage'
 import CreatableInput from 'components/CreatableInput'
 import withDialog from 'lib/hocs/dialog'
 import Select from 'react-select'
@@ -43,9 +44,10 @@ function Job(props) {
             onChange('description', convertToRaw(newState.getCurrentContent()))
           }}
         />
-        {errors.description && (
-          <span>{errors.description}</span>
-        )}
+        <TextFieldMessage
+          errorText={errors.description}
+          error={errors.description}
+        />
       </div>
       <div className='row iField'>
         <div className='iField col-md-6'>
@@ -56,9 +58,10 @@ function Job(props) {
             options={options.jobCategories || []}
             value={getCategoryValue('job_category_id')}
           />
-          {errors.job_category_id && (
-            <span>{errors.job_category_id}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.job_category_id}
+            error={errors.job_category_id}
+          />
         </div>
         <div className='iField col-md-6'>
           <label>Skills</label>
@@ -66,9 +69,10 @@ function Job(props) {
             value={fields.skills || []}
             onChange={value => onChange('skills', value)}
           />
-          {errors.skills && (
-            <span>{errors.skills}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.skills}
+            error={errors.skills}
+          />
         </div>
       </div>
       <div className='row iField'>
@@ -81,9 +85,10 @@ function Job(props) {
             onChange={value => onChange('province', value.provCode)}
             options={getAddressOptions('province')}
           />
-          {errors.province && (
-            <span>{errors.province}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.province}
+            error={errors.province}
+          />
         </div>
         <div className='iField col-md-4'>
           <label>Municipality</label>
@@ -94,9 +99,10 @@ function Job(props) {
             onChange={value => onChange('municipality', value.citymunCode)}
             options={getAddressOptions('municipality', fields)}
           />
-          {errors.municipality && (
-            <span>{errors.municipality}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.municipality}
+            error={errors.municipality}
+          />
         </div>
         <div className='iField col-md-4'>
           <label>Barangay</label>
@@ -107,9 +113,10 @@ function Job(props) {
             options={getAddressOptions('barangay', fields)}
             value={getAddressValue('barangay', fields)}
           />
-          {errors.barangay && (
-            <span>{errors.barangay}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.barangay}
+            error={errors.barangay}
+          />
         </div>
       </div>
       <TextField
@@ -128,12 +135,14 @@ function Job(props) {
         <DatePicker
           selected={fields.end_date || ''}
           onChange={value => onChange('end_date', value)}
+          placeholderText='Select Date'
           minDate={new Date()}
           showDisabledMonthNavigation
         />
-        {errors.barangay && (
-          <span>{errors.barangay}</span>
-        )}
+        <TextFieldMessage
+          errorText={errors.end_date}
+          error={errors.end_date}
+        />
       </div>
     </>
   )

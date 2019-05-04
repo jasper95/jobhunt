@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField'
+import TextFieldMessage from 'react-md/lib/TextFields/TextFieldMessage'
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
@@ -42,9 +43,10 @@ function ExperienceDialog(props) {
             dateFormat="MM/yyyy"
             showMonthYearPicker
           />
-          {errors.start_date && (
-            <span>{errors.start_date}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.start_date}
+            error={errors.start_date}
+          />
         </div>
         <div className='iField col-md-6'>
           <label>Date Ended</label>
@@ -56,9 +58,10 @@ function ExperienceDialog(props) {
             showMonthYearPicker
             isClearable={true}
           />
-          {errors.end_date && (
-            <span>{errors.end_date}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.end_date}
+            error={errors.end_date}
+          />
         </div>
       </div>
     </>

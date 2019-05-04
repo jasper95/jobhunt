@@ -108,7 +108,10 @@ function AboutMe(props) {
   }
 
   function handleUpdateCallback(data) {
-    dispatch(SetUserAuth(data))
+    dispatch(SetUserAuth({
+      ...user,
+      ...data
+    }))
   }
 }
 

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField';
+import TextFieldMessage from 'react-md/lib/TextFields/TextFieldMessage'
 import Select from 'react-select'
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
@@ -50,9 +51,10 @@ function AboutMe(props) {
             dropdownMode="select"
             
           />
-          {errors.birth_date && (
-            <span>{errors.birth_date}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.birth_date}
+            error={errors.birth_date}
+          />
         </div>
         <TextField
           className='iField col-md-6'
@@ -101,9 +103,10 @@ function AboutMe(props) {
             onChange={value => onChange('province', value.provCode)}
             options={getAddressOptions('province')}
           />
-          {errors.province && (
-            <span>{errors.province}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.province}
+            error={errors.province}
+          />
         </div>
         <div className='iField col-md-4'>
           <label>Municipality</label>
@@ -127,9 +130,10 @@ function AboutMe(props) {
             options={getAddressOptions('barangay', fields)}
             value={getAddressValue('barangay', fields)}
           />
-          {errors.barangay && (
-            <span>{errors.barangay}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.barangay}
+            error={errors.barangay}
+          />
         </div>
       </div>
       <TextField

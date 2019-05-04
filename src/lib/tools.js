@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import barangay from 'lib/constants/address/barangay'
 import municipality from 'lib/constants/address/municipality'
 import province from 'lib/constants/address/province'
+import orderBy from 'lodash/orderBy'
 import joi from 'joi'
 import day from 'dayjs'
 import queryString from 'query-string'
@@ -12,13 +13,22 @@ const provinceOptions = province.RECORDS
 
 export function getAddressOptions(field, fields) {
   if (field === 'barangay') {
-    return useMemo(() => barangayOptions.filter(e => e.citymunCode === fields.municipality), [fields.municipality])
+    return useMemo(() => orderBy(
+        barangayOptions.filter(e => e.citymunCode === fields.municipality),
+        'brgyDesc'
+      ),
+      [fields.municipality]
+    )
   }
   if (field === 'municipality') {
-    return useMemo(() => municipalityOptions.filter(e => e.provCode === fields.province), [fields.province])
+    return useMemo(() => orderBy(
+      municipalityOptions.filter(e => e.provCode === fields.province),
+      'citymunDesc'
+    )
+    , [fields.province])
   }
   if (field === 'province') {
-    return provinceOptions
+    return orderBy(provinceOptions, 'provDesc')
   }
   return []
 }

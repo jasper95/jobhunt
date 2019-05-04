@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import TextField from 'react-md/lib/TextFields/TextField'
+import TextFieldMessage from 'react-md/lib/TextFields/TextFieldMessage'
 import withDialog from 'lib/hocs/dialog'
 import { getValidationResult } from 'lib/tools'
 import joi from 'joi'
@@ -26,9 +27,10 @@ function EducationDialog(props) {
           onChange={value => onChange('job_category_id', value.id)}
           options={options.jobCategories || []}
         />
-        {errors.job_category_id && (
-          <span>{errors.job_category_id}</span>
-        )}
+        <TextFieldMessage
+          errorText={errors.job_category_id}
+          error={errors.job_category_id}
+        />
       </div>
       <TextField
         className='iField'
@@ -60,9 +62,10 @@ function EducationDialog(props) {
             dateFormat="MM/yyyy"
             showMonthYearPicker
           />
-          {errors.start_date && (
-            <span>{errors.start_date}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.start_date}
+            error={errors.start_date}
+          />
         </div>
         <div className='iField col-md-6'>
           <label>Graduation Date</label>
@@ -74,9 +77,10 @@ function EducationDialog(props) {
             showMonthYearPicker
             isClearable={true}
           />
-          {errors.end_date && (
-            <span>{errors.end_date}</span>
-          )}
+          <TextFieldMessage
+            errorText={errors.end_date}
+            error={errors.end_date}
+          />
         </div>
       </div>
     </>
@@ -86,6 +90,7 @@ function EducationDialog(props) {
 function validator(data) {
   const schema = joi.object().keys({
     job_category_id: joi.string().required().error(() => 'Field of Study is required'),
+    start_date: joi.date().required().error(() => 'Admission Date is required'),
     qualification: joi.string().required().error(() => 'Qualification is required'),
     school: joi.string().required().error(() => 'University/Institute is required')
   })
