@@ -1,14 +1,21 @@
 {
-  "version": 1,
-  "env": {
-      "NODE_ENV": "production"
-  },
-  "dotenv": true,
-  "alias": "mydomain.com",
-  "scale": {
-    "sfo1": {
-      "min": 1,
-      "max": 1
-    }
-  }
+  "version": 2,
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/proxy.js" },
+    {
+      "src": "^/service-worker.js$",	
+      "dest": "/_next/static/service-worker.js",
+      "headers": {
+        "cache-control": "public, max-age=43200, immutable",
+        "Service-Worker-Allowed": "/"
+      }
+    },
+    { "src": "/jobs/(?<id>[^/]+)$", "dest": "/jobs?id=$id" },
+    { "src": "/user/(?<id>[^/]+)$", "dest": "/user?id=$id" },
+    { "src": "/company/(?<id>[^/]+)$", "dest": "/company?id=$id" }
+  ],
+  "builds": [
+    { "src": "next.config.js", "use": "@now/next" },
+    { "src": "proxy.js", "use": "@now/node" }
+  ]
 }

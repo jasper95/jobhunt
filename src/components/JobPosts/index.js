@@ -8,15 +8,16 @@ import 'sass/components/jobSearch/index.scss'
 
 function JobPosts(props) {
   const { posts, isAdmin } = props
+  
   return (
     <div className='jobSearch'>
       <div className='jobSearch_searchKey'>
         <div className='container'>
           <h1 className='jobSearch_searchKey_title'>
-            Search Internship Jobs
+            Search {isAdmin ? 'Interns' : 'Internship Jobs' }
           </h1>
           <h5 className='jobSearch_searchKey_subtitle'>
-            90 intern jobs available  
+            90 { isAdmin ?  'interns found' : 'intern jobs available' }
           </h5>
         </div>
       </div>

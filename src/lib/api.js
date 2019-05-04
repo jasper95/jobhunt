@@ -74,12 +74,13 @@ export default function api(config, ctx = {}, redirectUnauthorized = true) {
 
 export function formatError(response) {
   // console.log('response: ', response);
-  const error = { type: 'ERROR', payload: { message: '' } }
-  if (response.status === 401) {
+  const { status } = response
+  const error = { type: 'ERROR', payload: { message: '' }, status }
+  if (status === 401) {
     error.type = 'UNAUTHORIZED'
-  } else if (response.status === 500) {
+  } else if (status === 500) {
     error.payload.message = 'Network Error'
-  } else if (response.status === 404) {
+  } else if (status === 404) {
     error.payload.message = 'Resource Not Found'
   } else {
     error.payload.message = response.data.message
