@@ -9,7 +9,7 @@ const withOffline = require('next-offline')
 const withCss = require('@zeit/next-css')
 
 module.exports = withOffline(withCss(withSass({
-  // target: 'serverless',
+  target: 'serverless',
   workboxOpts: {
     swDest: 'static/service-worker.js',
     runtimeCaching: [
