@@ -25,9 +25,9 @@ export function redirectToPath({ res, isServer }, path) {
 }
 
 export default function api(config, ctx = {}, redirectUnauthorized = true) {
-  const { store, isServer, req } = ctx
+  const { store, isServer } = ctx
   // if from server request, no need to use proxy
-  const url = isServer ? `${process.env.API_URL}${config.url}` : `/api${config.url}`
+  const url = `${process.env.API_URL}${config.url}`
   config = {
     ...config,
     url

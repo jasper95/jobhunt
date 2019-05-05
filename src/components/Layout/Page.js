@@ -1,9 +1,12 @@
 import "react-datepicker/dist/react-datepicker.css";
 import React from 'react'
+import Head from 'next/head'
+import { withRouter } from 'next/router'
 import Header from './Header'
 import Footer from './Footer'
 import { createSelector } from 'reselect'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import Dialogs from 'components/Dialogs'
 import Snackbar from 'components/Snackbar'
 import {
@@ -18,16 +21,29 @@ function Page(props) {
     children, dialog,
     notification, dispatch,
     hasNavigation, hasFooter,
-    pageId, className
+    pageId, className, pageDescription, router
   } = props
+  let { pageTitle } = props
+  if (pageTitle) {
+    pageTitle = `InternLink - ${pageTitle}`
+  } else {
+    pageTitle = 'Internlink'
+  }
   let Dialog
- 
   if (dialog && dialog.path) {
     Dialog = Dialogs[dialog.path]
   }
- 
+
   return (
     <>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta property='og:title' content={pageTitle} />
+        <meta name='og:description' content={pageDescription || 'Description here'} />
+        {router.asPath !== '/' && (
+          <link rel='canonical' href={`${process.env.HOSTNAME}/${router.asPath}`} />
+        )}
+      </Head>
       {hasNavigation && (
         <Header />
       )}
@@ -63,7 +79,10 @@ const pageSelector = createSelector(
   })
 )
 
-const EnhancedPage = connect(pageSelector)(Page)
+const EnhancedPage = compose(
+  withRouter,
+  connect(pageSelector)
+)(Page)
 
 EnhancedPage.defaultProps = {
   hasNavigation: true,

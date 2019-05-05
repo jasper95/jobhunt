@@ -8,6 +8,7 @@ import 'sass/components/jobCard/index.scss'
 
 function Post(props) {
   const { post } = props;
+  const { company } = post
   return (
     <Card className='jobCard'>
       <Link href={`/jobs/${post.slug}`}>
@@ -16,9 +17,11 @@ function Post(props) {
         </h1>
       </Link>
 
-      <h2 className='jobCard_company'>
-        { post.company.name }
-      </h2>
+      <Link href={`/company/${company.slug}`}>
+        <h2 className='jobCard_company'>
+          { company.name }
+        </h2>
+      </Link>
 
       <p className='jobCard_address'>
         <FontIcon>place</FontIcon>
@@ -36,7 +39,7 @@ function Post(props) {
   );
 }
 
-function extractDescription({ blocks }) {
+export function extractDescription({ blocks }) {
   return blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
 }
 

@@ -41,9 +41,9 @@ export default function Footer(){
 
 
   const renderMenu = () => {
-    return information_menu.map(({name, link}) => {
+    return information_menu.map(({name, link}, index) => {
       return (
-        <li key={link} className='footer_colItem_menu_item'>
+        <li key={index} className='footer_colItem_menu_item'>
           <Link href={link}>
             <a>
               {name}
@@ -55,9 +55,9 @@ export default function Footer(){
   }
 
   const renderInterns = () => {
-    return interns_menu.map(({name, link}) => {
+    return interns_menu.map(({name, link}, index) => {
       return (
-        <li key={link} className='footer_colItem_menu_item'>
+        <li key={index} className='footer_colItem_menu_item'>
           <Link href={link}>
             <a>
               {name}
@@ -105,26 +105,26 @@ export default function Footer(){
             className='footer_colItem footer_colItem-contact'
             size={3}>
             <h1 className='footer_colItem_header'>Contact</h1>
-            <p>
+            <div>
               <FontIcon>place</FontIcon>
               <div className='value'>
                 <p>Gorordo Avenue, Lahug, Cebu City</p>
                 <p>Cebu, Philippines</p>
                 <p>6000</p>
               </div>
-            </p>
-            <p>
+            </div>
+            <div>
               <FontIcon>local_phone</FontIcon>
               <div className='value'>
                 <p>+63 977-826-9012</p>
               </div>
-            </p>
-            <p>
+            </div>
+            <div>
               <FontIcon>email</FontIcon>
               <div className='value'>
                 <p>internlinksupport@gmail.com</p>
               </div>
-            </p>
+            </div>
           </Cell>
         </Grid>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link';
 import Button from 'react-md/lib/Buttons/Button'
-import ImageLoader from 'components/ImageLoader'
+import ImageLoader from 'react-image'
 import { Logout } from 'redux/auth/actions'
 import { connect } from 'react-redux'
 import { ShowDialog } from 'redux/app/actions'
@@ -73,8 +73,7 @@ function Header(props) {
           <div className='nav_profile_avatar'>
             <ImageLoader
               key={avatarLink}
-              fallback='/static/img/default-avatar.png'
-              src={avatarLink}
+              src={[avatarLink, '/static/img/default-avatar.png']}
             />
           </div>
           <div className='nav_profile_content'>

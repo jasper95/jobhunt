@@ -23,7 +23,7 @@ const initialFields = {
 }
 
 function LoginPage(props){
-  const { dispatch, verified, formProcessing } = props
+  const { dispatch, verified } = props
   const [formState, formHandlers] = useForm({ initialFields, validator, onValid })
   const {
     onElementChange,
@@ -39,8 +39,10 @@ function LoginPage(props){
     <Page 
       pageId='login'
       hasNavigation={false}
-      hasFooter={false}>
-
+      hasFooter={false}
+      pageTitle='Internlink - Login'
+      pageDescription='Login to Internlik. Search and apply for internship jobs'
+    >
       <div className='authContainer'>
         <div className='authContainer_content'>
           <div className='authContainer_contentHeader'>

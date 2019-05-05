@@ -1,10 +1,10 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import Router, { withRouter } from 'next/router'
 import List from 'react-md/lib/Lists/List'
 import ListItem from 'react-md/lib/Lists/ListItem'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
 import Button from 'react-md/lib/Buttons/Button'
-import ImageLoader from 'components/ImageLoader'
+import ImageLoader from 'react-image'
 import Link from 'next/link'
 import {
   ShowDialog,
@@ -93,8 +93,7 @@ function ProfileNavigation(props) {
             <div className='avatar_circle'>
               <ImageLoader
                 key={avatarLink}
-                fallback='/static/img/default-avatar.png'
-                src={avatarLink}
+                src={[avatarLink, '/static/img/default-avatar.png']}
               />
             </div>
             <div className='avatar_edit'>

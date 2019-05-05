@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import Page from 'components/Layout/Page'
 import Paper from 'react-md/lib/Papers/Paper';
 import Button from 'react-md/lib/Buttons/Button';
@@ -9,11 +9,13 @@ import withAuth from 'lib/hocs/auth';
 import withDetailsPage from 'lib/hocs/detailsPage';
 import { connect } from 'react-redux'
 import authSelector from 'redux/auth/selector'
-import ImageLoader from 'components/ImageLoader'
+import ImageLoader from 'react-image'
 import Grid from 'react-md/lib/Grids/Grid'
 import Cell from 'react-md/lib/Grids/Cell'
 import parser from 'html-react-parser'
 import Router from 'next/router'
+import Link from 'next/link'
+import { extractDescription } from 'components/JobPosts/Post'
 import {
   GetJobData
 } from 'redux/job/actions'
@@ -27,6 +29,7 @@ import 'sass/pages/jobs.scss'
 
 function JobDetail(props) {
   let { details: job, onEdit, dispatch } = props
+  let { description } = job
   job = useMemo(() => ({
     ...formatISOToDate(job, ['end_date'], 'MMMM DD, YYYY'),
     description: draftToHtml(job.description),
@@ -36,7 +39,12 @@ function JobDetail(props) {
   const isApplied = !isAdminView && user && job.applicants.includes(user.id)
   const avatarSrc = getFileLink({ type: 'avatar', node: 'company', id: job.company_id })
   return (
-    <Page pageId='jobs' className='jobsPage'>
+    <Page
+      pageId='jobs'
+      className='jobsPage'
+      pageTitle={job.name}
+      pageDescription={extractDescription(description)}
+    >
       <div className='container'>
         <Paper className='jobsPage_container'>
           <Grid className='jobsPage_header'>
@@ -46,8 +54,7 @@ function JobDetail(props) {
             >
               <div className='jobsPage_header_img_container'>
                 <ImageLoader
-                  fallback='/static/img/default-avatar.png'
-                  src={avatarSrc}
+                  src={[avatarSrc, '/static/img/default-avatar.png']}
                 />
               </div>
             </Cell>
@@ -56,7 +63,11 @@ function JobDetail(props) {
               size={10}
             >
               <h1 className='jobsPage_header_job'>{job.name}</h1>
-              <h2 className='jobsPage_header_company'>{job.company.name}</h2>
+              <h2 className='jobsPage_header_company'>
+                <Link href={`/company/${job.company.slug}`}>
+                  <a>{job.company.name}</a>
+                </Link>
+              </h2>
               <p className='jobsPage_header_address'> {job.address} </p>
               <div className='jobsPage_header_actions'>
                 {isAdminView && (

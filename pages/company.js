@@ -9,7 +9,12 @@ import Profile from 'components/Profile'
 import withAuth from 'lib/hocs/auth'
 import authSelector from 'redux/auth/selector'
 import FontIcon from 'react-md/lib/FontIcons/FontIcon'
+import ImageLoader from 'react-image'
+import Page from 'components/Layout/Page'
+import Grid from 'react-md/lib/Grids/Grid'
+import Cell from 'react-md/lib/Grids/Cell'
 import api from 'lib/api'
+import { extractDescription } from 'components/JobPosts/Post'
 import {
   ShowDialog,
   Update
@@ -17,6 +22,7 @@ import {
 import {
   SetUserAuth
 } from 'redux/auth/actions'
+import { getFileLink } from 'lib/tools'
 
 function AdminProfile(props) {
   const { user, dispatch, errorCode } = props
@@ -25,46 +31,88 @@ function AdminProfile(props) {
     company = user.company
   }
   const description = useMemo(() => {
-    if (user && Object.keys(company.description).length) {
+    if (company && Object.keys(company.description).length) {
       return draftToHtml(company.description)
     }
     return ('<div>No Description</div>')
-  }, [user])
+  }, [company])
+  console.log('description: ', description)
+  const stringDescription = useMemo(() => {
+    if (company) {
+      return extractDescription(company.description)
+    }
+    return 'No Description Available'
+  }, [company])
   if (errorCode) {
     return <Error statusCode={errorCode} />
   }
-  if (!user) {
-    return null
-  }
-  return (
-    <Profile>
-      <Paper className='profileInfoCard'>
-        <h1 className='profileInfoCard_header'>
-          <FontIcon children='location_city'/>
-          <span className='title'>
-           Company Profile
-            <span className='action'>
-              <span 
-                className='action_item' 
-                onClick={handleUpdate}
-                children='Edit Profile'
-              />
+  const children = (
+    <Paper className='profileInfoCard'>
+      <Grid>
+        <Cell
+          className='jobsPage_header_img' 
+          size={2}
+        >
+          <div className='jobsPage_header_img_container'>
+            <ImageLoader
+              src={[getFileLink({ type: 'avatar', node: 'company', id: company.id }), '/static/img/default-avatar.png']}
+            />
+          </div>
+        </Cell>
+        <Cell
+          className='jobsPage_header_content'
+          size={10}
+        >
+          <h1 className='profileInfoCard_header'>
+            <FontIcon children='location_city'/>
+            <span className='title'>
+              Company Profile
+              {user && user.company_id === company.id && (
+                <span className='action'>
+                  <span 
+                    className='action_item' 
+                    onClick={handleUpdate}
+                    children='Edit Profile'
+                  />
+                </span>
+              )}
             </span>
-          </span>
-        </h1>
-
-
-        <div>
+          </h1>
           <Info label='Email' value={company.email} />
           <Info label='Contact Number' value={company.contact_number} />
-          <Info label={`About ${company.name}`} value={(
-            <div>
-              {parser(description)}
-            </div>
-          )} />
-        </div>
+        </Cell>
+      </Grid>
+      <Grid>
+        <Cell size={12}>
+          <Info
+            label={`About ${company.name}`}
+            value={(
+              <div>
+                {parser(description)}
+              </div>
+            )}
+          />
+        </Cell>
+      </Grid>
 
-      </Paper>
+    </Paper>
+  )
+  if (!user) {
+    return (
+      <Page
+        pageTitle={company.name}
+        pageDescription={stringDescription}
+      >
+        {children}
+      </Page>
+    )
+  }
+  return (
+    <Profile
+      pageTitle={company.name}
+      pageDescription={stringDescription}
+    >
+      {children}
     </Profile>
   )
 
